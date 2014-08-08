@@ -4,10 +4,10 @@
 /.project
 
 /config/*.yml
+/config/unicorn.rb
 /log/*.log
 /tmp
 /public/sites
-/vendor/eggs
 
 .DS_Store
 Thumbs.db
