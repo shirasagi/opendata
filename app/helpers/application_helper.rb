@@ -64,4 +64,19 @@ module ApplicationHelper
     h << "</style>"
     h.join("\n").html_safe
   end
+
+  def tt(key, html_wrap = true)
+    msg = I18n.t("tooltip.#{key}", default: "")
+    return msg if msg.blank? || !html_wrap
+    msg = [msg] if msg.class.to_s == "String"
+    list = msg.map {|d| "<li>" + d.gsub(/\r\n|\n/, "<br />") + "</li>"}
+
+    h  = []
+    h << %Q[<div class="tooltip">?]
+    h << %Q[<ul>]
+    h << list
+    h << %Q[</ul>]
+    h << %Q[</div>]
+    h.join("\n").html_safe
+  end
 end

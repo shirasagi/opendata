@@ -6,6 +6,7 @@ module Cms
     Cms::Page.addon "cms/body"
     Cms::Page.addon "cms/file"
     Cms::Page.addon "cms/release"
+    Cms::Page.addon "cms/related_page"
 
     Cms::Node.plugin "cms/node"
     Cms::Node.plugin "cms/page"
