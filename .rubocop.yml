@@ -3,6 +3,7 @@ AllCops:
   RunRailsCops: true
   Exclude:
     - Guardfile
+    - bin/*
 
 # Rails default check path
 Rails/DefaultScope:
@@ -12,6 +13,9 @@ Rails/DefaultScope:
     - app/helpers/
     - app/validators/
     - app/cells/
+
+Rails/Output:
+  Enabled: false
 
 # Offense count: 1
 # Cop supports --auto-correct.
