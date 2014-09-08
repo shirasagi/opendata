@@ -37,6 +37,10 @@ gem "holiday_japan"
 gem "mail-iso-2022-jp"
 gem 'simple_captcha2', require: 'simple_captcha'
 
+# SPARQL
+gem 'sparql'
+gem 'sparql-client'
+
 #gem "rails-dev-boost", git: "git://github.com/thedarkone/rails-dev-boost.git", group: :development
 
 group :development, :test do
