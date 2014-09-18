@@ -4,22 +4,22 @@ Dir.chdir @root = File.dirname(__FILE__)
 @site = SS::Site.find_by host: ENV["site"]
 
 ## -------------------------------------
-puts "files:"
+puts "# files"
 
 Dir.glob "files/**/*.*" do |file|
-  puts "  " + name = file.sub(/^files\//, "")
+  puts name = file.sub(/^files\//, "")
   Fs.binwrite "#{@site.path}/#{name}", File.binread(file)
 end
 
 ## -------------------------------------
-puts "layouts:"
+puts "# layouts"
 
 def save_layout(data)
-  puts "  #{data[:name]}"
+  puts data[:name]
   cond = { site_id: @site._id, filename: data[:filename] }
   html = File.read("layouts/" + data[:filename]) rescue nil
 
-  item = Cms::Layout.find_or_create_by cond
+  item = Cms::Layout.find_or_create_by(cond)
   item.update data.merge html: html
 end
 
@@ -33,14 +33,13 @@ array   = Cms::Layout.where(site_id: @site._id).map {|m| [m.filename.sub(/\..*$/
 layouts = Hash[*array.flatten]
 
 ## -------------------------------------
-puts "nodes:"
+puts "# nodes"
 
 def save_node(data)
-  puts "  #{data[:name]}"
-  klass = data[:route].sub("/", "/node/").camelize.constantize
-
+  puts data[:name]
   cond = { site_id: @site._id, filename: data[:filename] }
-  item = klass.unscoped.find_or_create_by cond
+
+  item = Cms::Node.unscoped.find_or_create_by(cond).becomes_with_route(data[:route])
   item.update data
 end
 
@@ -67,15 +66,14 @@ Cms::Node.where(site_id: @site._id, filename: /^recruit/).update_all(layout_id: 
 Cms::Node.where(site_id: @site._id, filename: /^plan/).update_all(layout_id: layouts["page"].id)
 
 ## -------------------------------------
-puts "parts:"
+puts "# parts"
 
 def save_part(data)
-  puts "  #{data[:name]}"
-  klass = data[:route].sub("/", "/part/").camelize.constantize
-
+  puts data[:name]
   cond = { site_id: @site._id, filename: data[:filename] }
-  item = klass.unscoped.find_or_create_by cond
   html = File.read("parts/" + data[:filename]) rescue nil
+
+  item = Cms::Part.unscoped.find_or_create_by(cond).becomes_with_route(data[:route])
   item.html = html if html
   item.update data
 end
@@ -96,20 +94,19 @@ save_part filename: "recruit/nodes.part.html", name: "採用情報/フォルダ"
 save_part filename: "recruit/pages.part.html", name: "採用情報/ページ", route: "cms/page"
 
 ## -------------------------------------
-puts "pages:"
+puts "# pages"
 
 def save_page(data)
-  puts "  #{data[:name]}"
+  puts data[:name]
   cond = { site_id: @site._id, filename: data[:filename] }
 
-  item = Cms::Page.find_or_create_by cond
+  item = Cms::Page.find_or_create_by(cond).becomes_with_route(data[:route])
   item.update data
 end
 
 body = "<p>#{'本文です。<br />' * 3}</p>" * 2
 
 save_page filename: "index.html", name: "トップページ", layout_id: layouts["home"].id
-
 save_page filename: "product/index2.html", name: "仕様について", layout_id: layouts["product/index"].id, html: body
 save_page filename: "product/index3.html", name: "サポートについて", layout_id: layouts["product/index"].id, html: body
 save_page filename: "product/word/page1.html", name: "仕様", layout_id: layouts["product/index"].id, html: body
@@ -118,10 +115,15 @@ save_page filename: "product/calc/page3.html", name: "価格", layout_id: layout
 save_page filename: "product/calc/page4.html", name: "実績", layout_id: layouts["product/index"].id, html: body
 
 ## -------------------------------------
-puts "articles:"
+puts "# articles"
 
 1.step(9) do |i|
   save_page filename: "docs/#{i}.html", name: "サンプル記事#{i}", html: body,
     route: "article/page", layout_id: layouts["page"].id,
     category_ids: Category::Node::Base.site(@site).pluck(:_id).sample(2)
 end
+
+## -------------------------------------
+puts "# generate pages"
+
+Cms::Task::PagesController.new.generate site: @site

@@ -9,14 +9,14 @@ class Cms::PreviewController < ApplicationController
 
   private
     def set_site
-      @cur_site    = SS::Site.find_by host: params[:site]
-      @preview     = true
+      @cur_site = SS::Site.find_by host: params[:site]
+      @preview  = true
     end
 
     def set_path_with_preview
-      @path ||= request.env["REQUEST_PATH"]
-      @path = @path.sub(/^#{cms_preview_path}/, "")
-      @path = "index.html" if @path.blank?
+      @cur_path ||= request.env["REQUEST_PATH"]
+      @cur_path.sub!(/^#{cms_preview_path}/, "")
+      @cur_path = "index.html" if @cur_path.blank?
     end
 
     def x_sendfile(file = @file)
@@ -24,9 +24,9 @@ class Cms::PreviewController < ApplicationController
       super
       return if response.body.present?
 
-      if @path =~ /^fs\// # TODO:
-        filename = ::File.basename(@path)
-        id = ::File.basename(::File.dirname(@path))
+      if @cur_path =~ /^\/fs\// # TODO:
+        filename = ::File.basename(@cur_path)
+        id = ::File.basename ::File.dirname(@cur_path)
         @item = SS::File.find_by id: id, filename: filename
         return send_data @item.read, type: @item.content_type, filename: @item.filename, disposition: :inline
       end
@@ -35,8 +35,6 @@ class Cms::PreviewController < ApplicationController
 
     def render_preview
       body = response.body
-
-      body = embed_layout(body, @cur_layout) if @cur_layout
 
       body.gsub!(/(href|src)=".*?"/) do |m|
         url = m.match(/.*?="(.*?)"/)[1]

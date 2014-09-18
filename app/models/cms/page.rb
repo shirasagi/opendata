@@ -14,5 +14,5 @@ class Cms::Page
   include Event::Addon::Date
   include Workflow::Addon::Approver
 
-  #default_scope ->{ where(route: "cms/page") }
+  index({ site_id: 1, filename: 1 }, { unique: true })
 end

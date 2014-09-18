@@ -6,11 +6,10 @@ module Category::Parts::Node
 
     public
       def index
-        @cur_node = @cur_part.node
+        @cur_node = @cur_part.parent
 
-        path   = @request_url.present? ? @request_url.sub(/^\//, "").sub(/\/[^\/]*$/, "") : nil
-        node   = path ? Category::Node::Base.site(@cur_site).where(filename: path).first : nil
-        node ||= @cur_node
+        path = @cur_path.sub(/\/[^\/]*$/, "")
+        node = Category::Node::Base.site(@cur_site).filename(path).first || @cur_node
 
         if node && node.dirname
           cond = { filename: /^#{node.dirname}\//, depth: node.depth }

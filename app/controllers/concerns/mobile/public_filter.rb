@@ -13,17 +13,13 @@ module Mobile::PublicFilter
 
   public
     def set_path_with_mobile
-      return if @path !~ /^#{SS.config.mobile.location}\//
-      @path.sub!(/^#{SS.config.mobile.location}\//, "/")
+      return if @cur_path !~ /^#{SS.config.mobile.location}\//
+      @cur_path.sub!(/^#{SS.config.mobile.location}\//, "/")
     end
 
   private
     def render_mobile
       body = response.body
-
-      if @cur_layout
-        body = embed_layout(body, @cur_layout, { part_condition: { mobile_view: "show"} })
-      end
 
       # links
       body.gsub!(/href="\/(?!#{SS.config.mobile.directory}\/)/, "href=\"/mobile/")

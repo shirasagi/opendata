@@ -9,7 +9,7 @@ module Cms::Parts::Tabs
         @tabs = []
 
         @cur_part.conditions.each do |path|
-          node = Cms::Node.site(@cur_site).public.find_by filename: path
+          node = Cms::Node.site(@cur_site).public.filename(path).first
           next unless node
 
           node = node.becomes_with_route
@@ -34,8 +34,7 @@ module Cms::Parts::Tabs
           elsif node.class.method_defined?(:condition_hash)
             pages = Cms::Page.site(@cur_site).public.where(node.condition_hash)
           else
-            cond = { filename: /^#{node.filename}\//, depth: node.depth + 1 }
-            pages = Cms::Page.site(@cur_site).public.where(cond)
+            pages = Cms::Page.site(@cur_site).public.where(cond).node(node)
           end
 
           if cell.method_defined?(:rss)

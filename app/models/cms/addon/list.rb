@@ -44,20 +44,20 @@ module Cms::Addon::List
         cond = []
         cids = []
 
-        if respond_to?(:node) # parts
-          if node
-            cond << { filename: /^#{node.filename}\//, depth: depth }
-            cids << node.id
+        if self.is_a?(Cms::Part::Model)
+          if parent
+            cond << { filename: /^#{parent.filename}\//, depth: depth }
+            cids << parent.id
           else
             cond << { depth: depth }
           end
-        else # nodes
+        else
           cond << { filename: /^#{filename}\//, depth: depth + 1 }
           cids << id
         end
 
         conditions.each do |url|
-          node = Cms::Node.where(filename: url).first
+          node = Cms::Node.filename(url).first
           next unless node
           cond << { filename: /^#{node.filename}\//, depth: node.depth + 1 }
           cids << node.id
