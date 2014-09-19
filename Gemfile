@@ -61,3 +61,4 @@ end
 
 gem 'brakeman', require: false, group: :development
 gem 'guard-brakeman', require: false, group: :development
+gem 'yard', group: :development
