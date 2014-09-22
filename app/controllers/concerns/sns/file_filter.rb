@@ -34,8 +34,10 @@ module Sns::FileFilter
     def create
       @item = @model.new get_params
       @item.in_files.each do |in_file|
-        logger.info("ファイル名：[#{in_file.original_filename}] 型：[#{in_file.content_type}]")
-        sparql = Rdf::Sparql.new(logger)
+        if File.extname(in_file.original_filename) == ".ttl"
+          sparql = Rdf::Sparql.new
+          #sparql.save(graph_name, ttl_url)
+        end
       end
       render_create @item.save_files, location: { action: :index }
     end
