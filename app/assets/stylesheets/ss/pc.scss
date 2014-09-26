@@ -398,6 +398,16 @@ table.index {
     }
   }
 }
+table.see {
+  border: 1px solid #ccc;
+  th, td {
+    padding: 8px;
+    border: 1px solid #ccc;
+  }
+  th {
+    background-color: #ddd;
+  }
+}
 .search-form {
   @include clear;
   margin-bottom: 20px;
@@ -521,6 +531,15 @@ table.index {
   p, li {
     margin: 0 15px;
     color: #822;
+  }
+}
+.permission-names {
+  @include clear;
+  margin: 10px 0 10px 20px;
+  label {
+    float: left;
+    min-width: 180px;
+    margin-right: 10px;
   }
 }
 // -------------------------------------------------------------------------------------------------
