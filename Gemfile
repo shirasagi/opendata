@@ -15,7 +15,6 @@ gem "unicorn"
 # gem 'capistrano-rails', group: :development
 # gem "debugger", group: [:development, :test]
 
-gem "thin"
 gem "mongoid", git: "https://github.com/mongoid/mongoid.git"
 gem "mongoid-rspec"
 gem "mongo_mapper"
@@ -59,6 +58,8 @@ group :development, :test do
   gem 'timecop'
 end
 
-gem 'brakeman', require: false, group: :development
-gem 'guard-brakeman', require: false, group: :development
-gem 'yard', group: :development
+group :development do
+  gem 'brakeman', require: false
+  gem 'guard-brakeman', require: false
+  gem 'yard', require: false
+end
