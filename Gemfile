@@ -40,6 +40,7 @@ gem 'simple_captcha2', require: 'simple_captcha'
 gem 'sparql'
 gem 'sparql-client'
 gem 'rdf-turtle'
+gem 'json_pure'
 
 #gem "rails-dev-boost", git: "git://github.com/thedarkone/rails-dev-boost.git", group: :development
 

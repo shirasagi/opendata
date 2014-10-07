@@ -143,6 +143,7 @@ GEM
       railties (>= 3.1.0)
       turbolinks
     json (1.8.1)
+    json_pure (1.8.1)
     kaminari (0.15.1)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
@@ -361,6 +362,7 @@ DEPENDENCIES
   jquery-cookie-rails
   jquery-rails
   jquery-turbolinks
+  json_pure
   kaminari
   mail-iso-2022-jp
   mongo_mapper
