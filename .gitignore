@@ -6,6 +6,7 @@
 /config/*.yml
 /config/unicorn.rb
 /coverage
+/file
 /log
 /tmp
 /public/sites
