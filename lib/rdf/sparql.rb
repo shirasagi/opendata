@@ -65,12 +65,12 @@ module Rdf::Sparql
           type = "text/csv"
           ext = "csv"
           encoding = Encoding::SJIS
-          data = results.to_csv
+          data = results.to_csv.encode(encoding)
         elsif format == "TSV"
           type = "text/plain"
           ext = "txt"
           encoding = Encoding::SJIS
-          data = results.to_tsv
+          data = results.to_tsv.encode(encoding)
         elsif format == "XML"
           type = "application/xml"
           ext = "xml"
@@ -82,10 +82,11 @@ module Rdf::Sparql
           type: type,
           ext: ext,
           encoding: encoding,
-          data: data.encode(encoding)
+          data: data
         }
 
         return result
       end
+
   end
 end
