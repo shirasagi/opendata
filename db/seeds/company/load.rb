@@ -1,4 +1,3 @@
-# coding: utf-8
 
 Dir.chdir @root = File.dirname(__FILE__)
 @site = SS::Site.find_by host: ENV["site"]
@@ -307,4 +306,4 @@ save_page route: "cms/page", name: "販売促進支援", filename: "product/solu
 ## -------------------------------------
 puts "# generate pages"
 
-Cms::Task::PagesController.new.generate site: @site
+#Cms::Task::PagesController.new.generate site: @site
