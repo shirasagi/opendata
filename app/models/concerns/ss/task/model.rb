@@ -31,7 +31,7 @@ module SS::Task::Model
 
   module ClassMethods
     public
-      def run(cond, &block)
+      def ready(cond, &block)
         task = Cms::Task.find_or_create_by(cond)
         return false unless task.start
 
@@ -52,7 +52,7 @@ module SS::Task::Model
   end
 
   public
-    def +(other)
+    def count(other = 1)
       self.current_count += other
       if (self.current_count % log_buffer) == 0
         save
@@ -100,5 +100,14 @@ module SS::Task::Model
     def log(msg)
       puts msg
       self.logs << msg
+    end
+
+    def process(controller, action, params = {})
+      agent = SS::Agent.new controller
+      agent.controller.instance_variable_set :@task, self
+      params.each do |k, v|
+        agent.controller.instance_variable_set :"@#{k}", v
+      end
+      agent.invoke action
     end
 end

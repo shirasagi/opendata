@@ -1,6 +1,6 @@
 class Cms::GeneratePagesController < ApplicationController
   include Cms::BaseFilter
-  include Cms::TaskFilter
+  include SS::ExecFilter
 
   navi_view "cms/main/navi"
 
@@ -10,7 +10,7 @@ class Cms::GeneratePagesController < ApplicationController
     end
 
     def task_command
-      %(rake #{task_name} site="#{@cur_site.host}")
+      %(rake #{task_name} site=#{@cur_site.host})
     end
 
     def set_item
