@@ -31,6 +31,35 @@ img {
   vertical-align: middle;
 }
 
+//-----------------------------------------------------------------------------------------
+//form
+select, input, textarea, button {
+  font-size: 100%;
+  font-family: $font-base;
+}
+select {
+  @include input;
+  max-width: 95%;
+  padding: 3px 5px;
+}
+input[type=text], input[type=password], input[type=date], input[type=datetime], input[type=url],
+input[type=email], input[type=number] {
+  @include input;
+  width: 70%;
+  height: 1.8em;
+  padding: 3px 5px;
+}
+input[type=number] {
+  width: 12em;
+}
+textarea {
+  @include input;
+  width: 70%;
+  height: 6.5em;
+  padding: 5px 5px;
+  line-height: 1.4;
+}
+
 // -----------------------------------------------------------------------------
 // layout
 #page {
@@ -44,23 +73,24 @@ img {
 // head
 #head {
   @include clear;
+  min-width: 1200px;
   border-bottom: 2px solid #ddcfcc;
   @include grd-gray;
   .inner {
     @include clear;
     overflow: visible;
-    width: 1160px;
+    width: 1200px;
     margin: 0 auto;
     .logo {
       float: left;
-      padding: 13px 28px 3px 11px;
+      padding: 13px 28px 3px 10px;
     }
     .tab {
       float: left;
       padding-top: 1px;
       ul {
         @include clear;
-        padding-top: 10px;
+        padding-top: 8px;
         li.tab01 a {
           background: url(../img/ic-data-s.png) no-repeat 10px center;
         }
@@ -95,7 +125,7 @@ img {
     }
     .login {
       float: right;
-      padding: 13px 0;
+      padding: 12px 10px 12px 0;
       background: url(../img/ic-login.png) no-repeat left center;
       a {
         display: inline-block;
@@ -133,14 +163,17 @@ img {
 // top
 #top {
   display: block;
+  min-width: 1200px;
   margin-bottom: 14px;
   @include grd-aqua;
   #shadow {
     display: block;
+    min-width: 1200px;
     @include box-shadow(0px -5px 4px #ccc inset);
     #portal-kv, #dataset-kv {
       width: $page-width;
       margin: 0 auto;
+      padding: 0 60px;
     }
     #portal-kv {
       overflow: hidden;
@@ -155,7 +188,7 @@ img {
 
 #portal-kv-nav {
   float: right;
-  padding: 28px 0 14px 0;
+  padding: 10px 0;
   li {
     width: 249px;
     margin-bottom: 14px;
@@ -244,7 +277,7 @@ img {
 #contents, #data-top-contents {
   width: $page-width;
   margin: 0 auto;
-  padding-bottom: 71px;
+  padding: 0 60px 71px 60px;
   #main {
     float: left;
     width: 803px;
@@ -330,7 +363,7 @@ img {
 #about, .s-portal #contents header, #s-mypage-login #contents , #s-mypage #contents{
   h1 {
     margin-bottom: 6px;
-    padding: 6px 10px;
+    padding: 4px 10px;
     @include grd-blue;
     color:$white;
     font-size: $px15;
@@ -578,8 +611,11 @@ img {
     border-bottom: $border-hgry;
   }
   time, h2 {
-    display: inline;
+    display: inline-block;
     padding-right: 5px;
+  }
+  h2 {
+    display: inline;
   }
 }
 
@@ -622,6 +658,7 @@ article.areas, article.tags, article.formats, article.licenses, #search_group,  
   .inner {
     width: $page-width;
     margin: 0 auto;
+    padding: 0 60px;
     overflow: hidden;
     .logo {
       float: left;
@@ -660,6 +697,7 @@ article.areas, article.tags, article.formats, article.licenses, #search_group,  
     form {
       float: none;
       position: relative;
+      width: 285px;
       @include border-radius(5px);
       border: 1px solid #ddcfcc;
       #search-box {
@@ -669,6 +707,7 @@ article.areas, article.tags, article.formats, article.licenses, #search_group,  
         @include border-radius(0px);
         border: none;
         outline-color: $white;
+        @include box-shadow(none);
       }
       img {
         position: absolute;
@@ -681,6 +720,7 @@ article.areas, article.tags, article.formats, article.licenses, #search_group,  
   }
 
 #gnav {
+  min-width: 1200px;
   border-bottom: #ffcf38 2px solid;
   background: $data-blue;
   ul {
@@ -716,7 +756,7 @@ article.areas, article.tags, article.formats, article.licenses, #search_group,  
 .crumbs {
   width: $page-width;
   margin: 0 auto;
-  padding: 15px 0;
+  padding: 15px 60px;
 }
 
 #od-searchgroup-name {
@@ -756,7 +796,6 @@ form.opendata-search_groups-form {
     margin:0 70px 15px 0;
     dd input, dd select {
       width: 160px;
-      height: 1.8em;
     }
   }
   .send {
@@ -829,7 +868,7 @@ form.opendata-search_groups-form {
 
 article.areas h1, article.tags h1, article.formats h1, article.licenses h1, #od-page-name, #dataset-news h1,
 #dataset-popular h1, #dataset-attention h1 {
-  padding: 6px 10px;
+  padding: 4px 10px;
   border-bottom: 2px solid #ffcf38;
   background: $data-blue;
   color:text;
@@ -884,8 +923,7 @@ article.areas, article.formats {
 //-----------------------------------------------------------------------------------------
 //dataset-page
 #contents {
-  position: relative;
-  header h1.name {
+    header h1.name {
     padding: 0 0 5px 10px;
     color: #005c7b;
     font-size: $px28;
@@ -925,20 +963,37 @@ article.areas, article.formats {
   .text {
     float: left;
     width: 803px;
-    margin: 40px 0 10px 0;
+    margin-bottom: 10px;
   }
   .categories {
-    position: absolute;
-    top: 56px;
+    width: 803px;
+    margin-bottom: 10px;
     a {
       display: inline-block;
-      margin-right: 15px;
+      margin: 0 15px 10px 0;
       padding: 1px 10px;
       border: 1px solid #ddcfcc;
       @include border-radius(5px);
-      background: #ffcf38;
       color: $text;
       text-decoration: none;
+    }
+    a.area {
+      background: #99cf38;
+      &:hover {
+        background: #cbe79a;
+      }
+    }
+    a.category {
+      background: #ffcf38;
+      &:hover {
+        background: #ffe593;
+      }
+    }
+    a.tag {
+      background: #82c1ea;
+      &:hover {
+        background: #b6dbf3;
+      }
     }
   }
   .detail {
@@ -956,13 +1011,16 @@ article.areas, article.formats {
         text-decoration: none;
         text-align: center;
       }
+      /*
       .current {
         background: $data-blue;
       }
+      */
       .info {
         margin-left: 18px;
+        background: $data-blue;
       }
-      .app, .idea {
+      .data, .app, .idea {
         @include opacity(.5);
       }
     }
@@ -970,8 +1028,30 @@ article.areas, article.formats {
       overflow: hidden;
       .download {
         float: left;
-        width: 799px;
+        width: 767px;
+        padding: 16px;
         border: 2px solid #00b2c4;
+        .resources {
+          .name {
+            float: left;
+            width: 600px;
+            word-wrap: break-word;
+          }
+          .download {
+            float: right;
+            width: auto;
+            @include r-arrow;
+            @include border-radius(5px);
+          }
+          .text {
+            float: none;
+            clear: both;
+            width: auto;
+            margin-bottom: 5px;
+            padding: 10px 0;
+            border-bottom: 1px solid #ddcfcc;
+          }
+        }
       }
       dl.author {
         float: right;
@@ -1000,15 +1080,27 @@ article.areas, article.formats {
     margin-bottom: $box-margin;
     a {
       display: block;
-      width: 400px;
+      width: 526px;
       margin-top: $box-margin;
-      padding: 30px 0;
+      padding: 16px 0;
       border: $border-hgry;
       color: $text;
       text-align: center;
       vertical-align: middle;
       text-decoration: none;
     }
+  }
+  li.facebook {
+    background: url(../img/logo_Facebook.png) no-repeat 50px center;
+  }
+  li.google {
+    background: url(../img/logo_Google.png) no-repeat 10px center;
+  }
+  li.twitter {
+    background: url(../img/logo_Twitter.png) no-repeat 50px center;
+  }
+  li.yahoo {
+    background: url(../img/logo_Yahoo.png) no-repeat 10px center;
   }
 }
 
@@ -1076,25 +1168,13 @@ article.areas, article.formats {
     }
   }
   #item-form {
-    dl.see dd {
-      input, textarea {
-        height: 1.8em;
-        border: 1px solid #ddcfcc;;
-      }
-      input[type="text"], input[type="email"], input[type="password"], textarea {
-        width: 70%;
-      }
-      textarea {
-        height: 6.5em;
-      }
-    }
     .send {
       text-align: center;
       input {
         padding: 10px 50px;
         border: none;
         @include border-radius(5px);
-        @include grd-blue;
+        @include grd-blue-left;
         color: $white;
         text-align: center;
         font-family: $font-base;
@@ -1114,12 +1194,12 @@ article.areas, article.formats {
   position: absolute;
   bottom: 0;
   width: 100%;
-  height: 71px;
   margin: 0 auto;
 }
 
 #footer-navi {
-  padding: 5px 0;
+  min-width: 1200px;
+  padding: 7px 0;
   border-top: 1px solid $gray;
   background: #eeeeee;
   text-align: center;
@@ -1129,7 +1209,8 @@ article.areas, article.formats {
 }
 
 #copyright {
-  padding: 5px 0;
+  min-width: 1200px;
+  padding: 4px 0;
   @include grd-gray;
   color: $white;
   font-size: $px12;
@@ -1141,6 +1222,8 @@ article.areas, article.formats {
     @include grd-blue;
   }
 }
+
+
 
 /*
 .opendata-mypage-login {

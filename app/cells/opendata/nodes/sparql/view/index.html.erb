@@ -1,23 +1,18 @@
-<html>
-<head>
-  <title>SPARQL Endpoint</title>
-  <meta http-equiv='content-type' content='text/html; charset=utf-8'>
-</head>
-<body>
-<div class="opendata-sparql">
-  <h1>SPARQL Endpoint</h1>
 
-  <%= form_tag("", method: :post) do %>
+<div class="opendata-sparql">
+  <h1>[Our Open Data] SPARQL Endpoint</h1>
+
+  <%= form_tag("", method: :get) do %>
     <table>
       <tr>
-        <th>Query</th>
+        <th style="text-align: left;vertical-align: middle;">Query</th>
         <td>
           <textarea name="query"
            style="width: 400px; height: 100px;">select distinct * where { graph ?g { ?s ?p ?o . } }</textarea>
         </td>
       </tr>
       <tr>
-        <th>Format</th>
+        <th style="text-align: left;vertical-align: middle;">Format</th>
         <td>
           <select name="format">
             <option>HTML</option>
@@ -35,5 +30,3 @@
     </div>
   <% end %>
 </div>
-</body>
-</html>
