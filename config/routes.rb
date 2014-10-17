@@ -34,6 +34,9 @@ SS::Application.routes.draw do
 
   SS::Initializer
 
+  get "/auth/:provider/callback" => "oauthes#callback"
+  get "/auth/failure" => "oauthes#failure"
+
   namespace "fs" do
     get ":id/:filename" => "files#index", as: :file
     get ":id/thumb/:filename" => "files#thumb", as: :thumb
