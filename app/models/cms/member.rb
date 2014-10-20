@@ -3,15 +3,13 @@ class Cms::Member
 
   class << self
     public
-      def create_with_omniauth(auth, site)
-        create!do |omniuser|
-          omniuser.site_id = site.id
-          omniuser.oauth_type = auth.provider
-          omniuser.oauth_id = auth.uid
-          omniuser.oauth_token = auth.credentials.token
-          omniuser.name = auth.info.name
-          omniuser.email = auth.info.email
-          omniuser.password = nil
+      def create_auth_member(auth, site)
+        create! do |member|
+          member.site_id = site.id
+          member.oauth_type = auth.provider
+          member.oauth_id = auth.uid
+          member.oauth_token = auth.credentials.token
+          member.name = auth.info.name
         end
       end
   end
