@@ -32,7 +32,7 @@ $ ->
 
 <div class="point">
   <div class="count">
-    <span class="number"><%#= @cur_page.send :point %><span>
+    <span class="number"></span>
     <span class="label">いいね！数</span>
   </div>
   <%= link_to "いいね！", "#", class: "add" %>
@@ -93,10 +93,14 @@ $ ->
       <% end %>
 
       <dt><%= @cur_page.t :related_url %></dt>
-      <dd><%= @cur_page.send :related_url %></dd>
+      <dd>
+        <% if @cur_page.related_url.present? %>
+        <%= link_to @cur_page.related_url, @cur_page.related_url, target: "_blank" %>
+        <% end %>
+      </dd>
 
       <dt><%= @cur_page.t :downloaded %></dt>
-      <dd><%= @cur_page.send :downloaded %> 回</dd>
+      <dd><%= @cur_page.downloaded.to_i %> 回</dd>
 
       <dt><%= @cur_page.t :updated %></dt>
       <dd><%= tryb{@cur_page.updated.strftime("%Y年%m月%1d日")} %></dd>
