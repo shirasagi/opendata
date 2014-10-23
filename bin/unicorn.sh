@@ -6,7 +6,7 @@
 export PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin
 
 APPS=()
-APPS=("${APPS[@]}" "/var/www/shirasagi")
+APPS=("${APPS[@]}" "/var/www/ss")
 
 for APP in ${APPS[@]}; do
   NAME="Unicorn"
