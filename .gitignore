@@ -9,6 +9,7 @@
 /file
 /log
 /tmp
+/private
 /public/sites
 
 .DS_Store
