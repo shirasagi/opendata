@@ -13,7 +13,8 @@ for APP in ${APPS[@]}; do
   ENV="production"
   PID="${APP}/tmp/pids/unicorn.pid"
   CONF="${APP}/config/unicorn.rb"
-  
+  USER="root"
+
   start()
   {
     if [ -e $PID ]; then
@@ -22,9 +23,9 @@ for APP in ${APPS[@]}; do
     fi
     echo "start $NAME"
     cd $APP
-    /usr/local/rvm/bin/start_unicorn -c ${CONF} -E ${ENV} -D
+    su -c "/usr/local/rvm/bin/start_unicorn -c ${CONF} -E ${ENV} -D" $USER
   }
-  
+
   stop()
   {
     if [ ! -e $PID ]; then
@@ -34,7 +35,7 @@ for APP in ${APPS[@]}; do
     echo "stop $NAME"
     kill -QUIT `cat ${PID}`
   }
-  
+
   force_stop()
   {
     if [ ! -e $PID ]; then
@@ -44,7 +45,7 @@ for APP in ${APPS[@]}; do
     echo "stop $NAME"
     kill -INT `cat ${PID}`
   }
-  
+
   reload()
   {
     if [ ! -e $PID ]; then
@@ -55,14 +56,14 @@ for APP in ${APPS[@]}; do
     echo "reload $NAME"
     kill -HUP `cat ${PID}`
   }
-  
+
   restart()
   {
     stop
     sleep 3
     start
   }
-  
+
   case "$1" in
     start)
       start
