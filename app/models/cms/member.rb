@@ -10,6 +10,14 @@ class Cms::Member
           member.oauth_id = auth.uid
           member.oauth_token = auth.credentials.token
           member.name = auth.info.name
+          if member.name =~ /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
+            authname = []
+            authname = auth.info.name.split(/\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i)
+            if authname.length >= 2
+              member.name = authname[authname.length - 2]
+            end
+          end
+
         end
       end
   end
