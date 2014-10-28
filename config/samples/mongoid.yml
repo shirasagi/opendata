@@ -4,8 +4,8 @@ production:
   sessions:
     default:
       database: ss
-      username:
-      password:
+      #username:
+      #password:
       hosts:
         - localhost:27017
 
@@ -13,8 +13,6 @@ test:
   sessions:
     default:
       database: ss_test
-      username:
-      password:
       hosts:
         - localhost:27017
       options:
@@ -30,8 +28,6 @@ development:
       # Defines the name of the default database that Mongoid can connect to.
       # (required).
       database: ss
-      username:
-      password:
       # Provides the hosts the default session can connect to. Must be an array
       # of host:port pairs. (required)
       hosts:
