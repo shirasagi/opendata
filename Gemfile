@@ -48,6 +48,7 @@ gem 'omniauth-twitter'
 gem 'omniauth-facebook'
 gem 'omniauth-yahoojp'
 gem 'omniauth-google-oauth2'
+gem 'omniauth-github'
 
 #gem "rails-dev-boost", git: "git://github.com/thedarkone/rails-dev-boost.git", group: :development
 
