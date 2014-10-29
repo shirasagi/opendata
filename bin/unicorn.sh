@@ -13,7 +13,7 @@ for APP in ${APPS[@]}; do
   ENV="production"
   PID="${APP}/tmp/pids/unicorn.pid"
   CONF="${APP}/config/unicorn.rb"
-  USER="root"
+  USER=`ls -l /var/www/shirasagi/config/environment.rb | awk '{print $3}'`
 
   start()
   {

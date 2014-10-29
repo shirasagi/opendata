@@ -200,6 +200,9 @@ GEM
       rack (~> 1.0)
     omniauth-facebook (2.0.0)
       omniauth-oauth2 (~> 1.2)
+    omniauth-github (1.1.2)
+      omniauth (~> 1.0)
+      omniauth-oauth2 (~> 1.1)
     omniauth-google-oauth2 (0.2.5)
       omniauth (> 1.0)
       omniauth-oauth2 (~> 1.1)
@@ -403,6 +406,7 @@ DEPENDENCIES
   non-stupid-digest-assets
   omniauth
   omniauth-facebook
+  omniauth-github
   omniauth-google-oauth2
   omniauth-twitter
   omniauth-yahoojp

@@ -4,6 +4,8 @@ production:
   sessions:
     default:
       database: ss
+      #username:
+      #password:
       hosts:
         - localhost:27017
 
