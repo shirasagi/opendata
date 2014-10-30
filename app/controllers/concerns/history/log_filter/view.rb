@@ -1,4 +1,4 @@
-module History::BaseFilter
+module History::LogFilter::View
   extend ActiveSupport::Concern
 
   public
@@ -31,7 +31,7 @@ module History::BaseFilter
 
       if result
         respond_to do |format|
-          format.html { redirect_to location, notice: t(:deleted) }
+          format.html { redirect_to location, notice: t("views.notice.deleted") }
           format.json { head :no_content }
         end
       else

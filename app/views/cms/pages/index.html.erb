@@ -2,7 +2,7 @@
 <div class="search-form">
   <%= form_for :s, url: "", html: { class: "index-search", method: :get } do |f| %>
     <%= f.text_field :name, style: "width: 300px;" %>
-    <input type="submit" value="<%= t :search %>" />
+    <input type="submit" value="<%= t('views.button.search') %>" />
   <% end %>
 </div>
 
@@ -33,7 +33,7 @@
       <td><%= link_to item.name, { action: :show, id: item }, class: "icon-page" %></td>
       <td class="filename"><%= File.basename item.filename %></td>
       <td class="datetime"><%= item.updated.strftime("%Y/%m/%d %H:%M") %></td>
-      <td class="state"><%= t :"views.state.#{item.status}" %></td>
+      <td class="state"><%= t "views.state.#{item.status}" %></td>
     </tr>
     <% end %>
   </tbody>
