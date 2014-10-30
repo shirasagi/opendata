@@ -114,6 +114,10 @@ module Cms::Content
       [%w(公開待ち ready)]
     end
 
+    def status
+      state
+    end
+
     def parent
       return @cur_node if @cur_node
       return @parent unless @parent.nil?

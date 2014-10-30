@@ -19,6 +19,17 @@ module Workflow::Addon
       validate :validate_workflow_approvers
     end
 
+    public
+      def status
+        if state == "public" || state == "ready"
+          state
+        elsif workflow_state.present?
+          workflow_state
+        else
+          state
+        end
+      end
+
     private
       def validate_workflow_approvers
         if workflow_reset
