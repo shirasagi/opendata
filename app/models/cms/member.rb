@@ -13,11 +13,8 @@ class Cms::Member
           if member.name =~ /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
             authname = []
             authname = auth.info.name.split(/\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i)
-            if authname.length >= 2
-              member.name = authname[authname.length - 2]
-            end
+            member.name = member.name.gsub("@#{authname.last}", "")
           end
-
         end
       end
   end
