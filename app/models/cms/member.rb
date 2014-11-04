@@ -15,6 +15,9 @@ class Cms::Member
             authname = auth.info.name.split(/\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i)
             member.name = member.name.gsub("@#{authname.last}", "")
           end
+          if auth.info.email
+            member.email = auth.info.email
+          end
         end
       end
   end
