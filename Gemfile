@@ -40,7 +40,6 @@ gem 'simple_captcha2', require: 'simple_captcha'
 gem 'sparql'
 gem 'sparql-client'
 gem 'rdf-turtle'
-gem 'json_pure'
 
 # OAuth
 gem 'omniauth'
