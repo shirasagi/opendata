@@ -1,0 +1,16 @@
+<dl class="see mod-facility-body">
+  <dt><%= @model.t :kana %></dt>
+  <dd><%= @item.send :kana %></dd>
+
+  <dt><%= @model.t :address %></dt>
+  <dd><%= @item.send :address %></dd>
+
+  <dt><%= @model.t :tel %></dt>
+  <dd><%= @item.send :tel %></dd>
+
+  <dt><%= @model.t :fax %></dt>
+  <dd><%= @item.send :fax %></dd>
+
+  <dt><%= @model.t :related_url %></dt>
+  <dd><%= link_to(@item.related_url, @item.related_url, target: "_blank") if @item.related_url.present? %></dd>
+</dl>

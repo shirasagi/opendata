@@ -9,21 +9,14 @@ ja:
     markers: マーカー設定
     clicked: クリック座標
     button:
-      search: 地図検索
-      set_loc: 設定
-      set_center: 移動
       set_marker: マーカーの位置を設定
-      add_marker: マーカーを追加
+      add_marker: マーカーを追加する
       clear_marker: 削除
 
   modules:
     map: 地図
     addons:
       map/page: 地図
-
-  cms:
-    nodes:
-      map/page: 地図記事リスト
 
   mongoid:
     attributes:
@@ -34,10 +27,10 @@ ja:
         marker_text: 説明
         marker_link: リンク
 
-  cms_role:
-    read_other_map_pages: 地図ページ閲覧（全て）
-    read_private_map_pages: 地図ページ閲覧（所有）
-    edit_other_map_pages: 地図ページ編集（全て）
-    edit_private_map_pages: 地図ページ編集（所有）
-    delete_other_map_pages: 地図ページ削除（全て）
-    delete_private_map_pages: 地図ページ削除（所有）
+  tooltip:
+    map/addon/page:
+      map_points:
+        - 地図内に表示するマーカーを設定できます。
+        - 地図をクリックし「マーカーの位置を設定」を選択することでマーカーを地図上に配置します。
+        - 説明にはマーカーの吹き出しテキストを入力できます。
+        - 「マーカーを追加する」を選択することで複数のマーカーを設定することが可能です。

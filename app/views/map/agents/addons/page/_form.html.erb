@@ -1,0 +1,53 @@
+<%= javascript_include_tag "http://maps.googleapis.com/maps/api/js?v=3&sensor=false" %>
+<% controller.class.javascript "map/public" %>
+<% controller.class.javascript "map/form" %>
+<%= coffee do %>
+
+$(window).on "load", ->
+  Map.load(document.getElementById("map-canvas"))
+  Map_Form.setMarkers()
+
+<% end %>
+
+<div class="mod-map">
+  <div id="map-container">
+    <div id="map-canvas"></div>
+  </div>
+  <div id="map-markers">
+    <dl class="marker-setting">
+      <dt>
+        <%= t("map.markers") %><%= @item.tt :map_points %>
+        <%= hidden_field_tag :clicked, nil, class: "loc clicked" %>
+      </dt>
+      <% if @item.map_points.blank? %>
+        <dd class="marker">
+          <p>
+            <%= button_tag t("map.button.set_marker"), { type: :button, class: "set-marker" } %>
+            <%= hidden_field_tag "item[map_points][][loc]", nil, class: "loc marker-loc" %>
+            <%= text_field_tag "item[map_points][][name]", @item.t(:marker_name), class: "marker-name" %>
+            <%= button_tag t("map.button.clear_marker"), { type: :button, class: "clear-marker" } %>
+          </p>
+          <p>
+            <span class="text"><%= @item.t :marker_text %></span>
+            <%= text_area_tag "item[map_points][][text]", nil, class: "marker-text" %>
+          </p>
+        </dd>
+      <% end %>
+      <% @item.map_points.each do |point| %>
+        <dd class="marker">
+          <p>
+            <%= button_tag t("map.button.set_marker"), { type: :button, class: "set-marker" } %>
+            <%= text_field_tag "item[map_points][][name]", point[:name], class: "marker-name" %>
+            <%= hidden_field_tag "item[map_points][][loc]", point[:loc].join(","), class: "loc marker-loc" %>
+            <%= button_tag t("map.button.clear_marker"), { type: :button, class: "clear-marker" } %>
+          </p>
+          <p>
+            <span class="text"><%= @item.t :marker_text %></span>
+            <%= text_area_tag "item[map_points][][text]", point[:text], class: "marker-text" %>
+          </p>
+        </dd>
+      <% end %>
+      <dd><%= button_tag t("map.button.add_marker"), { type: :button, class: "add-marker" } %></dd>
+    </dl>
+  </div>
+</div>

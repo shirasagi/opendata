@@ -88,9 +88,25 @@ module Cms::Addon
 
       if close_date.present?
         if release_date.present? && release_date >= close_date
-          errors.add close_date, :greater_than, count: t(:release_date)
+          errors.add :close_date, :greater_than, count: t(:release_date)
         end
       end
+    end
+  end
+
+  module Crumb
+    extend ActiveSupport::Concern
+    extend SS::Addon
+
+    set_order 200
+
+    included do
+      field :home_label, type: String
+      permit_params :home_label
+    end
+
+    def home_label
+      self[:home_label].presence || "HOME"
     end
   end
 

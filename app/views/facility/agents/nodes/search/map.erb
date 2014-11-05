@@ -1,0 +1,58 @@
+<%= javascript_include_tag "/assets/js/jquery.colorbox.js" %>
+<%= stylesheet_link_tag "/assets/css/colorbox/colorbox.css" %>
+
+<%= javascript_include_tag "http://maps.googleapis.com/maps/api/js?v=3&sensor=false" %>
+<%= javascript_include_tag "map/public" %>
+<%= coffee do %>
+
+$(window).on "load", ->
+  Map.load(document.getElementById("map-canvas"))
+  Map.setMarkers(<%= raw @markers.to_json %>)
+
+$ ->
+  $(".filters a").on "click", ->
+    if $(this).hasClass("clicked")
+       $(this).removeClass("clicked")
+    else
+      $(this).addClass("clicked")
+
+    dataIDs = []
+    $(".filters a.clicked").each ->
+      dataIDs.push parseInt($(this).attr("data-id"))
+
+    $.each Map.markers, (id, value) ->
+      visible = false
+      $.each dataIDs, ->
+        if $.inArray(parseInt(this), Map.markers[id]["category"]) >= 0
+          visible = true
+          return false
+      if visible
+        Map.markers[id]["marker"].setVisible(true)
+      else
+        Map.markers[id]["marker"].setVisible(false)
+        Map.markers[id]["window"].close()
+
+    return false;
+
+  $(".ajax-box").on "click", ->
+    $.colorbox({ html: "<%=j render(partial: "modal", locals: { search_path: "./map.html" }) %>"})
+    return false
+
+<% end %>
+
+<%= render partial: "navi", locals: { current: "map" } %>
+
+<div id="map-canvas"></div>
+
+<% categories = @categories.present? ? @categories : @cur_node.st_categories %>
+<% if categories.present? %>
+<nav class="filters">
+  <ul>
+    <% categories.each do |cate| %>
+      <li class="<%= cate.basename %>">
+        <%= link_to cate.name, "#", class: "clicked", "data-id" => cate.id %>
+      </li>
+    <% end %>
+  </ul>
+</nav>
+<% end %>

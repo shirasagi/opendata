@@ -3,6 +3,11 @@ module Cms::PublicFilter::Layout
   include Cms::PublicFilter::Agent
 
   private
+    def filters
+      @filters ||= []
+      @filters
+    end
+
     def find_part(path)
       part = Cms::Part.site(@cur_site).filename(path).first
       return unless part
@@ -11,14 +16,13 @@ module Cms::PublicFilter::Layout
 
     def render_part(part, opts = {})
       return part.html if part.route == "cms/frees"
-      return part.ajax_html if part.ajax_view == "enabled" && !opts[:xhr]
 
       path = "/.#{@cur_site.host}/parts/#{part.route}"
       spec = recognize_agent path, method: "GET"
       return unless spec
 
       @cur_part = part
-      controller = part.route.sub(/\/.*/, "/agents/#{spec[:cell]}/view")
+      controller = part.route.sub(/\/.*/, "/agents/#{spec[:cell]}")
 
       agent = new_agent controller
       agent.controller.params.merge! spec
@@ -56,12 +60,12 @@ module Cms::PublicFilter::Layout
 
     def render_layout_part(path)
       part = Cms::Part.site(@cur_site)
-      part = part.where(mobile_view: "show") if @filter == :mobile
+      part = part.where(mobile_view: "show") if filters.include?(:mobile)
       part = part.filename(path).first
       return unless part
 
-      if part.ajax_view == "enabled"
-        render_part(part.becomes_with_route, xhr: true)
+      if part.ajax_view == "enabled" && !filters.include?(:mobile)
+        part.ajax_html
       else
         render_part(part.becomes_with_route)
       end

@@ -443,26 +443,24 @@ input.date, input.datetime {
 // event
 
 .mod-event-additional-info {
+  dt {
+    width: 140px;
+  }
   dd.value {
     font-weight: bold;
-    padding-left: 40px;
   }
-  textarea {
-    width: 80%;
+  dd textarea {
+    width: 70%;
   }
   .clear {
-    position: relative;
-    bottom: 60px;
+    vertical-align: top;
   }
 }
 
 // -------------------------------------------------------------------------------------------------
 // map
-
 .mod-map {
-  overflow: hidden;
-  position: relative;
-  zoom:1;
+  @include clear;
 }
 #map-container {
   width: 610px;
@@ -478,14 +476,6 @@ input.date, input.datetime {
 
   img {
     max-width: none;
-  }
-}
-.map-setting {
-  dt {
-    font-weight: bold;
-  }
-  dd p {
-    margin-top: 5px;
   }
 }
 .marker-setting {
@@ -507,15 +497,6 @@ dd.map-markers {
     bottom: 23px;
   }
 }
-input.loc {
-  width: 20em;
-}
-input.query {
-  width: 20em;
-}
-input.zoom {
-  width: 3em;
-}
 input.marker-name {
   width: 20em;
 }
@@ -528,16 +509,17 @@ textarea.marker-text {
 // facility
 
 .mod-facility-additional-info {
+  dt {
+    width: 140px;
+  }
   dd.value {
     font-weight: bold;
-    padding-left: 40px;
   }
-  textarea {
-    width: 80%;
+  dd textarea {
+    width: 70%;
   }
   .clear {
-    position: relative;
-    bottom: 60px;
+    vertical-align: top;
   }
 }
 #facility-info {
