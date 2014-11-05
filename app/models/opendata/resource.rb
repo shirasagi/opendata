@@ -56,6 +56,8 @@ class Opendata::Resource
       else
         remove_fuseki_rdf
       end
+    rescue => e
+      errors.add(:base, e.message)
     end
 
     def remove_fuseki_rdf
