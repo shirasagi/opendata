@@ -1,6 +1,6 @@
 <% return if @item.map_points.blank? %>
 
-<%= javascript_include_tag "http://maps.googleapis.com/maps/api/js?v=3&sensor=false" %>
+<%= javascript_include_tag "//maps.googleapis.com/maps/api/js?v=3&sensor=false" %>
 <% controller.class.javascript "map/public" %>
 <%= coffee do %>
 
@@ -11,5 +11,5 @@ $(window).on "load", ->
 <% end %>
 
 <dl class="see mod-page">
-  <div id="map-canvas"></div>
+  <div id="map-canvas" style="width: 100%; height: 320px"></div>
 </dl>

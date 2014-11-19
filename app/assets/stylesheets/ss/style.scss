@@ -461,52 +461,37 @@ input.date, input.datetime {
 // -------------------------------------------------------------------------------------------------
 // map
 .mod-map {
-  @include clear;
-}
-#map-container {
-  width: 610px;
-  float: left;
-}
-#map-markers {
-  width: 610px;
-  float: left;
+  .keyword {
+    max-width: 400px;
+    margin-bottom: 10px;
+  }
+  .marker-setting {
+    @include clear;
+    dt {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    dd {
+      float: left;
+      p {
+        margin-top: 5px;
+      }
+    }
+    input.marker-name {
+      width: 260px;
+    }
+  }
+  .add-marker {
+    margin-left: 40px;
+  }
 }
 #map-canvas {
-  width: 600px;
-  height: 400px;
-
   img {
     max-width: none;
   }
-}
-.marker-setting {
-  dt {
-    font-weight: bold;
+  .marker-info {
+    white-space: nowrap;
   }
-  dd p {
-    margin-top: 5px;
-  }
-}
-dd.map-markers {
-  margin-top: 15px;
-}
-.marker {
-  margin-bottom: 25px;
-  span.text {
-    padding-right: 12px;
-    position: relative;
-    bottom: 23px;
-  }
-}
-input.marker-name {
-  width: 20em;
-}
-textarea.marker-text {
-  width: 40em;
-  height: 5em;
-}
-.marker-info {
-  white-space: nowrap;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -532,38 +517,24 @@ textarea.marker-text {
     width: 540px;
     margin-bottom: 10px;
   }
-  .clear {
-    clear:both;
-  }
-  .image {
-    margin-top: 15px;
+  .summary {
+    @include clear;
   }
   .images .image {
     display: inline-block;
     vertical-align: top;
     margin-right: 10px;
   }
-  #map-canvas {
-    margin-top: 20px;
-    float: left;
-  }
   .map-pages {
-    margin-top: 20px;
-    margin-right: 10px;
+    margin-top: 10px;
   }
 }
-span.thumb-width {
-  width: 4em;
-}
-input.thumb-width {
-  width: 10em;
-  margin-right: 20px;
-}
-span.thumb-height {
-  width: 4em;
-}
-input.thumb-height {
-  width: 10em;
+
+.image-thumb-size label {
+  font-weight: bold;
+  display: inline-block;
+  _display: inline;
+  margin-right: 12px;
 }
 
 // -----------------------------------------------------------------------------

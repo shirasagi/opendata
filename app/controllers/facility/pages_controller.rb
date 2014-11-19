@@ -28,13 +28,6 @@ class Facility::PagesController < ApplicationController
     end
 
   public
-    def index
-      @items = @model.site(@cur_site).node(@cur_node).
-        allow(:read, @cur_user).
-        order_by(filename: 1).
-        page(params[:page]).per(50)
-    end
-
     def show
       raise "403" unless @item.allowed?(:read, @cur_user)
       action = @cur_node.allowed?(:edit, @cur_user, site: @cur_site) ? :edit : :show
@@ -46,7 +39,7 @@ class Facility::PagesController < ApplicationController
           points.push point
 
           image_ids = @item.categories.pluck(:image_id)
-          points[i][:pointer_image] = Facility::TempFile.find(image_ids.first).url if image_ids.present?
+          points[i][:image] = Facility::TempFile.find(image_ids.first).url if image_ids.present?
         end
         map.map_points = points
 

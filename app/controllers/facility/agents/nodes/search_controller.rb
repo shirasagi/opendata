@@ -1,6 +1,7 @@
 class Facility::Agents::Nodes::SearchController < ApplicationController
   include Cms::NodeFilter::View
   helper Cms::ListHelper
+  helper Map::MapHelper
 
   public
     def set_items
@@ -36,26 +37,20 @@ class Facility::Agents::Nodes::SearchController < ApplicationController
       @items.each do |item|
         category_ids = item.categories.pluck(:_id)
         image_ids    = item.categories.pluck(:image_id)
-        image_url    = image_ids.present? ? SS::File.find(image_ids.first).url : nil
+        image_url    = SS::File.find(image_ids.first).url rescue nil
+        marker_info  = view_context.render_marker_info(item)
 
-        html = []
-        html << %(<div class="maker-info" data-id="#{item.id}">)
-        html << %(<p class="name">#{item.name}</p>)
-        html << %(<p class="address">#{item.address}</p>)
-        html << %(<p class="show">#{view_context.link_to :show, item.url}</p>)
-        html << %(</div>)
+        maps = Facility::Map.site(@cur_site).public.
+          where(filename: /^#{item.filename}\//, depth: item.depth + 1).order_by(order: -1)
 
-        Facility::Map.site(@cur_site).public.
-          where(filename: /^#{item.filename}\//, depth: item.depth + 1).order_by(order: -1).each do |map|
-            points = []
-            map.map_points.each do |point|
-              point[:html] = html.join("\n")
-              point[:category] = category_ids
-              point[:pointer_image] = image_url if image_url.present?
-              points.push point
-            end
-            @markers += points
+        maps.each do |map|
+          map.map_points.each do |point|
+            point[:html] = marker_info
+            point[:category] = category_ids
+            point[:image] = image_url if image_url.present?
+            @markers.push point
           end
+        end
       end
     end
 

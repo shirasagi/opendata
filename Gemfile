@@ -35,6 +35,7 @@ gem "rmagick"
 gem "holiday_japan"
 gem "mail-iso-2022-jp"
 gem 'simple_captcha2', require: 'simple_captcha'
+gem "rails_autolink"
 
 # SPARQL
 gem 'sparql'
