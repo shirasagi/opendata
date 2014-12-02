@@ -46,7 +46,7 @@ $ ->
       <li class="all">
         <%= link_to t("event.filter_all"), "#", class: "clicked", "data-id" => "all" %>
       </li>
-      <% @cur_node.st_categories.each do |cate| %>
+      <% @cur_node.st_categories.order_by(order: 1).each do |cate| %>
         <li class="<%= cate.basename %>">
           <%= link_to cate.name, "#", "data-id" => cate.id %>
         </li>
