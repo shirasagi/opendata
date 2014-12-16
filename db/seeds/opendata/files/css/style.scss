@@ -379,6 +379,13 @@ textarea {
 }
 
 // -----------------------------------------------------------------------------
+// link
+#link {
+  margin-bottom: $box-margin;
+  text-align: center;
+}
+
+// -----------------------------------------------------------------------------
 // twitter
 #twitter {
   .twitter-timeline {
@@ -616,6 +623,26 @@ textarea {
       font-size: $px14;
       font-weight: normal;
     }
+  }
+}
+.s-portal {
+  dl.see {
+    padding: 15px;
+    dt {
+      float: left;
+      min-height: 1em;
+      min-width: 110px;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+    dd {
+      min-height: 1.5em;
+      margin-left: 110px;
+      margin-bottom: 10px;
+    }
+  }
+  article.body {
+    padding: 0 15px;
   }
 }
 
@@ -1018,7 +1045,7 @@ article.areas, article.formats {
     font-size: $px28;
     font-weight: bold;
   }
-  .text, .detail, .detail nav {
+  .text, .detail, .detail nav, nav.related-pages {
     margin-bottom: $box-margin;
   }
   .text {
@@ -1154,6 +1181,22 @@ article.areas, article.formats {
         dt ~ dt { margin-top: 10px; }
         dd ~ dd { margin-top: 10px; }
         dd + dd { margin-top: 10px; }
+      }
+    }
+  }
+  nav.related-pages {
+    header h1 {
+      padding: 7px 0 7px 45px;
+      background: $data-blue url(../img/ic-data-s.png) no-repeat 10px center;
+      font-size: $px15;
+    }
+    .pages {
+      margin: 20px 0px 0px;
+      padding: 10px;
+      border: 2px solid $data-blue;
+      article {
+        padding: 8px;
+        border-bottom: 1px solid #cccccc;
       }
     }
   }
@@ -1443,6 +1486,21 @@ nav.cms-sns_share {
       padding-right: 20px;
     }
   }
+  nav.account {
+    a {
+      padding: 0;
+      margin: 0;
+      background: none;
+      border: none;
+      color: $link;
+      text-decoration: underline;
+      &:hover {
+        background: none;
+        color: #005c7b;
+        text-decoration: none;
+      }
+    }
+  }
   dl.see {
     dt {
       min-width: 240px;
@@ -1456,7 +1514,7 @@ nav.cms-sns_share {
       line-height: 2em;
     }
     dd {
-      min-height: 2em;
+      min-height: 4em;
       margin-left: 270px;
       margin-bottom: $box-margin;
       line-height: 2em;
@@ -1474,6 +1532,7 @@ nav.cms-sns_share {
         @include btn-blue-left;
         font-family: $font-base;
         font-size: $px14;
+        cursor: pointer;
       }
       input[name="delete"] {
         background: #c33838;
@@ -1536,6 +1595,66 @@ table.index {
   }
 }
 
+//-----------------------------------------------------------------------------------------
+//user-page
+.profile {
+  padding: 20px 50px;
+  .icon {
+    display: inline-block;
+    padding: 8px;
+    border: 2px solid #ddcfcc;
+    @include border-radius(5px);
+  }
+  .name {
+    display: inline-block;
+    padding:15px;
+    font-size: $px27;
+  }
+}
+
+section.datasets {
+  padding: 20px 0;
+  h2 {
+    padding: 7px 10px;
+    background-color: $data-blue;
+    color:$white;
+    font-size: $px15;
+  }
+  .pages {
+    article header {
+      padding: 8px 0 8px 16px;
+      border-bottom: $border-hgry;
+    }
+    time {
+      display: inline-block;
+      width: 120px;
+    }
+    h2 {
+      margin-right: 10px;
+      display: inline;
+      padding: 0 5px;
+      background: none;
+      font-size: $px14;
+      a {
+        display: inline-block;
+      }
+    }
+    .point {
+      padding: 2px 5px 2px 30px;
+      background: url(../img/ic-like-bk.png) no-repeat 5px 2px;
+      border: $border-hgry;
+      font-size: $px12;
+    }
+  }
+  nav {
+    padding-top: 14px;
+    a.more {
+      float: right;
+      @include r-arrow;
+      @include border-radius(5px);
+    }
+  }
+}
 
 
 #errorExplanation {

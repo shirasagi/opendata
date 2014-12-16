@@ -99,7 +99,7 @@ select {
   padding: 4px;
 }
 input[type=text], input[type=password], input[type=date], input[type=datetime], input[type=url],
-input[type=email], input[type=number] {
+input[type=email], input[type=number], input[type=tel] {
   @include input;
   width: 80%;
   height: 2.5em;
@@ -173,6 +173,15 @@ textarea.ace_text-input {
   }
   + footer.send {
     border-top: 1px solid #ddd;
+  }
+  .toggle {
+    margin: 0px 0px 20px -10px;
+    a {
+      display: inline-block;
+      padding: 5px 10px;
+      background-color: #e4e4e4;
+      color: #444;
+    }
   }
 }
 .file-view {
@@ -397,9 +406,6 @@ footer.send {
       display: block;
     }
   }
-}
-.addon-view h2.hide,.show {
-  cursor: pointer;
 }
 
 // -------------------------------------------------------------------------------------------------
