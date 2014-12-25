@@ -276,7 +276,7 @@ textarea {
   margin-top: 28px;
   a {
     display: block;
-    margin: 20px 0 0 290px;
+    margin: 40px 0 0 290px;
     padding: 13px 30px 13px 45px;
     @include border-radius(5px);
     @include fill-gray;
@@ -289,6 +289,7 @@ textarea {
     background-image: url(../img/ic-search.png);
   }
   a.new {
+    margin-top: 20px;
     background-image: url(../img/ic-add.png);
   }
 }
@@ -345,7 +346,7 @@ textarea {
     position: absolute;
     top: -150px;
     width: 249px;
-    padding: 8px 10px;
+    padding: 18px 10px;
     border: $border-hgry;
     background-color: $white;
     text-align: left;
@@ -492,8 +493,19 @@ textarea {
     margin-bottom: 12px;
     list-style: none;
     li {
+      position: relative;
       padding-left: 15px;
-      background: url(../img/ic-info-list.png) no-repeat left center;
+      &:before {
+        content: "";
+        position: absolute;
+        top: 7px;
+        left: 2px;
+        display: block;
+        width: 6px;
+        height: 6px;
+        @include border-radius(3px);
+        background: #3386bb;
+      }
     }
   }
   ol {
@@ -630,6 +642,15 @@ textarea {
       font-size: $px14;
       font-weight: normal;
     }
+  }
+  .page {
+    padding: 5px 0;
+  }
+}
+.event-date a, #event-list a {
+  color: #005c7b;
+  &:hover {
+    color: $link;
   }
 }
 .s-portal {
