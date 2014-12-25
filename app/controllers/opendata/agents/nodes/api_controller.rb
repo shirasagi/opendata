@@ -48,17 +48,25 @@ class Opendata::Agents::Nodes::ApiController < ApplicationController
       end
 
       @groups = Opendata::DatasetGroup.site(@cur_site).public
-      @groups = @groups.order_by(name: 1) if sort == "name"
 
       group_list = []
+      @groups.each do |group|
+        datasets = Opendata::Dataset.site(@cur_site).public.any_in dataset_group_ids: group.id
+        group_list << {id: group.id, state: group.state, name: group.name, order: group.order, packages: datasets.count}
+      end
+
+      if sort =~ /^name$/i
+        group_list.sort!{|a, b| a[:name] <=> b[:name]}
+      elsif sort =~ /^packages$/i
+        group_list.sort!{|a, b| (b[:packages] == a[:packages]) ? a[:name] <=> b[:name] : b[:packages] <=> a[:packages]}
+      end
+
       if all_fields.nil?
-        @groups.each do |group|
-          group_list << group[:name]
+        group_name_list = []
+        group_list.each do |group|
+          group_name_list << group[:name]
         end
-      else
-        @groups.each do |group|
-          group_list << {id: group.id, state: group.state, name: group.name, order: group.order}
-        end
+        group_list = group_name_list
       end
 
       res = {help: help, success: true, result: group_list}
@@ -69,6 +77,7 @@ class Opendata::Agents::Nodes::ApiController < ApplicationController
       help = SS.config.opendata.api["tag_list_help"]
 
       query = params[:query]
+      query = URI.decode(query) if !query.nil?
       #vocabulary_id = params[:vocabulary_id]
       #all_fields = params[:all_fields] || false
 
@@ -90,6 +99,7 @@ class Opendata::Agents::Nodes::ApiController < ApplicationController
       help = SS.config.opendata.api["package_show_help"]
 
       id = params[:id]
+      id = URI.decode(id) if !id.nil?
       #use_default_schema = params[:use_default_schema]
 
       error = Opendata::Api.package_show_param_check?(id)
@@ -113,6 +123,7 @@ class Opendata::Agents::Nodes::ApiController < ApplicationController
     def tag_show
       help = SS.config.opendata.api["tag_show_help"]
       id = params[:id]
+      id = URI.decode(id) if !id.nil?
 
       if id.blank?
         error = {__type: "Validation Error", id: "Missing value"}
@@ -134,6 +145,7 @@ class Opendata::Agents::Nodes::ApiController < ApplicationController
     def group_show
       help = SS.config.opendata.api["group_show_help"]
       id = params[:id]
+      id = URI.decode(id) if !id.nil?
       include_datasets = params[:include_datasets]
 
       error = Opendata::Api.group_show_param_check?(id)
