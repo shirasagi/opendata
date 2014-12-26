@@ -69,7 +69,7 @@ $ ->
     <dt>
       <%= time_tag(date) do %>
       <%= link_to_daily date, name: "#{date.month}#{t_date('month')}#{date.day}#{t_date('day')}" %>
-      <span class="wday">(<%= t_wday(date) %><span class="unit"><%= t_date('wday') %></span>)</span>
+      <span class="wday">(<%= t_wday(date) %>)</span>
       <% end %>
     </dt>
 
