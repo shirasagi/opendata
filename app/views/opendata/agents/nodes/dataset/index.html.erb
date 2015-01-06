@@ -23,8 +23,7 @@ $ ->
       <article>
         <header>
           <time datetime="<%= item.date.to_date %>"><%= I18n.l item.date.to_date, format: :long %></time>
-          <h2><%= link_to item.name, item.url %></h2>
-          <span class="point"><%= item.point.to_i %></span>
+          <h2><%= link_to item.name, item.url %><span class="point"><%= item.point.to_i %></span></h2>
         </header>
       </article>
       <% end %>
@@ -40,9 +39,6 @@ $ ->
 <article class="areas nodes">
   <header><h1>地域</h1></header>
   <%= render file: "opendata/agents/nodes/dataset/areas" %>
-  <% if @areas.popped? %>
-  <nav><%= link_to :more, "#{@node_url}areas/", class: "more" %></nav>
-  <% end %>
 </article>
 
 <article class="tags nodes">

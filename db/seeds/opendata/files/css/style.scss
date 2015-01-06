@@ -150,13 +150,16 @@ textarea {
     }
     .login {
       float: right;
-      max-width: 400px;
-      padding: 15px 10px 15px 0;
-      background: url(../img/ic-login.png) no-repeat left center;
+      max-width: 360px;
+      padding: 15px 10px;
       a {
         display: inline-block;
+        min-height: 23px;
         padding-left: 20px;
         color: $white;
+        &:first-child {
+          background: url(../img/ic-login.png) no-repeat left center;
+        }
       }
     }
   }
@@ -365,24 +368,20 @@ textarea {
 // -----------------------------------------------------------------------------
 // add
 #add {
-  width: 249px;
   background: #eeeeee;
+  text-align: center;
   h2 {
     padding: 10px 15px;
+    text-align: left;
     font-size: $px15;
   }
-  .addinfo {
-    float: right;
-    margin: 0 25px 5px 0;
+  span {
+    display: block;
+    margin-bottom: 14px;
   }
-  .banners {
-    clear: both;
-    padding: 10px 0;
-    text-align: center;
-    span {
-      display: block;
-      margin-bottom: 14px;
-    }
+  .addinfo {
+    display: inline-block;
+    margin-bottom: 14px;
   }
 }
 
@@ -631,10 +630,10 @@ textarea {
   }
   dt {
     float: left;
-    width: 15%;
+    width: 12%;
   }
   dd {
-    margin-left: 15%;
+    margin-left: 12%;
     h2 {
       margin: 0;
       padding: 0;
@@ -643,7 +642,7 @@ textarea {
       font-weight: normal;
     }
   }
-  .page {
+  div.page {
     padding: 5px 0;
   }
 }
@@ -734,24 +733,25 @@ textarea {
 
 // -----------------------------------------------------------------------------
 // article header
-.cms-tabs, #portal-dataset, .opendata-tabs, .article-pages, .opendata-search_datasets {
+.cms-tabs, #portal-dataset, .opendata-tabs, .article-pages, .opendata-search_datasets, section.datasets .pages {
   article header {
-    padding: 8px 0 8px 16px;
+    overflow: hidden;
+    padding: 8px 16px;
     border-bottom: $border-hgry;
   }
   time {
-    display: inline-block;
+    float: left;
     width: 120px;
   }
   h2 {
-    margin-right: 10px;
-    display: inline;
-    padding: 0 5px;
-    a {
-      display: inline-block;
-    }
+    float: left;
+    max-width: 640px;
+    margin-left: 10px;
+    word-wrap: break-word;
   }
   .point {
+    display: inline-block;
+    margin-left: 10px;
     padding: 2px 5px 2px 30px;
     background: url(../img/ic-like-bk.png) no-repeat 5px 2px;
     border: $border-hgry;
@@ -766,7 +766,7 @@ textarea {
 // -----------------------------------------------------------------------------
 // more
 .cms-tabs, #portal-dataset, .opendata-tabs, #dataset-news,
-#dataset-popular, #dataset-attention {
+#dataset-popular, #dataset-attention, section.datasets {
   nav {
     padding-top: 14px;
   }
@@ -811,15 +811,26 @@ article.areas, article.tags, article.formats, article.licenses, #search_group,  
       }
       .u-menu {
         margin-bottom: 15px;
-        a.group-search {
-          margin-right: 30px;
-          padding: 4px 10px 3px 32px;
+        a.menu-link {
+          display: inline-block;
+          margin-right: 10px;
+          padding: 4px 10px 4px 32px;
           @include border-radius(5px);
-          background: url(../img/ic-groupsearch.png) no-repeat 5px center;
           @include fill-gray;
+          background-repeat: no-repeat;
+          background-position: 5px center;
           color: $white;
           font-size: $px15;
           text-decoration: none;
+        }
+        a.dataset-search {
+          background-image: url(../img/ic-search.png);
+        }
+        a.dataset-new {
+          background-image: url(../img/ic-add.png);
+        }
+        a.group-search {
+          background-image: url(../img/ic-groupsearch.png);
         }
         a.inquiry {
           padding: 5px 0 5px 20px;
@@ -831,34 +842,35 @@ article.areas, article.tags, article.formats, article.licenses, #search_group,  
 }
 
 #dataset-title .menu .l-menu {
-    width: 100%;
-    @include box-sizing(border-box);
-    text-align: left;
-    form {
-      float: none;
-      position: relative;
-      width: 285px;
-      @include border-radius(5px);
-      border: 1px solid #ddcfcc;
-      #search-box {
-        width: 85%;
-        margin: 2px 10px 2px 2px;
-        padding: 5px;
-        @include border-radius(0px);
-        border: none;
-        outline-color: $white;
-        @include box-shadow(none);
-      }
-      img {
-        position: absolute;
-        top: 2px;
-        right: 0;
-        margin: 2px;
-        padding: 2px 5px;
-        cursor: pointer
-      }
+  overflow: hidden;
+  width: 100%;
+  @include box-sizing(border-box);
+  text-align: left;
+  form {
+    float: right;
+    position: relative;
+    width: 285px;
+    @include border-radius(5px);
+    border: 1px solid #ddcfcc;
+    #search-box {
+      width: 85%;
+      margin: 2px 10px 2px 2px;
+      padding: 5px;
+      @include border-radius(0px);
+      border: none;
+      outline-color: $white;
+      @include box-shadow(none);
+    }
+    img {
+      position: absolute;
+      top: 2px;
+      right: 0;
+      margin: 2px;
+      padding: 2px 5px;
+      cursor: pointer
     }
   }
+}
 
 #gnav {
   min-width: 1100px;
@@ -1010,17 +1022,15 @@ form.opendata-search_datasets-form, form.opendata-search_groups-form {
   }
 }
 
-article.areas h1, article.tags h1, article.formats h1, article.licenses h1, #od-page-name, #dataset-news h1,
-#dataset-popular h1, #dataset-attention h1 {
+#od-page-name, #dataset-news h1, #dataset-popular h1, #dataset-attention h1 {
   padding: 7px 10px;
   border-bottom: 2px solid #ffcf38;
   background: $data-blue;
-  color:text;
+  color: $text;
   font-size: $px15;
 }
 
-article.areas, article.tags, article.formats, article.licenses, .opendata-search_groups,
-.opendata-dataset_groups {
+.opendata-search_groups, .opendata-dataset_groups {
   display: block;
   float: left;
   width: 803px;
@@ -1039,13 +1049,24 @@ article.areas, article.tags, article.formats, article.licenses, .opendata-search
   }
 }
 
-article.areas, article.tags, article.formats, article.licenses {
-  width: 395px;
-  min-height: 230px;
-}
-
-article.areas, article.formats {
-  margin-right: 13px;
+article.areas, article.tags, article.licenses, article.formats {
+  margin-bottom: $box-margin;
+  h1 {
+    padding: 4px 10px;
+    border-bottom: 2px solid #ffcf38;
+    background: $data-blue;
+    color:$text;
+  }
+  div {
+    padding: 8px 16px 0;
+    article, header, h2 {
+      display: inline;
+    }
+    article {
+      padding-right: 15px;
+      line-height: 2.0;
+    }
+  }
 }
 
 .opendata-dataset_groups {
@@ -1564,13 +1585,10 @@ nav.cms-sns_share {
 .category-form {
   padding: 10px;
   border: 1px solid #ddcfcc;
-  .parent {
-    font-weight: bold;
-    .child {
-      padding: 5px 0 5px 30px;
-      border-top: 1px solid #ddcfcc;
-      font-weight: normal;
-    }
+  .child {
+    padding: 5px 0;
+    border-top: 1px solid #ddcfcc;
+    font-weight: normal;
   }
 }
 
@@ -1633,37 +1651,12 @@ section.datasets {
     font-size: $px15;
   }
   .pages {
-    article header {
-      padding: 8px 0 8px 16px;
-      border-bottom: $border-hgry;
-    }
-    time {
-      display: inline-block;
-      width: 120px;
-    }
     h2 {
-      margin-right: 10px;
-      display: inline;
-      padding: 0 5px;
+      max-width: 917px;
+      padding: 0;
       background: none;
+      color: $text;
       font-size: $px14;
-      a {
-        display: inline-block;
-      }
-    }
-    .point {
-      padding: 2px 5px 2px 30px;
-      background: url(../img/ic-like-bk.png) no-repeat 5px 2px;
-      border: $border-hgry;
-      font-size: $px12;
-    }
-  }
-  nav {
-    padding-top: 14px;
-    a.more {
-      float: right;
-      @include r-arrow;
-      @include border-radius(5px);
     }
   }
 }
