@@ -31,8 +31,9 @@ module SS::BaseFilter
       if session[:user]
         u = SS::Crypt.decrypt(session[:user]).to_s.split(",", 3)
 
+        ## TODO: test
         if u[1] != remote_addr.to_s || u[2] != request.user_agent.to_s
-          dump "#{u[1]} #{u[2]} != #{remote_addr} #{request.user_agent}"
+          dump "[#{Time.now}] #{u[1]} #{u[2]} != #{remote_addr} #{request.user_agent}"
         end
 
         #return unset_user redirect: true if u[1] != remote_addr.to_s
@@ -57,6 +58,9 @@ module SS::BaseFilter
     end
 
     def unset_user(opt = {})
+      ## TODO: test
+      dump "[#{Time.now}] usnet_user #{@cur_user}"
+
       session[:user] = nil
       redirect_to sns_login_path if opt[:redirect]
       @cur_user = nil
