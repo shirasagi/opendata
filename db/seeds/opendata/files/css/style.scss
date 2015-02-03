@@ -804,56 +804,51 @@ article.areas, article.tags, article.formats, article.licenses, #search_group,  
 #dataset-title {
   display: block;
   .inner {
+    @include clear;
     width: $page-width;
     margin: 0 auto;
     padding: 0 10px;
-    overflow: hidden;
     .logo {
       float: left;
       padding: 18px 0;
     }
+    .google-search {
+      float: right;
+      margin: 15px 0;
+    }
     .menu {
       float: right;
-      .l-menu {
-        margin: 15px 0;
+      margin-bottom: 15px;
+      a.menu-link {
+        display: inline-block;
+        margin-right: 10px;
+        padding: 4px 10px 4px 32px;
+        @include border-radius(5px);
+        @include fill-gray;
+        background-repeat: no-repeat;
+        background-position: 5px center;
+        color: $white;
+        font-size: $px15;
+        text-decoration: none;
       }
-      .u-menu {
-        margin-bottom: 15px;
-        a.menu-link {
-          display: inline-block;
-          margin-right: 10px;
-          padding: 4px 10px 4px 32px;
-          @include border-radius(5px);
-          @include fill-gray;
-          background-repeat: no-repeat;
-          background-position: 5px center;
-          color: $white;
-          font-size: $px15;
-          text-decoration: none;
-        }
-        a.dataset-search {
-          background-image: url(../img/ic-search.png);
-        }
-        a.dataset-new {
-          background-image: url(../img/ic-add.png);
-        }
-        a.group-search {
-          background-image: url(../img/ic-groupsearch.png);
-        }
-        a.inquiry {
-          padding: 5px 0 5px 20px;
-          background: url(../img/ic-inquiry.png) no-repeat left center;
-        }
+      a.dataset-search {
+        background-image: url(../img/ic-search.png);
+      }
+      a.dataset-new {
+        background-image: url(../img/ic-add.png);
+      }
+      a.group-search {
+        background-image: url(../img/ic-groupsearch.png);
+      }
+      a.inquiry {
+        padding: 5px 0 5px 20px;
+        background: url(../img/ic-inquiry.png) no-repeat left center;
       }
     }
   }
 }
 
-#dataset-title .menu .l-menu {
-  overflow: hidden;
-  width: 100%;
-  @include box-sizing(border-box);
-  text-align: left;
+#dataset-title .google-search {
   form {
     float: right;
     position: relative;
@@ -1529,7 +1524,8 @@ nav.cms-sns_share {
   margin: $box-margin 0;
   padding: 0;
   border-bottom: $blue 2px solid;
-  a {
+  overflow: hidden;
+  a.dataset, a.app, a.idea, a.profile {
     display: inline-block;
     width: 150px;
     margin-right: 10px;
@@ -1544,20 +1540,21 @@ nav.cms-sns_share {
     @include grd-blue;
     color: $white;
   }
-  .current {
+  a.current {
     @include grd-blue;
     color: $white;
   }
-  .dataset {
+  a.dataset {
     margin-left: 18px;
   }
-  .app, .idea {
+  a.app, a.idea {
     @include opacity(.5);
   }
 }
 
 #s-mypage #contents .inner {
   nav.menu {
+    float: left;
     margin-bottom: $box-margin;
     padding-top: 14px;
     a {
@@ -1567,7 +1564,13 @@ nav.cms-sns_share {
       padding-right: 20px;
     }
   }
+  nav.tutorial-data {
+    float: right;
+    margin-bottom: $box-margin;
+    padding-top: 14px;
+  }
   dl.see {
+    clear: both;
     margin: 0px;
     margin-bottom: $box-margin;
     > dt {
@@ -1649,6 +1652,7 @@ table.index th, table.index td {
   padding: 4px 8px;
 }
 table.index {
+  clear: both;
   width: 100%;
   margin-bottom: $box-margin;
   thead {
