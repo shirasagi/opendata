@@ -5,7 +5,7 @@ class Opendata::Agents::Nodes::IdeaController < ApplicationController
   include Opendata::IdeaFilter
 
   before_action :set_idea, only: [:show_point, :add_point, :point_members]
-  before_action :set_idea_comment, only: [:show_comment, :add_comment]
+  before_action :set_idea_comment, only: [:show_comment, :add_comment, :delete_comment]
   skip_filter :logged_in?
 
   private
@@ -29,6 +29,7 @@ class Opendata::Agents::Nodes::IdeaController < ApplicationController
       cond = { site_id: @cur_site.id, idea_id: @idea_comment.id }
       @comments = Opendata::IdeaComment.where(cond).order_by(:updated.asc)
 
+      @manage_mode = true if logged_in?(redirect: false) && @cur_member.id == @idea_comment.member_id
       @comment_mode = logged_in?(redirect: false)
 
       raise "404" unless @idea_comment
@@ -55,12 +56,12 @@ class Opendata::Agents::Nodes::IdeaController < ApplicationController
       @node_url       = "#{@cur_node.url}"
       @search_url     = search_ideas_path + "?"
       @rss_url        = search_ideas_path + "rss.xml?"
-      @items          = pages.order_by(released: -1).limit(10)
+      @items          = pages.order_by(updated: -1).limit(10)
       @point_items    = pages.order_by(point: -1).limit(10)
       @comment_items = pages.excludes(commented: nil).order_by(commented: -1).limit(10)
 
       @tabs = [
-        { name: "最新投稿順", url: "#{@search_url}&sort=released", pages: @items, rss: "#{@rss_url}&sort=released" },
+        { name: "最新投稿順", url: "#{@search_url}&sort=updated", pages: @items, rss: "#{@rss_url}&sort=updated" },
         { name: "人気順", url: "#{@search_url}&sort=popular", pages: @point_items, rss: "#{@rss_url}&sort=popular" },
         { name: "注目順", url: "#{@search_url}&sort=attention", pages: @comment_items, rss: "#{@rss_url}&sort=attention" }
       ]
@@ -119,11 +120,15 @@ class Opendata::Agents::Nodes::IdeaController < ApplicationController
       @cur_node.layout = nil
       raise "403" unless logged_in?(redirect: false)
 
-      cond = { site_id: @cur_site.id, member_id: @cur_member.id, idea_id: @idea_comment.id, text: params[:comment_body] }
-      Opendata::IdeaComment.new(cond).save
+      idea_id = @idea_comment.id
+      idea = Opendata::Idea.site(@cur_site).find(idea_id)
 
-      @idea_comment.commented = Time.now
-      @idea_comment.save
+      new_comment = { site_id: @cur_site.id, member_id: @cur_member.id, idea_id: idea_id, text: params[:comment_body] }
+      Opendata::IdeaComment.new(new_comment).save
+
+      idea.commented = Time.now
+      idea.comment_count = Opendata::IdeaComment.where({idea_id: idea_id}).count
+      idea.save
 
       member_ids = []
       comments = Opendata::IdeaComment.where({idea_id: @idea_comment.id}).excludes({member_id: @cur_member.id})
@@ -135,6 +140,41 @@ class Opendata::Agents::Nodes::IdeaController < ApplicationController
       update_commented_count(member_ids.uniq)
 
       render :show_comment
+    end
+
+    def delete_comment
+      @cur_node.layout = nil
+
+      comment = Opendata::IdeaComment.find params[:comment]
+      comment.destroy if comment
+
+      render :show_comment
+    end
+
+    def show_dataset
+      @cur_node.layout = nil
+
+      idea_path = @cur_path.sub(/\/dataset\/.*/, ".html")
+
+      idea = Opendata::Idea.site(@cur_site).public.
+        filename(idea_path).
+        first
+      raise "404" unless idea
+
+      @dataset = Opendata::Dataset.site(@cur_site).find(idea.dataset_id) if idea.dataset_id
+    end
+
+    def show_app
+      @cur_node.layout = nil
+
+      idea_path = @cur_path.sub(/\/app\/.*/, ".html")
+
+      idea = Opendata::Idea.site(@cur_site).public.
+      filename(idea_path).
+      first
+      raise "404" unless idea
+
+      @app = Opendata::App.site(@cur_site).find(idea.app_id) if idea.app_id
     end
 
 end

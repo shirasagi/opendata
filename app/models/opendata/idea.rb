@@ -14,9 +14,10 @@ class Opendata::Idea
   field :point, type: Integer, default: "0"
   field :text, type: String
   field :tags, type: SS::Extensions::Words
-  field :dataset_id, type: String
-  field :app_id, type: String
+  field :dataset_id, type: Integer
+  field :app_id, type: Integer
   field :commented, type: DateTime
+  field :comment_count, type: Integer, default: "0"
 
   belongs_to :dataset, class_name: "Opendata::Dataset"
   belongs_to :app, class_name: "Opendata::App"
@@ -57,6 +58,18 @@ class Opendata::Idea
       url.sub(/\.html$/, "") + "/comment/add.html"
     end
 
+    def comment_delete_url
+      url.sub(/\.html$/, "") + "/comment/delete.html"
+    end
+
+    def related_dataset_url
+      url.sub(/\.html$/, "") + "/dataset/show.html"
+    end
+
+    def related_app_url
+      url.sub(/\.html$/, "") + "/app/show.html"
+    end
+
     def contact_present?
       return false if member_id.present?
       super
@@ -74,7 +87,7 @@ class Opendata::Idea
   class << self
     public
       def sort_options
-        [%w(新着順 released), %w(人気順 popular), %w(注目順 attention)]
+        [%w(最新投稿順 updated), %w(人気順 popular), %w(注目順 attention)]
       end
 
       def limit_aggregation(pipes, limit)

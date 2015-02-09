@@ -6,13 +6,25 @@ $ ->
   $.ajax
     url: "<%= @cur_page.point_url %>"
     success: (data)->
-      $(".point").html data
+      $("#idea-point").html data
 
   # show comment
   $.ajax
     url: "<%= @cur_page.comment_url %>"
     success: (data)->
-      $(".comment").html data
+      $("#idea-comments").html data
+
+  # show related_dataset
+  $.ajax
+    url: "<%= @cur_page.related_dataset_url %>"
+    success: (data)->
+      $("#related_dataset").html data
+
+  # show related_app
+  $.ajax
+    url: "<%= @cur_page.related_app_url %>"
+    success: (data)->
+      $("#related_app").html data
 
   # hide categories
   $(".categories a[data-class=other]").click ->
@@ -30,7 +42,7 @@ $ ->
   <h1 class="name"><%= @cur_page.send :name %></h1>
 </header>
 
-<div class="point">
+<div class="point" id="idea-point">
   <div class="count">
     <span class="number"><%= @cur_page.point %></span>
     <span class="label">いいね！数</span>
@@ -87,5 +99,14 @@ categories = [
   </div>
 </div>
 
-<div class="comment"></div>
+<div id="sidebar">
+  <section>
+    <div id="related_dataset"></div>
+  </section>
+  <section>
+    <div id="related_app"></div>
+  </section>
+</div>
+
+<div class="comment" id="idea-comments"></div>
 
