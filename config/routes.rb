@@ -43,6 +43,9 @@ SS::Application.routes.draw do
   get "/auth/:provider/callback" => "authes#callback"
   get "/auth/failure" => "authes#fail"
 
+  get "/app/:app/appfile/*filename" => "opendata/appscripts#index"
+  get "/text/:app/appfile/*filename" => "opendata/appscripts#text"
+
   namespace "fs" do
     get ":id/:filename" => "files#index", as: :file
     get ":id/thumb/:filename" => "files#thumb", as: :thumb
