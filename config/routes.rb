@@ -46,6 +46,7 @@ SS::Application.routes.draw do
   get "/app/:app/appfile/*filename" => "opendata/appscripts#index"
   get "/text/:app/appfile/*filename" => "opendata/appscripts#text"
   get "/app/:app/full" => "opendata/appscripts#full"
+  get "/datasets/select(.:format)" => "opendata/dataset_selects#index"
 
   namespace "fs" do
     get ":id/:filename" => "files#index", as: :file
