@@ -1,0 +1,22 @@
+<%= scss do %>
+.workflow-level-header {
+  font-weight: bold;
+  margin-top: 15px;
+}
+<% end %>
+<dl class="see workflow-basic">
+  <dt><%= @model.t :name %></dt>
+  <dd><%= @item.name %></dd>
+  <dt><%= @model.t :group_ids %></dt>
+  <dd><%= br @item.groups.order_by(name: 1).map{|c| c.name }.join("\n") %></dd>
+</dl>
+
+<% @item.levels.each do |level| %>
+<h1 class="workflow-level-header"><%= @model.t :level, level: level %></h1>
+<dl class="see workflow-approvers">
+  <dt><%= @model.t :required_counts %></dt>
+  <dd><%= @item.required_count_label_at(level) %></dd>
+  <dt><%= @model.t :approvers %></dt>
+  <dd><%= br @item.approver_users_at(level).map { |user| user.present? ? user.long_name : t("workflow.user_deleted") }.join("\n") %></dd>
+</dl>
+<% end %>

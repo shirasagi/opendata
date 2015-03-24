@@ -5,18 +5,24 @@ class Fs::FilesController < ApplicationController
       path  = params[:filename]
       path << ".#{params[:format]}" if params[:format].present?
 
-      @item = SS::File.find_by id: params[:id], filename: path
+      @item = SS::File.find_by id: params[:id], filename: path, state: "public"
+    end
+
+    def set_last_modified
+      response.headers["Last-Modified"] = CGI::rfc1123_date(@item.updated.to_time)
     end
 
   public
     def index
       set_item
+      set_last_modified
 
       send_data @item.read, type: @item.content_type, filename: @item.filename, disposition: :inline
     end
 
     def thumb
       set_item
+      set_last_modified
 
       width  = params[:width].present? ? params[:width].to_i : 120
       height = params[:height].present? ? params[:height].to_i : 90

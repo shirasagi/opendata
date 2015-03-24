@@ -125,6 +125,8 @@ ja:
       other_than: "は%{count}以外の値にしてください。"
       email: はメールアドレスを入力してください。
       invalid_updated: 他のユーザーによって更新されています。編集をやり直してください。
+      too_large_file: ファイルサイズが大きすぎます。
+      malformed_kana_dictionary: "書式が不正です: %{line}(%{no})"
     template:
       body: 次の項目を確認してください。
       header:
@@ -225,16 +227,3 @@ ja:
     - ㊡㊢㊫㊬㊭㊮㊯㊰㊞㊖㊩㊝㊘㊙㊪㈳㈴㈵㈶㈸
     - ㈺㈻㈼㈽㈾㈿►☺◄☻‼㎀㎁㎂㎃㎄㎈㎉㎊㎋㎌㎍
     - ㎑㎒㎓ⅰⅱⅲⅳⅴⅵⅶⅷⅸⅹ〠♠♣♥♤♧♡￤＇
-
-  mongoid:
-    errors:
-      messages:
-        validations:
-          message: There was validation errors on %{document}
-          summary: "Errors:\n    %{errors}"
-          resolution: Check the instances for this model looking for missing fields or wrong values.
-        unknown_attribute:
-          message: "unknown_attribute %{klass}.%{name}"
-          summary: "unknown_attribute %{klass}.%{name}"
-          resolution: "You can include Mongoid::Attributes::Dynamic if you
-            expect to be writing values for undefined fields often."

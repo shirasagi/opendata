@@ -2,39 +2,35 @@ class Workflow::PagesController < ApplicationController
   include Cms::BaseFilter
   include Cms::CrudFilter
 
-  before_action :set_item, only: [:request_update, :approve_update, :remand_update]
+  before_action :set_item, only: [:request_update, :approve_update, :remand_update, :branch_create]
 
   private
-    def render(*args)
-      {}
-    end
-
     def set_model
-       @model = Cms::Page
+      @model = Cms::Page
     end
 
     def set_item
       @item = @model.find(params[:id]).becomes_with_route
       @item.attributes = fix_params
+      @item.try(:allow_other_user_files)
     end
 
     def fix_params
       { cur_user: @cur_user, cur_site: @cur_site, cur_node: false }
     end
 
-    def set_userstate(state)
-      ret = { approve_flg: 1, workflow_approvers: "" }
-
-      @item.workflow_approvers.split(/\r\n|\n/).each do |d|
-        col = d.split(",")
-        if col[1].to_i == @cur_user._id
-           col[2] = state
-           col[3] = params[:remand_comment].gsub(/\n|\r\n/, " ")
-        end
-        ret[:workflow_approvers] << col.join(",") + "\r\n"
-        ret[:approve_flg] = 0 if col[2] != "approve"
+    def request_approval
+      current_level = @item.workflow_current_level
+      current_workflow_approvers = @item.workflow_approvers_at(current_level)
+      current_workflow_approvers.each do |workflow_approver|
+        args = { f_uid: @cur_user._id, t_uid: workflow_approver[:user_id],
+                 site: @cur_site, page: @item,
+                 url: params[:url], comment: params[:workflow_comment] }
+        Workflow::Mailer.request_mail(args).deliver
       end
-      ret
+
+      @item.set_workflow_approver_state_to_request
+      @item.update
     end
 
   public
@@ -44,31 +40,26 @@ class Workflow::PagesController < ApplicationController
       @item.workflow_user_id = @cur_user._id
       @item.workflow_state   = "request"
       @item.workflow_comment = params[:workflow_comment]
-
-      sel = ""
-      params[:workflow_approvers].each do |d|
-        sel << "1,#{d},request,\r\n"
-      end
-      @item.workflow_approvers = sel
+      @item.workflow_approvers = params[:workflow_approvers]
+      @item.workflow_required_counts = params[:workflow_required_counts]
 
       if @item.update
-        params[:workflow_approvers].each do |d|
-          args = { f_uid: @cur_user._id, t_uid: d,
-                   site: @cur_site, page: @item,
-                   url: params[:url], comment: params[:workflow_comment] }
-          Workflow::Mailer.request_mail(args).deliver
-        end
+        request_approval
+        render json: { workflow_state: @item.workflow_state }
+      else
+        render json: @item.errors.full_messages, status: :unprocessable_entity
       end
+
     end
 
     def approve_update
       raise "403" unless @item.allowed?(:approve, @cur_user)
 
-      updinf = set_userstate("approve")
-      @item.workflow_approvers = updinf[:workflow_approvers]
+      save_level = @item.workflow_current_level
+      @item.update_current_workflow_approver_state(@cur_user, @model::WORKFLOW_STATE_APPROVE, params[:remand_comment])
 
-      if updinf[:approve_flg] == 1
-        @item.workflow_state = "approve"
+      if @item.finish_workflow?
+        @item.workflow_state = @model::WORKFLOW_STATE_APPROVE
         if @item.release_date
           @item.state = "ready"
         else
@@ -77,26 +68,58 @@ class Workflow::PagesController < ApplicationController
         end
       end
 
-      if @item.update && @item.workflow_state == "approve"
-        args = { f_uid: @cur_user._id, t_uid: @item.workflow_user_id,
-                 site: @cur_site, page: @item,
-                 url: params[:url], comment: params[:remand_comment] }
-        Workflow::Mailer.approve_mail(args).deliver
+      if @item.update
+        current_level = @item.workflow_current_level
+        if save_level != current_level
+          # escalate workflow
+          request_approval
+        end
+
+        workflow_state = @item.workflow_state
+        if workflow_state == @model::WORKFLOW_STATE_APPROVE
+          # finished workflow
+          args = { f_uid: @cur_user._id, t_uid: @item.workflow_user_id,
+                   site: @cur_site, page: @item,
+                   url: params[:url], comment: params[:remand_comment] }
+          Workflow::Mailer.approve_mail(args).deliver
+          @item.delete if @item.try(:branch?)
+        end
+
+        render json: { workflow_state: workflow_state }
+      else
+        render json: @item.errors.full_messages, status: :unprocessable_entity
       end
     end
 
     def remand_update
       raise "403" unless @item.allowed?(:approve, @cur_user)
 
-      updinf = set_userstate("remand")
-      @item.workflow_approvers = updinf[:workflow_approvers]
-      @item.workflow_state = "remand"
+      @item.workflow_state = @model::WORKFLOW_STATE_REMAND
+      @item.update_current_workflow_approver_state(@cur_user, @model::WORKFLOW_STATE_REMAND, params[:remand_comment])
 
-      if @item.update && @item.workflow_state == "remand"
-        args = { f_uid: @cur_user._id, t_uid: @item.workflow_user_id,
-                 site: @cur_site, page: @item,
-                 url: params[:url], comment: params[:remand_comment] }
-        Workflow::Mailer.remand_mail(args).deliver
+      if @item.update
+        if @item.workflow_state == "remand"
+          args = { f_uid: @cur_user._id, t_uid: @item.workflow_user_id,
+                   site: @cur_site, page: @item,
+                   url: params[:url], comment: params[:remand_comment] }
+          Workflow::Mailer.remand_mail(args).deliver
+        end
+        render json: { workflow_state: @item.workflow_state }
+      else
+        render json: @item.errors.full_messages, status: :unprocessable_entity
       end
+    end
+
+    def branch_create
+      raise "400" if @item.branch?
+
+      if @item.branches.blank?
+        copy = @item.new_clone
+        copy.master = @item
+        copy.save
+      end
+
+      @items = @item.branches
+      render :branch, layout: "ss/ajax"
     end
 end

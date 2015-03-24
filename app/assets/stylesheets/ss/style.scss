@@ -6,29 +6,6 @@
 // -------------------------------------------------------------------------------------------------
 // base
 
-.login-box {
-    display: table;
-    width: 300px;
-    padding: 20px 20px;
-    background: $white;
-    header {
-      @include clear;
-      margin-bottom: 20px;
-      h1 {
-        float: left;
-      }
-      .version {
-        float: right;
-        color: $gray5;
-      }
-    }
-    input[type="email"], input[type="password"] {
-      background: $gray2;
-    }
-    footer.send {
-      padding-bottom: 0;
-    }
-}
 html, body {
   height: 100%;
   margin: 0px;
@@ -108,6 +85,9 @@ input[type=email], input[type=number], input[type=tel] {
 input[type=number] {
   width: 12em;
 }
+input.number {
+  ime-mode: disabled;
+}
 input.filename {
   width: 25em;
   ime-mode: disabled;
@@ -132,15 +112,11 @@ textarea.code {
   font-size: 120%;
   font-family: monospace;
 }
-.ace_editor {
-  border: 1px solid #ddd;
+.CodeMirror {
   @include box-sizing(border-box);
 }
-form .ace_editor {
-  border: 1px solid #bbb;
-}
-textarea.ace_text-input {
-  padding: 0px;
+form .CodeMirror {
+  border: 1px solid #ccc;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -287,6 +263,9 @@ textarea.ace_text-input {
 // -------------------------------------------------------------------------------------------------
 // common
 
+.monospace {
+  font-family: "Osaka−等幅", "ＭＳ ゴシック", "MS Gothic", "monospace";
+}
 .pagination {
   @include clear;
   margin: 20px 0px;
@@ -325,17 +304,15 @@ dl.see {
   > dt {
     @include clear;
     float: left;
-    min-width: 140px;
+    min-width: 160px;
     min-height: 1.0em;
     color: $black;
     font-weight: bold;
   }
   > dd {
     min-height: 1.41em;
-    margin: 0 0 0 140px;
-    //border-top: 1px solid #eee;
     @include clear;
-    margin: 0px 0px 0px 140px;
+    margin: 0px 0px 0px 160px;
   }
   > dt ~ dt { margin-top: 20px; }
   > dd ~ dd { margin-top: 20px; }
@@ -466,6 +443,40 @@ input.date, input.datetime {
 }
 
 // -------------------------------------------------------------------------------------------------
+// colorbox
+
+#cboxTitle, #cboxCurrent, #cboxNext, #cboxPrevious, #cboxSlideshow {
+  display: none !important;
+}
+
+// -------------------------------------------------------------------------------------------------
+// login
+
+.login-box {
+    display: table;
+    width: 300px;
+    padding: 20px 20px;
+    background: $white;
+    header {
+      @include clear;
+      margin-bottom: 20px;
+      h1 {
+        float: left;
+      }
+      .version {
+        float: right;
+        color: $gray5;
+      }
+    }
+    input[type="text"], input[type="password"] {
+      background: $gray2;
+    }
+    footer.send {
+      padding-bottom: 0;
+    }
+}
+
+// -------------------------------------------------------------------------------------------------
 // event
 
 .mod-event-additional-info {
@@ -559,7 +570,11 @@ input.date, input.datetime {
     margin-top: 10px;
   }
 }
-
+#addon-facility-agents-addons-body ~ #addon-cms-agents-addons-release {
+  .mod-cms-release dt:last-of-type,dd:last-of-type {
+    display: none;
+  }
+}
 .image-thumb-size label {
   font-weight: bold;
   display: inline-block;

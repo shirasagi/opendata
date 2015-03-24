@@ -1,6 +1,6 @@
 namespace :cms do
   task :generate_nodes => :environment do
-    Cms::Task.generate_nodes site: ENV["site"], node: ENV["node"], limit: ENV["limit"]
+    Cms::Task.generate_nodes site: ENV["site"], node: ENV["node"]
   end
 
   task :generate_pages => :environment do
@@ -17,5 +17,9 @@ namespace :cms do
 
   task :remove_pages => :environment do
     Cms::Task.remove_pages site: ENV["site"]
+  end
+
+  task :check_links => :environment do
+    Cms::Task.check_links site: ENV["site"], node: ENV["node"], email: ENV["email"]
   end
 end

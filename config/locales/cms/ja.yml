@@ -21,13 +21,20 @@ ja:
     group: グループ
     member: メンバー
     alert: 警告
-    syntax_check: HTMLチェック
+    move:
+      page: ページ
+      layout: レイアウト
+      part: パーツ
+      url: URL
+      confirm: 確認
+      message: '"/%{source}"へのリンクが含まれるページ'
+    syntax_check: アクセシビリティチェック
     syntax_check_replace:
       dependent_character: "[機種依存文字]"
       caption: キャプション
     auto_correct: 自動修正
     link_check: リンクチェック
-    generate_node: フォルダ書き出し
+    generate_node: フォルダー書き出し
     generate_page: ページ書き出し
     adobe_reader:
       remark:
@@ -90,12 +97,17 @@ ja:
     delete_private_cms_pages: 固定ページの削除（所有）
     delete_private_cms_parts: パーツの削除（所有）
     delete_private_cms_layouts: レイアウトの削除（所有）
+    move_other_cms_nodes: フォルダーの移動（全て）
+    move_other_cms_pages: 固定ページの移動（全て）
+    move_private_cms_nodes: フォルダーの移動（所有）
+    move_private_cms_pages: 固定ページの移動（所有）
 
   modules:
     cms: 標準機能
     addons:
       cms/role: ロール
       cms/owner_permission: 権限
+      cms/node_setting: 基本設定
       cms/meta: メタ情報
       cms/html: HTML
       cms/body: 本文
@@ -122,6 +134,7 @@ ja:
       cms/part/tabs: 新着タブ
       cms/part/crumb: パンくずリスト
       cms/layout: レイアウト
+      cms/workflow/route: 承認経路
     attributes:
       cms/content:
         released: 公開日時
@@ -131,6 +144,7 @@ ja:
         filename: フォルダー名
         basename: フォルダー名
         route: フォルダー属性
+        view_route: 既定のモジュール
         summary_html: Summary
       cms/page/model:
         route: ページ属性
@@ -163,8 +177,6 @@ ja:
         name: ロール名
         permission_level: 権限レベル
         permissions: 権限設定
-      cms/group:
-        name: グループ名
       cms/member/model:
         name: 氏名
         email: メールアドレス
@@ -198,7 +210,14 @@ ja:
 
   errors:
     messages:
-      check_html: 本文のHTMLチェックを確認してください。
+      same_filename: 移動先と移動前が同じファイル名です。
+      exist_physical_file: 移動先に物理ファイルが既に存在します。
+      not_found_parent_node: 移動先の親フォルダーが存在しません。
+      subnode_of_itself: 移動先のフォルダーパスに自身のパスが含まれています。
+      not_cms_page_in_root: 固定ページ以外をルートに移動することはできません。
+      not_have_parent_read_permission: 移動先の親フォルダーの閲覧権限がありません。
+      branch_page_can_not_move: 差し替え用ページは移動できません。
+      check_html: 本文のアクセシビリティチェックを確認してください。
       set_img_alt: 画像の代替テキストを確認してください。
       invalid_img_scheme: 画像のURIにバイナリー文字列が含まれています。
       set_table_caption: 表にキャプションが設定されていません。
@@ -212,7 +231,7 @@ ja:
       invalid_dependent_character: 機種依存文字が含まれています。
       invalid_date_format: 日付の表記は○年○月○日としてください。
       invalid_adjacent_a: 隣接する同じリンクを一つのリンクにまとめてください。
-      check_interword_space: 単語間のスペースを確認してください。
+      check_interword_space: 単語の文字間のスペースを確認してください。
       check_link_text: "リンクのテキストを確認してください。"
       check_embedded_media: 動画や音声を含む場合、説明があるか確認してください。
       syntax_check_detail:
@@ -243,7 +262,7 @@ ja:
           - 隣り合うリンク(A)に同じリンク先が設定されています。
           - 一つのリンク(A)にマークアップしてください。
         check_interword_space:
-          - 単語間に不要なスペースが含まれている場合は削除してください。
+          - 単語の文字間に不要なスペースが含まれている場合は削除してください。
         check_link_text:
           - リンク内のテキストは遷移先を表すものを設定してください。
         check_embedded_media:
@@ -255,6 +274,11 @@ ja:
       check_links: 次のリンクを確認しました。
 
   tooltip:
+    cms/page/model:
+      destination_filename:
+        - ページやフォルダーの移動を行います。
+        - 移動先をフルパスで設定してください。
+
     cms/node/model:
       route:
         - 設定した属性に応じたページ(index.html)が自動で生成されます。
@@ -296,6 +320,8 @@ ja:
         - 初期値は上位のフォルダの設定を継承しています。
       shortcut:
         - 表示を選択することで管理画面のサイトトップ「コンテンツ」に表示されます。
+      view_route:
+        - サイトトップ「コンテンツ」から遷移したときの「モジュール」を設定します。
       conditions:
         - 自フォルダー内のリスト以外で表示するリストのフォルダー名を記述します。
         - |-
@@ -333,6 +359,9 @@ ja:
       st_categories:
         - フォルダー下で使用するカテゴリーを設定します。
         - 設定されていない場合は全カテゴリーが対象となります。
+      destination_filename:
+        - ページやフォルダーの移動を行います。
+        - 移動先をフルパスで設定してください。
 
     cms/part/model:
       route:

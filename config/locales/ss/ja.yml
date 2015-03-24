@@ -10,6 +10,9 @@ ja:
     basic_info: 基本情報
     upload: アップロード
     download: ダウンロード
+    import: インポート
+    confirm: 確認
+    file: ファイル
     image: 画像
     state:
       public: 公開中
@@ -22,7 +25,10 @@ ja:
       new: 新規作成
       show: 詳細を見る
       edit: 編集する
+      move: 移動する
+      copy: 複製する
       delete: 削除する
+      import: インポート
       back_to_show: 詳細へ戻る
       back_to_index: 一覧へ戻る
       parent_directory: 上の階層へ
@@ -42,9 +48,11 @@ ja:
       search: 検索
       reset: リセット
       toggle: 折りたたみ表示
+      move: 移動
     confirm:
       delete: 削除してよろしいですか？
       unload: 入力したデータは保存されません。
+      clone: 複製してよろしいですか？
     notice:
       saved: 保存しました。
       deleted: 削除しました。
@@ -52,6 +60,12 @@ ja:
       started: 開始しました。
       interrupted: 中断命令を送信しました。
       confirm_reset: 処理が終わっていない場合、複数回実行されてしまいます。\nタスクを削除してよろしいですか？
+
+  ss:
+    views:
+      login/login:
+        id: ユーザーIDまたはメールアドレス
+        password: パスワード
 
   mongoid:
     models:
@@ -80,13 +94,18 @@ ja:
         group_ids: グループ
       ss/user/model:
         name: 氏名
+        uid: ユーザーID
         email: メールアドレス
         password: パスワード
         in_password: パスワード
         group_ids: グループ
         type: ユーザータイプ
-      ss/group:
+        accounts: ユーザーID
+        sns: SNSユーザー
+        ldap: LDAPユーザー
+      ss/group/model:
         name: グループ名
+        order: 表示順
       ss/reference/site:
         site_id: サイト
       ss/task/model:
@@ -114,8 +133,8 @@ ja:
       layout_id:
         - ページのレイアウトを選択します。
       order:
-        - フォルダの並び順の設定で「指定順」を指定している場合に利用します。
-        - 数字が大きいほど一覧ページの上位にリンクが表示されます。
+        - フォルダーの並び順の設定で「指定順」を指定している場合に利用します。
+        - 数字が小さいほど一覧ページの上位にリンクが表示されます。
       keywords: &tooltip_keywords
         - 検索エンジン用のキーワードの設定に利用します。
         - 「,」で区切ることにより複数のキーワードの設定が可能です。
@@ -124,7 +143,7 @@ ja:
       summary_html: &tooltip_summary_html
         - 一覧ページで表示するページの概要に利用します。
         - |-
-          一覧系のフォルダのループHTMLの設定で下記のように記述した箇所に表示されます。
+          一覧系のフォルダーのループHTMLの設定で下記のように記述した箇所に表示されます。
           #{summary}
       released:
         - ページに表示する更新日の指定に利用します。

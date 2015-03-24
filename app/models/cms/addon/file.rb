@@ -9,8 +9,17 @@ module Cms::Addon
       embeds_ids :files, class_name: "SS::File"
       permit_params file_ids: []
 
+      before_save :clone_files, if: -> { new_clone? }
       before_save :save_files
       after_destroy :destroy_files
+    end
+
+    def allow_other_user_files
+      @allowed_other_user_files = true
+    end
+
+    def allowed_other_user_files?
+      @allowed_other_user_files == true
     end
 
     def save_files
@@ -22,7 +31,7 @@ module Cms::Addon
       files.each do |file|
         if !add_ids.include?(file.id)
           #
-        elsif @cur_user && @cur_user.id != file.user_id
+        elsif !allowed_other_user_files? && @cur_user && @cur_user.id != file.user_id
           next
         else
           file.update_attribute(:model, model_name.i18n_key)

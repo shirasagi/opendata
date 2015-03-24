@@ -4,13 +4,16 @@ SS::Application.routes.draw do
     get :delete, :on => :member
   end
 
+  concern :crud do
+    get :move, :on => :member
+    put :move, :on => :member
+    get :copy, :on => :member
+    put :copy, :on => :member
+  end
+
   namespace "cms", path: ".:site" do
     get "/" => "main#index", as: :main
     get "preview(:preview_date)/(*path)" => "preview#index", as: :preview
-    get "generate_nodes" => "generate_nodes#index"
-    post "generate_nodes" => "generate_nodes#run"
-    get "generate_pages" => "generate_pages#index"
-    post "generate_pages" => "generate_pages#run"
   end
 
   namespace "cms", path: ".:site/cms" do
@@ -27,11 +30,17 @@ SS::Application.routes.draw do
     resources :parts, concerns: :deletion do
       get :routes, on: :collection
     end
-    resources :pages, concerns: :deletion
+    resources :pages, concerns: [:deletion, :crud]
     resources :layouts, concerns: :deletion
-    get "/search_groups" => "search_groups#index"
-    get "/search_pages" => "search_pages#index"
-    get "/search_categories" => "search_categories#index"
+    get "check_links" => "check_links#index"
+    post "check_links" => "check_links#run"
+    get "generate_nodes" => "generate_nodes#index"
+    post "generate_nodes" => "generate_nodes#run"
+    get "generate_pages" => "generate_pages#index"
+    post "generate_pages" => "generate_pages#run"
+    get "search_groups" => "search_groups#index"
+    get "search_pages" => "search_pages#index"
+    get "search_categories" => "search_categories#index"
   end
 
   namespace "cms", path: ".cms" do
@@ -44,9 +53,9 @@ SS::Application.routes.draw do
     post "generate_nodes" => "generate_nodes#run"
     get "generate_pages" => "generate_pages#index"
     post "generate_pages" => "generate_pages#run"
-    resource :conf, concerns: :deletion
+    resource :conf, concerns: [:deletion, :crud]
     resources :nodes, concerns: :deletion
-    resources :pages, concerns: :deletion
+    resources :pages, concerns: [:deletion, :crud]
     resources :parts, concerns: :deletion
     resources :layouts, concerns: :deletion
   end

@@ -30,7 +30,7 @@ class Cms::Task
           node_id = node ? node.id : nil
 
           ready name: task_name, site_id: site.id, node_id: node_id do |task|
-            task.process controller, action, site: site, node: node
+            task.process controller, action, opts.merge(site: site, node: node)
           end
         end
       end
@@ -54,6 +54,10 @@ class Cms::Task
 
       def remove_pages(opts = {})
         process_with_site "cms:remove_pages", Cms::Agents::Tasks::PagesController, :remove, opts
+      end
+
+      def check_links(opts = {})
+        process_with_node "cms:check_links", Cms::Agents::Tasks::LinksController, :check, opts
       end
   end
 end

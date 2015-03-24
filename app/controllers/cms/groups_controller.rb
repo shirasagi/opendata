@@ -1,6 +1,7 @@
 class Cms::GroupsController < ApplicationController
   include Cms::BaseFilter
   include Cms::CrudFilter
+  include Cms::SearchableCrudFilter
 
   model Cms::Group
 
@@ -22,11 +23,10 @@ class Cms::GroupsController < ApplicationController
 
   public
     def index
-      raise "403" unless @model.allowed?(:edit, @cur_user, site: @cur_site)
-
+      raise "403" unless @model.allowed?(:read, @cur_user, site: @cur_site, node: @cur_node)
       @items = @model.site(@cur_site).
-        allow(:edit, @cur_user, site: @cur_site).
-        order_by(name: 1).
-        page(params[:page]).per(50)
+          allow(:read, @cur_user, site: @cur_site).
+          search(params[:s]).
+          page(params[:page]).per(50)
     end
 end

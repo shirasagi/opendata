@@ -16,7 +16,7 @@ module Cms::PublicFilter::Layout
     end
 
     def render_part(part, opts = {})
-      return part.html if part.route == "cms/frees"
+      return part.html if part.route == "cms/free"
 
       path = "/.#{@cur_site.host}/parts/#{part.route}"
       spec = recognize_agent path, method: "GET"
@@ -28,9 +28,18 @@ module Cms::PublicFilter::Layout
       agent = new_agent controller
       agent.controller.params.merge! spec
       resp = agent.render spec[:action]
+      body = resp.body
+
+      if body =~ /\#\{.*?parent_name\}/
+        parent = Cms::Node.filename(@cur_path.to_s.sub(/^\//, "").sub(/\/[\w\-\.]*?$/, "")).first
+        if parent
+          body.gsub!('#{parent_name}', ERB::Util.html_escape(parent.name))
+          body.gsub!('#{parent.parent_name}', ERB::Util.html_escape(parent.parent ? parent.parent.name : parent.name))
+        end
+      end
 
       @cur_part = nil
-      resp.body
+      body
     end
 
     def render_layout(layout)
@@ -45,9 +54,9 @@ module Cms::PublicFilter::Layout
 
       body = @cur_layout.body.to_s
       body = body.sub(/<body.*?>/) do |m|
-        m = m.sub(/ class="/, %( class="#{body_class(request.path)} )     ) if m =~ / class="/
-        m = m.sub(/<body/,    %(<body class="#{body_class(request.path)}")) unless m =~ / class="/
-        m = m.sub(/<body/,    %(<body id="#{body_id(request.path)}")      ) unless m =~ / id="/
+        m = m.sub(/ class="/, %( class="#{body_class(@cur_path)} )     ) if m =~ / class="/
+        m = m.sub(/<body/,    %(<body class="#{body_class(@cur_path)}")) unless m =~ / class="/
+        m = m.sub(/<body/,    %(<body id="#{body_id(@cur_path)}")      ) unless m =~ / id="/
         m
       end
 
@@ -63,6 +72,7 @@ module Cms::PublicFilter::Layout
       end
 
       html.gsub!('#{page_name}', ERB::Util.html_escape(@cur_item.name))
+      html.gsub!('#{parent_name}', ERB::Util.html_escape(@cur_item.parent ? @cur_item.parent.name : ""))
       html.sub!("</ yield />", response.body)
       html
     end

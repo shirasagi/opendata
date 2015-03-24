@@ -10,9 +10,10 @@ class Cms::Page
   include Category::Addon::Category
   include Event::Addon::Date
   include Map::Addon::Page
-  include Workflow::Addon::Approver
+  include ::Workflow::Addon::Approver
   include Contact::Addon::Page
   include History::Addon::Backup
+  include Workflow::Addon::Branch
 
   index({ site_id: 1, filename: 1 }, { unique: true })
 end

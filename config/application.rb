@@ -9,7 +9,7 @@ require "sprockets/railtie"
 Bundler.require(*Rails.groups)
 
 module SS
-  mattr_reader(:version) { "0.5.0" }
+  mattr_reader(:version) { "0.6.0" }
 
   class Application < Rails::Application
     config.autoload_paths << "#{config.root}/lib"
@@ -18,6 +18,7 @@ module SS
     I18n.enforce_available_locales = true
     config.time_zone = 'Tokyo'
     config.i18n.default_locale = :ja
+    config.i18n.fallbacks = [ :en ]
 
     Dir["#{config.root}/config/locales/*/*.{rb,yml}"].each do |file|
       config.i18n.load_path << file unless config.i18n.load_path.index(file)

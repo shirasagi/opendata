@@ -1,3 +1,4 @@
+require 'simplecov'
 require 'coveralls'
 Coveralls.wear!
 
@@ -6,9 +7,10 @@ ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
 require File.expand_path(__FILE__, "../../app/helpers")
 require 'rspec/rails'
-require 'rspec/autorun'
+#require 'rspec/autorun'
 require 'capybara/rspec'
 require 'capybara/rails'
+require 'database_cleaner'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -17,6 +19,15 @@ Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 # Checks for pending migrations before tests are run.
 # If you are not using ActiveRecord, you can remove this line.
 ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
+
+SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
+    SimpleCov::Formatter::HTMLFormatter,
+    Coveralls::SimpleCov::Formatter
+]
+SimpleCov.start do
+  add_filter 'spec/'
+  add_filter 'vendor/bundle'
+end
 
 RSpec.configure do |config|
   # ## Mock Framework
@@ -47,12 +58,31 @@ RSpec.configure do |config|
   #config.order = "random"
   config.order = "order"
 
+  config.include Rails.application.routes.url_helpers
+  config.include Capybara::DSL
+
   config.include FactoryGirl::Syntax::Methods
   config.before do
     FactoryGirl.reload
   end
 
-  `rake db:drop`
+  config.filter_run_excluding(mecab: true) unless can_test_mecab_spec?
+  config.filter_run_excluding(open_jtalk: true) unless can_test_open_jtalk_spec?
+  config.filter_run_excluding(ldap: true) unless can_test_ldap_spec?
+
+  config.before(:suite) do
+    # `rake db:drop`
+    ::Mongoid::Sessions.default.drop
+    # `rake db:create_indexes`
+    ::Rails.application.eager_load!
+    ::Mongoid::Tasks::Database.create_indexes
+
+    #
+    DatabaseCleaner[:mongoid].strategy = :truncation
+  end
+
+  config.add_setting :default_dbscope, default: :context
+  config.extend(SS::DatabaseCleanerSupport)
 end
 
 def unique_id
