@@ -688,11 +688,23 @@ nav.pagination {
   }
 }
 
+.app-pagination {
+  nav.pagination {
+    a {
+      &:hover {
+        background: $app-blue;
+      }
+    }
+    .current {
+      background: $app-blue;
+    }
+  }
+}
 // -----------------------------------------------------------------------------
 // form
 form.opendata-search_datasets-form, form.opendata-search_groups-form, form.opendata-search_apps-form {
   margin: 28px 0 ;
-  padding: 10px;
+  padding: 10px 10px 21px 10px;
   border: 1px solid $gray;
   overflow: hidden;
   dl {
@@ -2557,6 +2569,24 @@ article.licenses div article a {
         }
       }
     }
+  }
+}
+
+// -----------------------------------------------------------------------------
+// #search_apps #od-page-name
+#search_apps #od-page-name {
+  border-bottom: 2px solid $blue;
+  @include box-shadow(0 1px 1px rgba(168, 168, 168, 0.25));
+  h1 {
+    @include box-sizing(border-box);
+    @include box-shadow(0 -8px 8px rgba(0, 0, 0, 0.1) inset);
+    padding: 9px 0 9px 26px;
+    border: 1px solid $gray;
+    border-bottom: none;
+    background: url(../img/appling.png) no-repeat -10px -100px;
+    color: $blue;
+    font-size: $px16;
+    line-height: 1.3;
   }
 }
 
