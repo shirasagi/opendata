@@ -1868,9 +1868,13 @@ nav.cms-sns_share {
           color: #4d4d4d;
           text-decoration: none;
           text-align: left;
+          letter-spacing: normal;
           &:last-child {
             margin-right: 0;
           }
+        }
+        nav {
+          letter-spacing: -.40em;
         }
       }
     }
@@ -2506,7 +2510,7 @@ article.licenses div article a {
     }
     .right {
       float: right;
-      padding: 10px 18px 10px 10px;
+      padding: 10px;
       .menu {
         padding: 9px 0;
         .google-search {
@@ -2534,9 +2538,13 @@ article.licenses div article a {
           color: #4d4d4d;
           text-decoration: none;
           text-align: left;
+          letter-spacing: normal;
           &:last-child {
             margin-right: 0;
           }
+        }
+        nav {
+          letter-spacing: -.40em;
         }
       }
     }
@@ -2789,7 +2797,8 @@ article.licenses div article a {
 
 // -----------------------------------------------------------------------------
 // #top
-.s-app #top {
+.s-idea #top {
+
   background: url(../img/img-ideakv02.png) no-repeat right center;
 }
 
@@ -2969,7 +2978,7 @@ article.licenses div article a {
       display: inline-block;
       width: 110px;
       padding: 0 6px 0 50px;
-      background: url(../img/ic-app_color_l.png) no-repeat 10px center;
+      background: url(../img/ic-idea_color_l.png) no-repeat 10px center;
       font-size: 130%;
       text-align: right;
     }
@@ -2981,16 +2990,16 @@ article.licenses div article a {
 #idea-title {
   padding: 2px 1px 1px 1px;
   .inner {
-    @include grd-app-title;
+    @include grd-idea-title;
     overflow: hidden;
-    border-top: 2px solid $app-blue;
+    border-top: 2px solid $idea-yellow;
     .left {
       float: left;
       padding: 10px 15px;
     }
     .right {
       float: right;
-      padding: 10px 18px 10px 10px;
+      padding: 10px;
       .menu {
         padding: 9px 0;
         .google-search {
@@ -3018,9 +3027,13 @@ article.licenses div article a {
           color: #4d4d4d;
           text-decoration: none;
           text-align: left;
+          letter-spacing: normal;
           &:last-child {
             margin-right: 0;
           }
+        }
+        nav {
+          letter-spacing: -.40em;
         }
       }
     }
