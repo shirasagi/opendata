@@ -211,7 +211,6 @@ textarea {
   max-width: $page-width;
   min-width: $page-width;
   margin: 0 auto;
-  margin-bottom: 30px;
   padding: 0 10px;
   &:before {
     content: "";
@@ -260,6 +259,10 @@ article.areas, article.tags, article.formats, article.licenses {
   }
 }
 
+#data-top-contents, #app-top-contents, #idea-top-contents {
+  margin: 30px auto 0 auto;
+}
+
 #contents .content-body{
   overflow: hidden;
 }
@@ -306,7 +309,8 @@ article.areas, article.tags, article.formats, article.licenses {
 // -----------------------------------------------------------------------------
 // article header
 .cms-tabs, #portal-dataset, #portal-app, #portal-idea, .opendata-tabs, .article-pages,
- .opendata-search_datasets, .opendata-search_apps, section.datasets .pages, section.apps .pages {
+ .opendata-search_datasets, .opendata-search_apps, .opendata-search_ideas,
+ section.datasets .pages, section.apps .pages, section.ideas .pages {
   article header {
     @include box-shadow(none);
     overflow: hidden;
@@ -336,7 +340,8 @@ article.areas, article.tags, article.formats, article.licenses {
   }
 }
 
-#portal-dataset, #portal-app, #portal-idea, .opendata-tabs, .opendata-search_datasets, .opendata-search_apps {
+#portal-dataset, #portal-app, #portal-idea, .opendata-tabs,
+ .opendata-search_datasets, .opendata-search_apps, .opendata-search_ideas {
   article header {
     padding: 8px 12px;
   }
@@ -683,7 +688,7 @@ article.areas, article.tags, article.formats, article.licenses {
 // -----------------------------------------------------------------------------
 // nav.pagination
 nav.pagination {
-  margin-bottom: 18px;
+  margin-bottom: 24px;
   padding-top: 0;
   a {
     @include inline-block;
@@ -731,8 +736,8 @@ nav.pagination {
 // -----------------------------------------------------------------------------
 // form
 form.opendata-search_datasets-form, form.opendata-search_groups-form, form.opendata-search_apps-form, form.opendata-search_ideas-form {
-  margin: 28px 0 ;
-  padding: 10px 10px 21px 10px;
+  margin: 28px 0 32px 0;
+  padding: 12px 10px 12px 10px;
   border: 1px solid $gray;
   overflow: hidden;
   dl {
@@ -747,7 +752,6 @@ form.opendata-search_datasets-form, form.opendata-search_groups-form, form.opend
   }
   .send {
     float: right;
-    padding: 1.8em 10px 0px;
     input {
       @include r-arrow;
       @include border-radius(5px);
@@ -756,6 +760,18 @@ form.opendata-search_datasets-form, form.opendata-search_groups-form, form.opend
       font-size: $px14;
     }
   }
+}
+
+form.opendata-search_datasets-form, form.opendata-search_groups-form {
+  .send {
+    padding: 1.8em 10px 0px;
+  }
+}
+form.opendata-search_apps-form .send {
+  padding: 0em 10px 0px;
+}
+form.opendata-search_ideas-form .send {
+  padding: 1.8em 10px 0px;
 }
 
 // -----------------------------------------------------------------------------
@@ -2596,14 +2612,14 @@ article.licenses div article a {
     &:hover {
       background: $white;
       background-image:url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIHZpZXdCb3g9IjAgMCAxIDEiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPgo8bGluZWFyR3JhZGllbnQgaWQ9ImczNDQiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjAlIiB5Mj0iMTAwJSI+CjxzdG9wIHN0b3AtY29sb3I9IiNGREU4RjQiIG9mZnNldD0iMC41Ii8+PHN0b3Agc3RvcC1jb2xvcj0iI0ZEREZFRiIgb2Zmc2V0PSIxIi8+CjwvbGluZWFyR3JhZGllbnQ+CjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9InVybCgjZzM0NCkiIC8+Cjwvc3ZnPg==);
-      @include background-image(linear-gradient(rgba(250, 191, 226, 0.3) 50%, rgba(250, 184, 223, 0.3)));
+      @include background-image(linear-gradient(rgba(0, 174, 236, 0.3) 50%, rgba(0, 174, 236, 0.3)));
       @include filter-gradient(#FDE8F4, #FDDFEF, vertical);
     }
   }
   li.current {
     background: $white;
     background-image:url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIHZpZXdCb3g9IjAgMCAxIDEiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPgo8bGluZWFyR3JhZGllbnQgaWQ9ImczNDQiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjAlIiB5Mj0iMTAwJSI+CjxzdG9wIHN0b3AtY29sb3I9IiNGREU4RjQiIG9mZnNldD0iMC41Ii8+PHN0b3Agc3RvcC1jb2xvcj0iI0ZEREZFRiIgb2Zmc2V0PSIxIi8+CjwvbGluZWFyR3JhZGllbnQ+CjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9InVybCgjZzM0NCkiIC8+Cjwvc3ZnPg==);
-    @include background-image(linear-gradient(rgba(250, 191, 226,0.3) 50%, rgba(250, 184, 223, 0.3)));
+    @include background-image(linear-gradient(rgba(0, 174, 236,0.3) 50%, rgba(0, 174, 236, 0.3)));
     @include filter-gradient(#FDE8F4, #FDDFEF, vertical);
   }
 }
@@ -2941,7 +2957,7 @@ article.licenses div article a {
   span.count {
     display: inline-block;
     width: 50px;
-    padding: 0 6px 0 35px;
+    padding: 2px 6px 2px 35px;
     background: url(../img/ic-idea_color_s.png) no-repeat 15px center;
     text-align: right;
   }
@@ -3085,14 +3101,14 @@ article.licenses div article a {
     &:hover {
       background: $white;
       background-image:url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIHZpZXdCb3g9IjAgMCAxIDEiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPgo8bGluZWFyR3JhZGllbnQgaWQ9ImczNDQiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjAlIiB5Mj0iMTAwJSI+CjxzdG9wIHN0b3AtY29sb3I9IiNGREU4RjQiIG9mZnNldD0iMC41Ii8+PHN0b3Agc3RvcC1jb2xvcj0iI0ZEREZFRiIgb2Zmc2V0PSIxIi8+CjwvbGluZWFyR3JhZGllbnQ+CjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9InVybCgjZzM0NCkiIC8+Cjwvc3ZnPg==);
-      @include background-image(linear-gradient(rgba(250, 191, 226, 0.3) 50%, rgba(250, 184, 223, 0.3)));
+      @include background-image(linear-gradient(rgba(255, 230, 0, 0.3) 50%, rgba(255, 230, 0, 0.3)));
       @include filter-gradient(#FDE8F4, #FDDFEF, vertical);
     }
   }
   li.current {
     background: $white;
     background-image:url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIHZpZXdCb3g9IjAgMCAxIDEiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPgo8bGluZWFyR3JhZGllbnQgaWQ9ImczNDQiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjAlIiB5Mj0iMTAwJSI+CjxzdG9wIHN0b3AtY29sb3I9IiNGREU4RjQiIG9mZnNldD0iMC41Ii8+PHN0b3Agc3RvcC1jb2xvcj0iI0ZEREZFRiIgb2Zmc2V0PSIxIi8+CjwvbGluZWFyR3JhZGllbnQ+CjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9InVybCgjZzM0NCkiIC8+Cjwvc3ZnPg==);
-    @include background-image(linear-gradient(rgba(250, 191, 226,0.3) 50%, rgba(250, 184, 223, 0.3)));
+    @include background-image(linear-gradient(rgba(255, 230, 0,0.3) 50%, rgba(255, 230, 0, 0.3)));
     @include filter-gradient(#FDE8F4, #FDDFEF, vertical);
   }
 }
