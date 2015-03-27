@@ -2071,6 +2071,10 @@ article.licenses div article a {
 // -----------------------------------------------------------------------------
 // #contents
 .s-dataset #contents {
+  .names {
+    margin-bottom: 18px;
+    border-bottom: 2px solid $blue;
+  }
   header h1.name {
     margin-bottom: 12px;
     padding-bottom: 16px;
@@ -2078,7 +2082,7 @@ article.licenses div article a {
     color: $blue;
     font-size: $px32;
   }
-  .text, .detail, .detail nav, nav.related-pages {
+  .text, nav.related-pages {
     margin-bottom: 28px;
   }
   .text {
@@ -2116,16 +2120,17 @@ article.licenses div article a {
       }
     }
   }
-  .detail {
+  .dataset-tabs {
     clear: both;
+    margin-bottom: 28px;
     nav {
-      border-bottom: 2px solid $data-blue;
       a {
         display: inline-block;
         margin-right: 10px;
         padding: 7px 10px;
+        border: 1px solid #b2b2b2;
         @include border-top-radius(5px);
-        background: #ccd6d6;
+        background: rgba(33, 56, 127, 0.21);
         color: $text;
         font-size: $px15;
         text-decoration: none;
@@ -2148,21 +2153,29 @@ article.licenses div article a {
       overflow: hidden;
       .resources {
         @include clearfix;
-        border: 2px solid #00b2c4;
+        border: 2px solid #ddcfcc;
         header {
+            border-bottom: 2px solid $blue;
+            @include box-shadow(0 1px 1px rgba(168, 168, 168, 0.25));
           h1 {
-            padding: 7px 0 7px 45px;
-            background: $data-blue url(../img/ic-download.png) no-repeat 10px center;
-            font-size: $px15;
+            @include box-sizing(border-box);
+            @include box-shadow(0 -8px 8px rgba(0, 0, 0, 0.1) inset);
+            padding: 9px 0 9px 26px;
+            border: 1px solid $gray;
+            border-bottom: none;
+            background: url(../img/dataling.png) no-repeat -16px -32px;
+            color: $blue;
+            font-size: $px16;
+            line-height: 1.3;
           }
         }
         .resource {
           @include clearfix;
           margin: 0px 16px;
-          padding: 16px 0px;
+          padding: 24px 0px;
           border-bottom: 1px solid #ddcfcc;
           &:last-child {
-            margin-bottom: 10px;
+            border-bottom: 0;
           }
           .name {
             float: left;
@@ -2175,7 +2188,8 @@ article.licenses div article a {
             .content, .download {
               margin-left: 4px;
               @include r-arrow;
-              @include border-radius(5px);
+              //@include border-radius(5px);
+              background: url(../img/ic-arrow_pink_l.png) no-repeat 1px center;
             }
           }
           .text {
@@ -2183,18 +2197,18 @@ article.licenses div article a {
             clear: both;
             width: auto;
             margin: 0px;
-            padding: 10px 0px 0px 35px;
+            padding: 0px 0px 0px 40px;
           }
           .sparql {
             clear: both;
-            padding: 10px 0px 0px 35px;
+            padding: 0px 0px 0px 40px;
           }
         }
       }
       dl.author {
-        margin: 20px 0px 0px;
-        padding: 10px;
-        border: 2px solid #00b2c4;
+        margin: 28px 0px 0px;
+        padding: 4px;
+        border: 2px solid #ddcfcc;
         dt {
           @include clearfix;
           clear: both;
@@ -2202,7 +2216,7 @@ article.licenses div article a {
           width: 180px;
           min-height: 1.0em;
           padding: 5px 8px;
-          background: #ffe7a5;
+          background: #f7daec;
         }
         dd {
           min-height: 1.5em;
@@ -2211,22 +2225,28 @@ article.licenses div article a {
           text-overflow: ellipsis;
           white-space: nowrap;
         }
-        dt ~ dt { margin-top: 10px; }
-        dd ~ dd { margin-top: 10px; }
-        dd + dd { margin-top: 10px; }
+        dt ~ dt { margin-top: 4px; }
+        dd ~ dd { margin-top: 4px; }
+        dd + dd { margin-top: 4px; }
       }
     }
   }
   nav.related-pages {
     header h1 {
-      padding: 7px 0 7px 45px;
-      background: $data-blue url(../img/ic-data-s.png) no-repeat 10px center;
-      font-size: $px15;
+      @include box-sizing(border-box);
+      @include box-shadow(0 -8px 8px rgba(0, 0, 0, 0.1) inset);
+      padding: 9px 0 9px 26px;
+      border: 2px solid #ddcfcc;
+      border-bottom: 2px solid $blue;
+      background: url(../img/dataling.png) no-repeat -16px -32px;
+      color: $blue;
+      font-size: $px16;
+      line-height: 1.3;
     }
     .pages {
-      margin: 20px 0px 0px;
       padding: 10px;
-      border: 2px solid $data-blue;
+      border: 2px solid #ddcfcc;
+      border-top: none;
       article {
         padding: 8px;
         border-bottom: 1px solid #cccccc;
