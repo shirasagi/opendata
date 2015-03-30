@@ -325,7 +325,7 @@ article.areas, article.tags, article.formats, article.licenses {
   h2 {
     float: left;
     max-width: 610px;
-    margin-left: 10px;
+    margin-left: 25px;
     word-wrap: break-word;
   }
   .point {
@@ -346,7 +346,7 @@ article.areas, article.tags, article.formats, article.licenses {
     padding: 8px 12px;
   }
   time {
-    padding: 1px 0 1px 35px;
+    padding: 1px 0 1px 30px;
   }
 }
 
@@ -487,7 +487,7 @@ article.areas, article.tags, article.formats, article.licenses {
 #contents footer.contact {
   @include clear;
   margin-top: 30px;
-  padding-bottom: 10px;
+  //padding-bottom: 10px;
   h1 {
     margin-bottom: 6px;
     padding: 4px 10px;
@@ -511,18 +511,27 @@ article.areas, article.tags, article.formats, article.licenses {
       float: left;
     }
     dt {
-      font-weight: bold;
+      //font-weight: bold;
     }
   }
 }
-
 .s-dataset #contents footer.contact, .s-app #contents footer.contact, .s-idea #contents footer.contact {
+  margin-top: 40px;
   h1 {
-    background: $data-blue;
+    margin-bottom: 18px;
+    padding: 7px 10px;
+    border: 1px solid $gray;
+    background: rgba(171,171,171,0.21);
     color: $text;
   }
+  p {
+    padding: 0 15px 0 0;
+  }
+  dl {
+    margin-top: 20px;
+    padding: 0 15px 0 0;
+  }
 }
-
 // -----------------------------------------------------------------------------
 // calendar
 .event-date {
@@ -2123,30 +2132,72 @@ article.licenses div article a {
   .dataset-tabs {
     clear: both;
     margin-bottom: 28px;
-    nav {
-      a {
-        display: inline-block;
-        margin-right: 10px;
-        padding: 7px 10px;
-        border: 1px solid #b2b2b2;
+    .names {
+      padding: 0;
+      border-bottom: $blue 2px solid;
+      .name {
+        @include box-sizing(border-box);
         @include border-top-radius(5px);
-        background: rgba(33, 56, 127, 0.21);
+        @include box-shadow(1px 1px $white inset, -1px 0 $white inset);
+        display: inline-block;
+        width: 150px;
+        margin-right: 6px;
+        padding: 9px 0 9px 20px;
+        border: 1px solid $gray;
+        border-bottom: none;
         color: $text;
-        font-size: $px15;
         text-decoration: none;
         text-align: center;
+        font-size: $px16;
+        line-height: 1.3;
       }
-      /*
-      .current {
-        background: $data-blue;
+      a.name:nth-child(1) {
+        width: 170px;
+        background: rgba(33, 56, 127, 0.21) url(../img/ic-datatab.png) no-repeat 7px 6px;
+        &:hover {
+          @include opacity(1);
+          @include box-shadow(0px -8px 8px rgba(0, 0, 0, 0.1) inset);
+          background: url(../img/ic-datatab_hover.png) no-repeat 7px 6px;
+          color: $blue;
+        }
       }
-      */
-      .info {
-        margin-left: 18px;
-        background: $data-blue;
+      a.current:nth-child(1) {
+        @include opacity(1);
+        @include box-shadow(0px -8px 8px rgba(0, 0, 0, 0.1) inset);
+        background: url(../img/ic-datatab_hover.png) no-repeat 7px 6px;
+        color: $blue;
       }
-      .data, .app, .idea {
-        @include opacity(.5);
+      a.name:nth-child(2) {
+        width: 120px;
+        background: rgba(33, 56, 127, 0.21) url(../img/ic-apptab.png) no-repeat 12px 10px;
+        &:hover {
+          @include opacity(1);
+          @include box-shadow(0px -8px 8px rgba(0, 0, 0, 0.1) inset);
+          background: url(../img/ic-apptab_hover.png) no-repeat 12px 10px;
+          color: $blue;
+        }
+      }
+      a.current:nth-child(2) {
+        @include opacity(1);
+        @include box-shadow(0px -8px 8px rgba(0, 0, 0, 0.1) inset);
+        background: url(../img/ic-apptab_hover.png) no-repeat 12px 10px;
+        color: $blue;
+      }
+      a.name:nth-child(3) {
+        width: 130px;
+        background: rgba(33, 56, 127, 0.21) url(../img/ic-ideatab.png) no-repeat 10px 5px;
+        &:hover {
+          @include opacity(1);
+          @include box-shadow(0px -8px 8px rgba(0, 0, 0, 0.1) inset);
+          background: url(../img/ic-ideatab_hover.png) no-repeat 10px 5px;
+          color: $blue;
+        }
+      }
+      a.current:nth-child(3) {
+        @include opacity(1);
+        @include box-shadow(0px -8px 8px rgba(0, 0, 0, 0.1) inset);
+        background: url(../img/ic-ideatab_hover.png) no-repeat 10px 5px;
+        color: $blue;
       }
     }
     .info-wrap {
@@ -2186,10 +2237,16 @@ article.licenses div article a {
             .license {
             }
             .content, .download {
-              margin-left: 4px;
               @include r-arrow;
               //@include border-radius(5px);
-              background: url(../img/ic-arrow_pink_l.png) no-repeat 1px center;
+              margin-left: 4px;
+              padding: 5px 8px 5px 25px;
+              border: 2px solid #ddcfcc;
+              background: #FFFFFF url(../img/ic-arrow_pink_l.png) no-repeat 10px center;
+              color: $text;
+              &:hover {
+                background-color: #d5d6d8;
+              }
             }
           }
           .text {
@@ -2254,7 +2311,6 @@ article.licenses div article a {
     }
   }
 }
-
 // -----------------------------------------------------------------------------
 // .resource-content
 .s-dataset .resource-content {
