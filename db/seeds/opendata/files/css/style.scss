@@ -2237,15 +2237,17 @@ article.licenses div article a {
             .license {
             }
             .content, .download {
-              @include r-arrow;
-              //@include border-radius(5px);
+              @include box-shadow(0 0 0 1px #b3b3e6);
               margin-left: 4px;
+              margin-right: 1px;
               padding: 5px 8px 5px 25px;
-              border: 2px solid #ddcfcc;
-              background: #FFFFFF url(../img/ic-arrow_pink_l.png) no-repeat 10px center;
+              display: inline-block;
+              border: 1px solid $white;
+              background: rgba(232, 232, 252, 0.3) url(../img/ic-arrow_pink_l.png) no-repeat 10px center;
               color: $text;
+              text-decoration: none;
               &:hover {
-                background-color: #d5d6d8;
+                background-color: #e1e2e3;
               }
             }
           }
