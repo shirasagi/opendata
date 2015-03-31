@@ -259,7 +259,7 @@ article.areas, article.tags, article.formats, article.licenses {
   }
 }
 
-#data-top-contents, #app-top-contents, #idea-top-contents {
+.s-portal #contents, #data-top-contents, #app-top-contents, #idea-top-contents {
   margin: 30px auto 0 auto;
 }
 
@@ -761,26 +761,33 @@ form.opendata-search_datasets-form, form.opendata-search_groups-form, form.opend
   }
   .send {
     float: right;
+    padding: 3px;
+    border: 1px solid #B3B3E6;
+    @include grd-button-blue;
     input {
-      @include r-arrow;
-      @include border-radius(5px);
-      padding: 4px 15px 4px 30px;
-      font-family: $font-base;
-      font-size: $px14;
+      padding: 8px 40px 8px 40px;
+      border: 1px solid $white;
+      @include box-shadow(0 0 0 1px $gray);
+      @include grd-button-gray;
+      cursor: pointer;
+    }
+    input:not(:target) {
+      filter: none;
+      -ms-filter: none;
     }
   }
 }
 
 form.opendata-search_datasets-form, form.opendata-search_groups-form {
   .send {
-    padding: 1.8em 10px 0px;
+    margin: 1.8em 10px 0px;
   }
 }
 form.opendata-search_apps-form .send {
-  padding: 0em 10px 0px;
+  margin: 0em 10px 0px;
 }
 form.opendata-search_ideas-form .send {
-  padding: 1.8em 10px 0px;
+  margin: 1.8em 10px 0px;
 }
 
 // -----------------------------------------------------------------------------
@@ -873,7 +880,7 @@ form.opendata-search_ideas-form .send {
 // -----------------------------------------------------------------------------
 // #dataset-news, #dataset-popular, #dataset-attention
 #dataset-news, #dataset-popular, #dataset-attention {
-  margin-bottom: $box-margin;
+  margin-bottom: 36px;
   .opendata-datasets {
     ul {
       list-style: none;
@@ -960,11 +967,7 @@ form.opendata-search_ideas-form .send {
     border-bottom: 1px dotted $gray;
     a {
       display: block;
-      padding: 11px 12px;
-      &:hover {
-        background: #ccd6d6;
-        text-decoration: none;
-      }
+      padding: 9px 12px;
     }
   }
 }
@@ -1055,7 +1058,7 @@ form.opendata-search_ideas-form .send {
 #footer-navi {
   @include box-shadow(0 -8px 8px rgba(0, 0, 0, 0.1) inset, 0 1.35px 1.35px rgba(168, 168, 168, 0.25));
   min-width: 1100px;
-  padding: 10px 0;
+  padding: 8px 0;
   border-top: 1px solid $gray;
   border-bottom: 1px solid $gray;
   text-align: center;
@@ -1612,7 +1615,7 @@ nav.cms-sns_share {
   float: right;
   padding: 10px;
   li {
-    @include box-shadow(2px 2px rgba(0, 0, 0, 0.1));
+    @include box-shadow(0 1px 1px rgba(#A8A8A8, 0.25));
     width: 216px;
     padding: 3px;
     border: 1px solid $gray;
@@ -1621,13 +1624,19 @@ nav.cms-sns_share {
   li.gnav01 {
     margin-bottom: 10px;
     &:hover {
-      background: #54d6e0;
+      background: #FFE9F7;
     }
   }
   li.gnav02 {
     margin-bottom: 10px;
+    &:hover {
+      background: #D7F6FF;
+    }
   }
   li.gnav03 {
+    &:hover {
+      background: #FFF8C7;
+    }
   }
   a {
     display:block;
@@ -2134,28 +2143,28 @@ nav.cms-sns_share {
 article.areas div article a {
   background: #D4EF97;
   &:hover {
-    background: #cbe79a;
+    background: rgba(#D4EF97, 0.5);
   }
 }
 
 article.tags div article a {
   background: #CAEBFF;
   &:hover {
-    background: #b6dbf3;
+    background: rgba(#CAEBFF, 0.5);
   }
 }
 
 article.formats div article a {
   background: #FFCACA;
   &:hover {
-    background: #fccbcb;
+    background: rgba(#FFCACA, 0.5);
   }
 }
 
 article.licenses div article a {
   background: #E5C998;
   &:hover {
-    background: #ecdcc2;
+    background: rgba(#E5C998, 0.5);
   }
 }
 
