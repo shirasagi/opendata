@@ -5,7 +5,6 @@
 
 // -----------------------------------------------------------------------------
 // element
-dataset
 html {
   height: 100%;
   font-family: $font-base;
@@ -1151,7 +1150,7 @@ form.opendata-search_ideas-form .send {
       .crumbs {
         width: $page-width;
         margin: 0 auto;
-        padding: 14px 0 0 25px;
+        padding: 14px 0 0 15px;
         font-size: $px12;
       }
     }
@@ -1160,7 +1159,7 @@ form.opendata-search_ideas-form .send {
 //mypage-tabs
 #mypage-tabs {
   @include box-shadow(1px 1px $white inset, -1px 0 $white inset);
-  margin: 36px 0 0 0;
+  margin: 36px 0 20px 0;
   padding: 0;
   border-bottom: $blue 2px solid;
   overflow: hidden;
@@ -1250,7 +1249,6 @@ form.opendata-search_ideas-form .send {
   nav.menu {
     float: left;
     margin-bottom: 28px;
-    padding-top: 20px;
     a {
       @include r-arrow;
       @include border-radius(5px);
@@ -1272,6 +1270,56 @@ form.opendata-search_ideas-form .send {
     text-decoration: none;
     &:hover {
       background-color: #e1e2e3;
+    }
+  }
+  table.see {
+    clear: both;
+    width: 100%;
+    margin: 0px;
+    margin-bottom: $box-margin;
+    border-top: 2px solid $blue;
+    border-bottom: 2px solid $blue;
+    tr {
+      border-bottom: 1px solid $gray;
+      &:last-child {
+        border-bottom: 0;
+      }
+    }
+    td.field {
+      min-width: 100px;
+      padding: 12px 0 12px 12px;
+      background: rgba(33,56,127,0.1);
+      vertical-align: top;
+    }
+    td.input {
+      padding: 12px 0 12px 12px;
+      label {
+        display: inline-block;
+        margin-right: 10px;
+        padding: 4px 0;
+      }
+      input[type=text], textarea {
+        width: 100%;
+      }
+      .resources {
+        margin-bottom: 15px;
+      }
+      .resource {
+        padding-left: 15px;
+      }
+    }
+    td.wide {
+      float: none;
+      width: 100%;
+      box-sizing: border-box;
+    }
+  }
+  table.show {
+    td.field {
+      padding: 20px 0 20px 20px;
+    }
+    td.input {
+      padding: 20px 0 20px 20px;
     }
   }
   dl.see {
@@ -1346,8 +1394,8 @@ form.opendata-search_ideas-form .send {
 // -----------------------------------------------------------------------------
 // .category-form
 .category-form {
-  padding: 10px;
-  border: 1px solid #ddcfcc;
+  //padding: 10px;
+  //border: 1px solid #ddcfcc;
   .child {
     padding: 5px 0;
     border-top: 1px solid #ddcfcc;
@@ -1358,17 +1406,21 @@ form.opendata-search_ideas-form .send {
 // -----------------------------------------------------------------------------
 // table
 table.index th, table.index td {
-  padding: 4px 8px;
+  //padding: 4px 8px;
 }
 table.index {
   clear: both;
   width: 100%;
-  margin-bottom: $box-margin;
+  //margin-bottom: $box-margin;
+  margin-bottom: 60px;
+  border-bottom: 2px solid $blue;
   thead {
     tr {
-      border-bottom: $border-hgry;
+      //border-bottom: $border-hgry;
+      border-bottom: 2px solid $blue;
     }
     th {
+      padding-bottom: 4px;
       font-weight: normal;
       text-align: left;
     }
@@ -1378,11 +1430,18 @@ table.index {
   }
   tbody {
     tr {
+      border-bottom: 1px dotted $gray;
+      &:last-child {
+        border-bottom: 0;
+      }
+      /*
       &:nth-child(even) {
         background: #ededed;
       }
+      */
     }
     td {
+      padding: 24px 8px;
       max-width: 100%;
       white-space: nowrap;
       overflow: hidden;
@@ -1436,15 +1495,21 @@ section.datasets {
 #errorExplanation {
   margin-bottom: $box-margin;
   padding: 20px 20px;
-  border: 1px solid #D88888;
+  border: 1px solid #cc0000;
+  color: #cc0000;
   h2 {
-    margin: -20px -20px 25px;
-    padding: 3px 10px;
-    background: #D88888;
-    color: #fff;
+    float: left;
+    //margin: -20px -20px 25px;
+    //padding: 3px 10px;
+    color: #cc0000;
+    font-size: $px17;
+  }
+  p {
+    font-size: $px17;
   }
   ul {
     padding: 10px 40px 0;
+    color: #cc0000;
   }
 }
 
@@ -1452,7 +1517,8 @@ section.datasets {
 // .field_with_errors
 .field_with_errors {
   input, textarea, select {
-    border: 1px solid #ee0000;
+    border: 1px solid #cc0000;
+    background: #ffd9d9;
   }
 }
 
@@ -1479,7 +1545,7 @@ section.datasets {
     display: none;
     position: absolute;
     bottom:18px;
-    left:-220px;
+    left:-30px;
     width: 22em;
     z-index: 90;
     padding: 10px;
@@ -1495,7 +1561,7 @@ section.datasets {
     &:before {
       content: "";
       position: absolute;
-      left: 222px;
+      left: 30px;
       bottom: -6px;
       width: 0;
       height: 0;
@@ -1506,7 +1572,7 @@ section.datasets {
     &:after {
       content: " ";
       position: absolute;
-      left: 220px;
+      left: 30px;
       height:0;
       width:0;
     }
