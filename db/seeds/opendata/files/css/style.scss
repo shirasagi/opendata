@@ -1250,7 +1250,7 @@ form.opendata-search_ideas-form .send {
     float: left;
     margin-bottom: 28px;
     a {
-      @include r-arrow;
+      //@include r-arrow;
       @include border-radius(5px);
       margin-right: 15px;
       padding-right: 20px;
@@ -1279,14 +1279,14 @@ form.opendata-search_ideas-form .send {
     margin-bottom: $box-margin;
     border-top: 2px solid $blue;
     border-bottom: 2px solid $blue;
-    tr {
+    tr.parent-row {
       border-bottom: 1px solid $gray;
       &:last-child {
         border-bottom: 0;
       }
     }
     td.field {
-      width: 150px;
+      width: 160px;
       min-width: 150px;
       padding: 12px 0 12px 12px;
       background: rgba(33,56,127,0.1);
@@ -1294,6 +1294,7 @@ form.opendata-search_ideas-form .send {
     }
     td.input {
       padding: 12px 0 12px 12px;
+      vertical-align: middle;
       label {
         display: inline-block;
         margin-right: 10px;
@@ -1301,6 +1302,7 @@ form.opendata-search_ideas-form .send {
       }
       input[type=text], textarea {
         width: 100%;
+        resize: vertical;
       }
       .resources {
         margin-bottom: 15px;
@@ -1412,12 +1414,10 @@ table.index th, table.index td {
 table.index {
   clear: both;
   width: 100%;
-  //margin-bottom: $box-margin;
   margin-bottom: 60px;
   border-bottom: 2px solid $blue;
   thead {
     tr {
-      //border-bottom: $border-hgry;
       border-bottom: 2px solid $blue;
     }
     th {
@@ -1435,14 +1435,43 @@ table.index {
       &:last-child {
         border-bottom: 0;
       }
-      /*
-      &:nth-child(even) {
-        background: #ededed;
-      }
-      */
     }
     td {
       padding: 24px 8px;
+      max-width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+}
+
+table.ajax-selected th, table.ajax-selected td {
+  padding: 4px 8px;
+}
+table.ajax-selected {
+  clear: both;
+  width: 98%;
+  margin: 10px 0 10px 20px;
+  thead {
+    tr {
+      border-bottom: $border-hgry;
+    }
+    th {
+      font-weight: normal;
+      text-align: left;
+    }
+    th.name {
+      width: 40%;
+    }
+  }
+  tbody {
+    tr {
+      &:nth-child(even) {
+        background: #ededed;
+      }
+    }
+    td {
       max-width: 100%;
       white-space: nowrap;
       overflow: hidden;
@@ -2410,6 +2439,7 @@ article.licenses div article a {
           .info {
             float: left;
             padding: 24px 0px;
+            max-width: 666px;
             .name {
               //float: left;
               font-size: $px15;
@@ -2423,6 +2453,7 @@ article.licenses div article a {
               padding: 0px 0px 0px 40px;
               font-size: $px12;
               line-height: 1.3;
+              word-wrap: break-word;
             }
             .sparql {
               clear: both;
@@ -3474,4 +3505,107 @@ article.licenses div article a {
 //head
 .s-sparql #head {
   margin-bottom: $box-margin;
+}
+
+// <モーダル>----------------------------------------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+// #colorbox
+#colorbox {
+  font-size: 75%;
+  #ajax-box {
+    margin: 10px;
+    input[type=text] {
+      width: 80%;
+      height: 2.5em;
+    }
+  }
+}
+
+// table.od-modal
+table.od-modal {
+  table-layout:fixed;
+  width: 100%;
+  th, td {
+    padding: 4px 8px;
+  }
+  thead {
+    tr {
+      position: relative;
+      border-bottom: 1px solid #cccccc;
+      color: #644;
+    }
+    th {
+      padding: 4px 8px 4px;
+      color: #999999;
+      font-weight: normal;
+      text-align: left;
+    }
+    &:after {
+      display: block;
+      overflow: hidden;
+      height: 10px;
+      visibility: hidden;
+      content: "-";
+    }
+  }
+  tbody {
+    tr {
+      &:nth-child(even) { background-color: #fff; }
+      &:hover { background-color: #dedede; }
+    }
+    tr.checked {
+      background-color: #cccccc;
+    }
+  }
+  th.checkbox, td.checkbox {
+    width: 35px;
+    padding: 0px;
+    text-align: center;
+  }
+  th.filename {
+    width: 20%;
+  }
+  th.route {
+    width: 20%;
+  }
+  th.datetime {
+    width: 10em;
+    width: 20%;
+  }
+  th.state {
+    width: 10%;
+  }
+  td {
+    overflow: hidden;
+    max-width: 100%;
+    a {
+      color: #0066cc;
+      text-decoration: none;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+  td.filename {
+    color: #2bb496;
+  }
+  nav.tap-menu, nav.multiple-menu {
+    display: none;
+    position: absolute;
+    min-width: 10em;
+    border: 1px solid #dedede;
+    @include box-shadow(1px 1px 3px #bbb);
+    background-color: #fff;
+    z-index: 100;
+    a {
+      display: block;
+      padding: 0px 12px;
+      text-align: left;
+      line-height: 2.6;
+      &:hover {
+        background-color: #dedede;
+      }
+    }
+  }
 }
