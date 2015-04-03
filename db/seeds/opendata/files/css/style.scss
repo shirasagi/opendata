@@ -1112,8 +1112,45 @@ form.opendata-search_ideas-form .send {
     background: url(../img/logo_GitHub.png) no-repeat 53px center;
   }
 }
-
-
+// tab-inner
+#s-mypage-login {
+  #tab-inner {
+    position: relative;
+    max-width: $page-width;
+    min-width: $page-width;
+    margin: 0 auto;
+    padding: 0 10px;
+    &:before {
+      content: "";
+      width: 77px;
+      height: 153px;
+      position: absolute;
+      left: -67px;
+      top: -79px;
+      background: url(../img/rainbow.png) no-repeat left center;
+    }
+    .wrap {
+      @include border-radius(0px);
+      @include box-shadow((-0.3px -0.3px 0px rgba(0, 0, 0, 0.4)),(0.3px 0px 0px rgba(0, 0, 0, 0.4)));
+      border: 1px solid $gray;
+      border-bottom: 0;
+      background: $white;
+      h1 {
+        margin: 1px 2px 0 2px;
+        padding: 3px 0 0 15px;
+        background: $blue;
+        color: $white;
+        font-size: $px31;
+      }
+      .crumbs {
+        width: $page-width;
+        margin: 0 auto;
+        padding: 14px 0 0 15px;
+        font-size: $px12;
+      }
+    }
+  }
+}
 // <マイページ>---------------------------------------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
@@ -1309,6 +1346,9 @@ form.opendata-search_ideas-form .send {
       }
       .resource {
         padding-left: 15px;
+      }
+      .in_icon {
+        margin: 10px 0 0 10px;
       }
     }
     td.wide {
