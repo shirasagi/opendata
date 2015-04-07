@@ -42,11 +42,12 @@ gem "browser"
 gem "net-ldap"
 gem "diffy"
 
-# SPARQL
+# SPARQL/RDF
 gem 'sparql'
 gem 'sparql-client'
 gem 'rdf-turtle'
 gem 'rdf-rdfxml'
+gem 'levenshtein'
 
 # OAuth
 gem 'omniauth'

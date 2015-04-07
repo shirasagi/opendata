@@ -175,6 +175,7 @@ GEM
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
     kgio (2.9.3)
+    levenshtein (0.2.2)
     libv8 (3.3.10.4)
     link_header (0.0.8)
     listen (2.9.0)
@@ -485,6 +486,7 @@ DEPENDENCIES
   jquery-rails
   jquery-turbolinks
   kaminari
+  levenshtein
   mail-iso-2022-jp
   mongo_mapper
   mongoid (~> 4.0.0)
