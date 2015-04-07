@@ -27,6 +27,7 @@
     <%= link_to :"cms.user", cms_users_path if Cms::User.allowed?(:edit, @cur_user, site: @cur_site) %>
     <%= link_to :"cms.group", cms_groups_path if Cms::Group.allowed?(:edit, @cur_user, site: @cur_site) %>
     <%= link_to :"cms.member", cms_members_path if Cms::Group.allowed?(:edit, @cur_user, site: @cur_site) %>
+    <%= link_to :"rdf.vocabs", rdf_vocabs_path if Cms::User.allowed?(:edit, @cur_user, site: @cur_site) %>
     <%= link_to :"workflow.name", workflow_routes_path if Workflow::Route.allowed?(:edit, @cur_user, site: @cur_site) %>
     <%= link_to :"ldap", ldap_import_index_path if Cms::User.allowed?(:edit, @cur_user, site: @cur_site) %>
     <%= link_to :"chorg.revision", chorg_revisions_revisions_path if Chorg::Revision.allowed?(:edit, @cur_user, site: @cur_site) %>

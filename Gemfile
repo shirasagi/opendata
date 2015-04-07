@@ -46,6 +46,7 @@ gem "diffy"
 gem 'sparql'
 gem 'sparql-client'
 gem 'rdf-turtle'
+gem 'rdf-rdfxml'
 
 # OAuth
 gem 'omniauth'
