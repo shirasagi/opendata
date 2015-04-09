@@ -82,7 +82,7 @@ class Workflow::PagesController < ApplicationController
                    site: @cur_site, page: @item,
                    url: params[:url], comment: params[:remand_comment] }
           Workflow::Mailer.approve_mail(args).deliver
-          @item.delete if @item.try(:branch?)
+          @item.delete if @item.try(:branch?) && @item.state == "public"
         end
 
         render json: { workflow_state: workflow_state }
@@ -113,6 +113,7 @@ class Workflow::PagesController < ApplicationController
     def branch_create
       raise "400" if @item.branch?
 
+      @item.cur_node = @item.parent
       if @item.branches.blank?
         copy = @item.new_clone
         copy.master = @item

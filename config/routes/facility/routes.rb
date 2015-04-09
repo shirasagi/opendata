@@ -6,11 +6,6 @@ SS::Application.routes.draw do
     get :delete, on: :member
   end
 
-  concern :copy do
-    get :copy, :on => :member
-    put :copy, :on => :member
-  end
-
   content "facility" do
     get "/" => redirect { |p, req| "#{req.path}/searches" }, as: :main
     resources :pages, concerns: :deletion
@@ -20,8 +15,8 @@ SS::Application.routes.draw do
     resources :locations, concerns: :deletion
     resources :categories, concerns: :deletion
 
-    resources :images, concerns: [:deletion, :copy]
-    resources :maps, concerns: [:deletion, :copy]
+    resources :images, concerns: :deletion
+    resources :maps, concerns: :deletion
   end
 
   node "facility" do
@@ -43,9 +38,11 @@ SS::Application.routes.draw do
   end
 
   namespace "facility", path: ".:site/facility" do
-    get "/search_categories" => "search_categories#index"
-    get "/search_locations" => "search_locations#index"
-    get "/search_services" => "search_services#index"
+    namespace "apis" do
+      get "categories" => "categories#index"
+      get "locations" => "locations#index"
+      get "services" => "services#index"
+    end
   end
 
   namespace "facility", path: ".u:user/facility", module: "facility", servicer: /\d+/ do

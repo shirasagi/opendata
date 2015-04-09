@@ -22,7 +22,8 @@
 <nav class="main-menu">
   <header><h1><%= t :"cms.config" %></h1></header>
   <div>
-    <%= link_to :"cms.site", cms_site_path  %>
+    <%= link_to :"cms.site", cms_site_path %>
+    <%= link_to :"cms.search_contents", cms_search_contents_path if Cms::Site.allowed?(:edit, @cur_user, site: @cur_site) %>
     <%= link_to :"cms.role", cms_roles_path if Cms::Role.allowed?(:edit, @cur_user, site: @cur_site) %>
     <%= link_to :"cms.user", cms_users_path if Cms::User.allowed?(:edit, @cur_user, site: @cur_site) %>
     <%= link_to :"cms.group", cms_groups_path if Cms::Group.allowed?(:edit, @cur_user, site: @cur_site) %>
@@ -36,7 +37,7 @@
       <%= link_to :"kana.dictionary", kana_dictionaries_path if Kana::Dictionary.allowed?(:edit, @cur_user, site: @cur_site) || Kana::Dictionary.allowed?(:read, @cur_user, site: @cur_site) %>
     <% end %>
     <% unless SS.config.voice.disable %>
-      <%= link_to :"voice.voice_file", voice_voice_files_path if Voice::VoiceFile.allowed?(:edit, @cur_user, site: @cur_site) %>
+      <%= link_to :"voice.file", voice_files_path if Voice::File.allowed?(:edit, @cur_user, site: @cur_site) %>
     <% end %>
     <% unless SS.config.job.disable_log %>
       <%= link_to :"job.log", job_cms_logs_path if Cms::User.allowed?(:edit, @cur_user, site: @cur_site) %>

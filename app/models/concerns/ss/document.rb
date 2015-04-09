@@ -52,7 +52,7 @@ module SS::Document
       end
       return msg if msg.blank? || !html_wrap
       msg = [msg] if msg.class.to_s == "String"
-      list = msg.map {|d| "<li>" + d.gsub(/\r\n|\n/, "<br />") + "</li>"}
+      list = msg.map {|d| "<li>" + d.to_s.gsub(/\r\n|\n/, "<br />") + "<br /></li>"}
 
       h  = []
       h << %(<div class="tooltip">?)
@@ -75,7 +75,8 @@ module SS::Document
 
     def embeds_ids(name, opts = {})
       store = opts[:store_as] || "#{name.to_s.singularize}_ids"
-      field store, type: SS::Extensions::ObjectIds, default: [], metadata: { elem_class: opts[:class_name] }
+      field store, type: SS::Extensions::ObjectIds, default: [],
+            overwrite: true, metadata: { elem_class: opts[:class_name] }
       define_method(name) { opts[:class_name].constantize.where :_id.in => send(store) }
     end
 

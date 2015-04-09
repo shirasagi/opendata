@@ -1,5 +1,5 @@
 class Workflow::WizardController < ApplicationController
-  include Cms::SearchFilter
+  include Cms::ApiFilter
 
   before_action :set_route, only: [:approver_setting]
   before_action :set_item, only: [:approver_setting]
@@ -19,7 +19,6 @@ class Workflow::WizardController < ApplicationController
         @route = nil
       else
         @route = Workflow::Route.find(params[:route_id])
-        @route.cur_site = @cur_site
       end
     end
 

@@ -104,11 +104,16 @@ $ ->
     <% end %>
 
     <% if @item.allowed?(:edit, @cur_user) %>
-    <section class="mod-workflow-request">
-      <h1><%= link_to t("workflow.request"), '#', class: "toggle-label" %></h1>
-      <div class="see request-setting workflow-partial-section" style="display: none;">
-      </div>
-    </section>
+      <% if @item.cloned_name? %>
+        <section class="mod-workflow-request">
+          <h1><%= t("errors.messages.invalid_approve_name") %></h1>
+        </section>
+      <% else %>
+        <section class="mod-workflow-request">
+          <h1><%= link_to t("workflow.request"), '#', class: "toggle-label" %></h1>
+          <div class="see request-setting workflow-partial-section" style="display: none;"></div>
+        </section>
+      <% end %>
     <% end %>
   <% end %>
 
@@ -136,7 +141,6 @@ $ ->
           <% user  = Cms::User.where(id: workflow_approver[:user_id]).first %>
           <% state = t("workflow.state.#{workflow_approver[:state]}") %>
           <% if user %>
-            <% user.cur_site = @cur_site %>
             <%= "#{workflow_approver[:level]}:#{user.long_name}：#{state}" %><br /><%= workflow_approver[:comment] %><br />
           <% else %>
             <%= "#{workflow_approver[:level]}:#{t("workflow.user_deleted")}：#{state}" %><br /><%= workflow_approver[:comment] %><br />
