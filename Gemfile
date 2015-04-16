@@ -41,6 +41,7 @@ gem "browser"
 #gem 'coffee-rails-source-maps'
 gem "net-ldap"
 gem "diffy"
+gem "ungarbled"
 
 # SPARQL/RDF
 gem 'sparql'
