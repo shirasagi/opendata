@@ -49,6 +49,7 @@ gem 'sparql-client'
 gem 'rdf-turtle'
 gem 'rdf-rdfxml'
 gem 'levenshtein'
+gem 'unf'
 
 # OAuth
 gem 'omniauth'
