@@ -1,17 +1,22 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery.cookie
-#//= #require jquery.turbolinks
-#//= #require turbolinks
+//= require_self
+//= require ss/lib/mobile
+//= require cms/lib/preview
+//= require ads/lib/banner
+//= require event/lib/monthly
+//= require event/lib/calendar
+//= require map/lib/map
 
 $ ->
   SS_Kana.render()
   SS_Font.render()
   SS_AdobeReader.render()
   SS_Mobile.render()
+  SS_Voice.render()
   $(".ss-part").each ->
     SS.renderPart $(this)
-  SS_Voice.render()
 
 class @SS
   @head = ""
@@ -84,11 +89,11 @@ class @SS_Kana
     if $("body").data("kana")
       url = SS_Kana.url(location.pathname, false)
       bind = 'onclick="location.href=\'' + url + '\'; return false"'
-      $("#ss-kana").html '<a class="off" href="#' + url + '" ' + bind + '>ふりがなをはずす</a>'
+      $("#ss-kana").html "<a class=\"off\" href=\"##{url}\" #{bind}><%= I18n.t 'cms.links.ruby_off' %></a>"
     else
       url = SS_Kana.url(location.pathname, true)
       bind = 'onclick="location.href=\'' + url + '\'; return false"'
-      $("#ss-kana").html '<a class="on" href="#' + url + '" ' + bind + '>ふりがなをつける</a>'
+      $("#ss-kana").html "<a class=\"on\" href=\"##{url}\" #{bind}><%= I18n.t "cms.links.ruby_on" %></a>"
 
   @url: (url, bool = null) ->
     bool = $("body").data("kana") if bool == null
@@ -139,29 +144,6 @@ class @SS_AdobeReader
     if $("a[href$='.pdf']").length
       $("#ss-adobe-reader, .ss-adobe-reader").each ->
         $(this).html('<%= I18n.t('cms.adobe_reader.remark').join %>').show()
-
-class @SS_Mobile
-  @render: ->
-    if navigator.userAgent.match(/(Android|iPad|iPhone)/)
-      if $.cookie("ss-mobile") == "pc"
-        head = $("head")
-        head.children("meta[name=viewport]").remove()
-        head.append '<meta name="viewport" content="width=1024" />'
-        vr = $("#ss-mb")
-        vr.html('<a href="#" onclick="return SS_Mobile.unset()">' + vr.text() + '</a>').show()
-      else
-        vr = $("#ss-pc")
-        vr.html('<a href="#" onclick="return SS_Mobile.setPc()">' + vr.text() + '</a>').show()
-
-  @unset: ->
-    $.removeCookie("ss-mobile", { expires: 7, path: '/' })
-    location.reload()
-    return false
-
-  @setPc: ->
-    $.cookie("ss-mobile", "pc", { expires: 7, path: '/' })
-    location.reload()
-    return false
 
 class @SS_Tabs
   @render: (elem) ->

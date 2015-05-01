@@ -43,11 +43,6 @@ SS::Application.routes.draw do
   get "/auth/:provider/callback" => "authes#callback"
   get "/auth/failure" => "authes#fail"
 
-  namespace "fs" do
-    get ":id/:filename" => "files#index", as: :file
-    get ":id/thumb/:filename" => "files#thumb", as: :thumb
-  end
-
   namespace "sns", path: ".mypage" do
     get   "/"      => "mypage#index", as: :mypage
     get   "logout" => "login#logout", as: :logout

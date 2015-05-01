@@ -47,11 +47,11 @@ class Ezine::Page
     # @param [Ezine::Member, Ezine::TestMember] member
     #
     # @raise [Object]
-    #   An error object from `ActionMailer#deliver`
+    #   An error object from `ActionMailer#deliver_now`
     #
-    #   `ActionMailer#deliver` メソッドからのエラーオブジェクト
+    #   `ActionMailer#deliver_now` メソッドからのエラーオブジェクト
     def deliver_to(member)
-      Ezine::Mailer.page_mail(self, member).deliver
+      Ezine::Mailer.page_mail(self, member).deliver_now
       Ezine::SentLog.create(
         node_id: parent.id, page_id: id, email: member.email
       ) unless member.test_member?
@@ -64,7 +64,7 @@ class Ezine::Page
       Ezine::TestMember.where(node_id: parent.id).each do |test_member|
         deliver_to test_member
       end
-      update test_delivered: Time.now
+      update test_delivered: Time.zone.now
     end
 
   private

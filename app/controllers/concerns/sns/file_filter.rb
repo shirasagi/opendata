@@ -3,7 +3,7 @@ module Sns::FileFilter
 
   private
     def set_last_modified
-      response.headers["Last-Modified"] = CGI::rfc1123_date(@item.updated.to_time)
+      response.headers["Last-Modified"] = CGI::rfc1123_date(@item.updated.in_time_zone)
     end
 
   public
@@ -15,15 +15,20 @@ module Sns::FileFilter
       set_item
       set_last_modified
 
-      send_data @item.read, type: @item.content_type, filename: @item.filename,
-        disposition: :inline
+      if Fs.mode == :file && Fs.file?(@item.path)
+        send_file @item.path, type: @item.content_type, filename: @item.filename,
+          disposition: :inline, x_sendfile: true
+      else
+        send_data @item.read, type: @item.content_type, filename: @item.filename,
+          disposition: :inline
+      end
     end
 
     def thumb
       set_item
       set_last_modified
 
-      require 'RMagick'
+      require 'rmagick'
       image = Magick::Image.from_blob(@item.read).shift
       image = image.resize_to_fit 120, 90 if image.columns > 120 || image.rows > 90
 
@@ -36,8 +41,13 @@ module Sns::FileFilter
       set_item
       set_last_modified
 
-      send_data @item.read, type: @item.content_type, filename: @item.filename,
-        disposition: :attachment
+      if Fs.mode == :file && Fs.file?(@item.path)
+        send_file @item.path, type: @item.content_type, filename: @item.filename,
+          disposition: :attachment, x_sendfile: true
+      else
+        send_data @item.read, type: @item.content_type, filename: @item.filename,
+          disposition: :attachment
+      end
     end
 
     def create

@@ -13,12 +13,8 @@ def save_ss_files(path, data)
   puts path
   cond = { filename: data[:filename], model: data[:model] }
 
-  file = Fs::UploadedFile.new("ss_file")
-  file.binmode
-  file.write(File.binread(path))
-  file.rewind
-  file.original_filename = data[:filename]
-  file.content_type = Fs.content_type(path)
+  file = Fs::UploadedFile.create_from_file(path)
+  file.original_filename = data[:filename] if data[:filename].present?
 
   item = SS::File.find_or_create_by(cond)
   item.in_file = file
@@ -684,7 +680,7 @@ save_page route: "article/page", filename: "docs/30.html", name: "ふれあい�
   file_ids: [file.id],
   html: '<p><a class="icon-pdf" href="' + file.url + '">サンプルファイル (PDF 783KB)</a></p>',
   contact_group_id: contact_group_id, contact_email: contact_email, contact_tel: contact_tel, contact_fax: contact_fax
-dates = (Date.today..(Date.today + 20)).map { |d| d.mongoize }
+dates = (Time.zone.today..(Time.zone.today + 20)).map { |d| d.mongoize }
 save_page route: "event/page", filename: "calendar/31.html", name: "住民相談会を開催します。",
   layout_id: layouts["event"].id, category_ids: [categories["calendar/kohen"].id], event_dates: dates,
   schedule: "〇〇年○月〇日", venue: "○○○○○○○○○○", cost: "○○○○○○○○○○",

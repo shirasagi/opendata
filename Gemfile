@@ -24,6 +24,7 @@ gem "dynamic_form"
 gem "zipruby"
 gem "jquery-turbolinks"
 gem "jquery-cookie-rails"
+gem 'jquery-form-rails'
 gem "redcarpet"
 gem "compass-rails"
 gem "kaminari"
@@ -104,4 +105,5 @@ group :development do
   gem 'brakeman', require: false
   gem 'guard-brakeman', require: false
   gem 'yard', require: false
+  #gem 'rack-mini-profiler'
 end

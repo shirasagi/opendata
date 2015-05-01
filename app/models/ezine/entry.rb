@@ -9,7 +9,7 @@ class Ezine::Entry
 
   before_create ->{ self.verification_token = unique_token },
     if: ->{ SS.config.ezine.deliver_verification_mail_from_here }
-  after_create ->{ Ezine::Mailer.verification_mail(self).deliver },
+  after_create ->{ Ezine::Mailer.verification_mail(self).deliver_now },
     if: ->{ SS.config.ezine.deliver_verification_mail_from_here }
 
   class << self
@@ -28,7 +28,10 @@ class Ezine::Entry
 
   public
     def email_type_options
-      [%w(テキスト版 text), %w(HTML版 html)]
+      [
+        [I18n.t('ezine.options.email_type.text'), 'text'],
+        [I18n.t('ezine.options.email_type.html'), 'html'],
+      ]
     end
 
     # Verify an entry.

@@ -12,6 +12,9 @@ ja:
     prev_day: 前の日へ
     current_month: 今月
     filter_all: 全て
+    confirm:
+      delete_date: イベント日を削除してよろしいですか？
+      delete_item: 項目を削除してよろしいですか？
 
   modules:
     event: イベント
@@ -20,8 +23,6 @@ ja:
       event/page_list: リスト表示
       event/body: イベント情報
       event/additional_info: 追加情報
-      event/category/category: カテゴリー
-      event/category/setting: カテゴリー
 
   cms:
     nodes:

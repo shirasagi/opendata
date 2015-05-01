@@ -23,7 +23,7 @@ $ ->
 <dl class="see">
   <dt class="wide">
     <%= t("cms.apis.contents.page") %>
-    <span style="float: right;"><%= t("cms.apis.contents.result") %><%= @pages.size %>件</span>
+    <span style="float: right;"><%= t("cms.apis.contents.result") %><%= @pages.size %><%= t "views.units.count" %></span>
   </dt>
   <dd style="margin: 0px 0px 0px 40px; padding: 10px 0px;">
     <table class="index">
@@ -38,8 +38,8 @@ $ ->
       </thead>
       <tbody>
       <% @pages.each do |item| %>
-        <% readable = item.becomes_with_route.allowed?(:edit, @cur_user, site: @cur_site) %>
-        <% editable = item.becomes_with_route.allowed?(:read, @cur_user, site: @cur_site) %>
+        <% readable = item.becomes_with_route.allowed?(:read, @cur_user, site: @cur_site) %>
+        <% editable = item.becomes_with_route.allowed?(:edit, @cur_user, site: @cur_site) %>
         <tr>
           <td class="checkbox">
             <%= check_box_tag("page_ids[]", item.id, false, (editable ? {} : { disabled: true })) %>
@@ -58,7 +58,7 @@ $ ->
 
   <dt class="wide">
     <%= t("cms.part") %>
-    <span style="float: right;"><%= t("cms.apis.contents.result") %><%= @parts.size %>件</span>
+    <span style="float: right;"><%= t("cms.apis.contents.result") %><%= @parts.size %><%= t "views.units.count" %></span>
   </dt>
   <dd style="margin: 0px 0px 0px 40px; padding: 10px 0px;">
     <table class="index">
@@ -71,8 +71,8 @@ $ ->
       </thead>
       <tbody>
       <% @parts.each do |item| %>
-        <% readable = item.allowed?(:edit, @cur_user, site: @cur_site) %>
-        <% editable = item.allowed?(:read, @cur_user, site: @cur_site) %>
+        <% readable = item.allowed?(:read, @cur_user, site: @cur_site) %>
+        <% editable = item.allowed?(:edit, @cur_user, site: @cur_site) %>
         <tr>
           <td class="checkbox">
             <%= check_box_tag("part_ids[]", item.id, false, (editable ? {} : { disabled: true })) %>
@@ -91,7 +91,7 @@ $ ->
 
   <dt class="wide">
     <%= t("cms.layout") %>
-    <span style="float: right;"><%= t("cms.apis.contents.result") %><%= @layouts.size %>件</span>
+    <span style="float: right;"><%= t("cms.apis.contents.result") %><%= @layouts.size %><%= t "views.units.count" %></span>
   </dt>
   <dd style="margin: 0px 0px 0px 40px; padding: 10px 0px;">
     <table class="index">
@@ -104,8 +104,8 @@ $ ->
       </thead>
       <tbody>
       <% @layouts.each do |item| %>
-        <% readable = item.allowed?(:edit, @cur_user, site: @cur_site) %>
-        <% editable = item.allowed?(:read, @cur_user, site: @cur_site) %>
+        <% readable = item.allowed?(:read, @cur_user, site: @cur_site) %>
+        <% editable = item.allowed?(:edit, @cur_user, site: @cur_site) %>
         <tr>
           <td class="checkbox">
             <%= check_box_tag("layout_ids[]", item.id, false, (editable ? {} : { disabled: true })) %>
@@ -122,4 +122,3 @@ $ ->
     </table>
   </dd>
 </dl>
-

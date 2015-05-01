@@ -17,6 +17,8 @@ module SS::File::Model
     field :size, type: Integer
     field :content_type, type: String
 
+    belongs_to :site, class_name: "SS::Site"
+
     permit_params :state, :filename
     permit_params :in_file, :in_files, in_files: []
 
@@ -43,7 +45,7 @@ module SS::File::Model
     end
 
     def state_options
-      [%w(公開 public)]
+      [[I18n.t('views.options.state.public'), 'public']]
     end
 
     def name

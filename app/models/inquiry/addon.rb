@@ -9,8 +9,9 @@ module Inquiry::Addon
     included do
       field :inquiry_html, type: String, default: ""
       field :inquiry_sent_html, type: String, default: ""
+      field :inquiry_results_html, type: String, default: ""
 
-      permit_params :inquiry_html, :inquiry_sent_html
+      permit_params :inquiry_html, :inquiry_sent_html, :inquiry_results_html
     end
   end
 
@@ -26,7 +27,10 @@ module Inquiry::Addon
 
       public
         def inquiry_captcha_options
-          [%w(使用する enabled), %w(使用しない disabled)]
+          [
+            [I18n.t('inquiry.options.state.enabled'), 'enabled'],
+            [I18n.t('inquiry.options.state.disabled'), 'disabled'],
+          ]
         end
 
         def captcha_enabled?
@@ -52,7 +56,10 @@ module Inquiry::Addon
 
       public
         def notice_state_options
-          [%w(使用する enabled), %w(使用しない disabled)]
+          [
+            [I18n.t('inquiry.options.state.enabled'), 'enabled'],
+            [I18n.t('inquiry.options.state.disabled'), 'disabled'],
+          ]
         end
 
         def notify_mail_enabled?
@@ -87,7 +94,10 @@ module Inquiry::Addon
 
       public
         def reply_state_options
-          [%w(使用する enabled), %w(使用しない disabled)]
+          [
+            [I18n.t('inquiry.options.state.enabled'), 'enabled'],
+            [I18n.t('inquiry.options.state.disabled'), 'disabled'],
+          ]
         end
 
         def reply_mail_enabled?
@@ -122,14 +132,21 @@ module Inquiry::Addon
 
       public
         def input_type_options
-          [ %w(テキストボックス text_field), %w(テキストエリア text_area),
-            %w(メールアドレス email_field), %w(ラジオボタン選択 radio_button),
-            %w(プルダウン選択 select), %w(チェックボックス選択 check_box),
+          [
+            [I18n.t('inquiry.options.input_type.text_field'), 'text_field'],
+            [I18n.t('inquiry.options.input_type.text_area'), 'text_area'],
+            [I18n.t('inquiry.options.input_type.email_field'), 'email_field'],
+            [I18n.t('inquiry.options.input_type.radio_button'), 'radio_button'],
+            [I18n.t('inquiry.options.input_type.select'), 'select'],
+            [I18n.t('inquiry.options.input_type.check_box'), 'check_box'],
           ]
         end
 
         def required_options
-          [ %w(必須 required), %w(任意 optional) ]
+          [
+            [I18n.t('inquiry.options.required.required'), 'required'],
+            [I18n.t('inquiry.options.required.optional'), 'optional'],
+          ]
         end
 
         def required?
@@ -149,5 +166,96 @@ module Inquiry::Addon
           end
         end
     end
+  end
+
+  module ReleasePlan
+    extend ActiveSupport::Concern
+    extend SS::Addon
+
+    set_order 501
+
+    included do
+      field :release_date, type: DateTime
+      field :close_date, type: DateTime
+      permit_params :release_date, :close_date
+
+      validate :validate_release_date
+    end
+
+    module ClassMethods
+      public
+        def public(date = nil)
+          date = Time.zone.now unless date
+          super(date)
+        end
+    end
+
+    public
+      def public?
+        if (release_date.present? && release_date > Time.zone.now) ||
+           (close_date.present? && close_date < Time.zone.now)
+          false
+        else
+          super
+        end
+      end
+
+      def label(name)
+        if name == :state
+          state = public? ? "public" : "closed"
+          I18n.t("views.options.state.#{state}")
+        else
+          super(name)
+        end
+      end
+
+    private
+      def validate_release_date
+        self.released ||= release_date
+
+        if close_date.present?
+          if release_date.present? && release_date >= close_date
+            errors.add :close_date, :greater_than, count: t(:release_date)
+          end
+        end
+      end
+  end
+
+  module ReceptionPlan
+    extend ActiveSupport::Concern
+    extend SS::Addon
+
+    set_order 510
+
+    included do
+      field :reception_start_date, type: DateTime
+      field :reception_close_date, type: DateTime
+      permit_params :reception_start_date, :reception_close_date
+
+      validate :validate_reception_date
+    end
+
+    public
+      def reception_enabled?
+        if (reception_start_date.present? && reception_start_date.to_date > Time.zone.now.to_date) ||
+           (reception_close_date.present? && reception_close_date.to_date < Time.zone.now.to_date)
+          false
+        else
+          true
+        end
+      end
+
+    private
+      def validate_reception_date
+        if reception_start_date.present? || reception_close_date.present?
+          if reception_start_date.blank?
+            errors.add :reception_start_date, :empty
+          elsif reception_close_date.blank?
+            errors.add :reception_close_date, :empty
+          elsif reception_start_date > reception_close_date
+            errors.add :reception_close_date, :greater_than, count: t(:reception_start_date)
+          end
+        end
+      end
   end
 end

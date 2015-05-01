@@ -13,7 +13,6 @@ Rails.application.configure do
   # config.action_dispatch.rack_cache = true
 
   # Asset pipeline.
-  #config.serve_static_assets = true
   config.assets.compress = true
   config.assets.js_compressor = :uglifier
   config.assets.css_compressor = :sass
@@ -47,7 +46,11 @@ Rails.application.configure do
   # config.action_controller.asset_host = "http://assets.example.com"
 
   # Precompile additional assets.
-  config.assets.precompile += %w( *.css *.js )
+  #config.assets.precompile += %w( *.css *.js )
+  config.assets.precompile << proc do |path, fn|
+    #fn =~ /app\/assets/ && !%w(.js .css).include?(File.extname(path))
+    fn =~ /app\/assets/ && %w(.js .css).include?(File.extname(path)) && path !~ /\/lib\// && path !~ /\/_/
+  end
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # config.action_mailer.raise_delivery_errors = false

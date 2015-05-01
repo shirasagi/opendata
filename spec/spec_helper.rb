@@ -99,8 +99,19 @@ RSpec.configure do |config|
   config.add_setting :default_dbscope, default: :context
   config.extend(SS::DatabaseCleanerSupport)
   config.include(SS::JsSupport, js: true)
+  config.extend(SS::HttpServerSupport, http_server: true)
 end
 
 def unique_id
-  Time.now.to_f.to_s.delete('.').to_i.to_s(36)
+  Time.zone.now.to_f.to_s.delete('.').to_i.to_s(36)
 end
+
+# ref.
+#   https://www.relishapp.com/rspec/rspec-expectations/v/2-5/docs/built-in-matchers/be-within-matcher
+#   http://qiita.com/kozy4324/items/9a6530736be7e92954bc
+RSpec::Matchers.define :eq_as_time do |expected_time|
+  match do |actual_time|
+    expect(actual_time.to_f).to be_within(0.001).of(expected_time.to_f)
+  end
+end
+# TODO: Should this code be written here? Another more correctly place?
