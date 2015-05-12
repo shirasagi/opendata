@@ -52,7 +52,7 @@ module SS::BaseFilter
 
         ## TODO: test
         if u[1] != remote_addr.to_s || u[2] != request.user_agent.to_s
-          dump "[#{Time.now}] #{u[1]} #{u[2]} != #{remote_addr} #{request.user_agent}"
+          dump "[#{Time.zone.now}] #{u[1]} #{u[2]} != #{remote_addr} #{request.user_agent}"
         end
 
         #return unset_user redirect: true if u[1] != remote_addr.to_s
@@ -79,7 +79,7 @@ module SS::BaseFilter
 
     def unset_user(opt = {})
       ## TODO: test
-      dump "[#{Time.now}] usnet_user #{@cur_user}"
+      dump "[#{Time.zone.now}] usnet_user #{@cur_user}"
 
       session[:user] = nil
       session[:password] = nil
