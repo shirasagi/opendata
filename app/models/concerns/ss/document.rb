@@ -11,7 +11,7 @@ module SS::Document
     class_variable_set(:@@_text_index_fields, [])
 
     field :created, type: DateTime, default: -> { Time.zone.now }
-    field :updated, type: DateTime, default: -> { Time.zone.now }
+    field :updated, type: DateTime, default: -> { created }
     field :text_index, type: String
 
     validate :validate_updated, if: -> { in_updated.present? }
