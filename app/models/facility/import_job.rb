@@ -13,6 +13,9 @@ class Facility::ImportJob
       @cur_site = SS::Site.where(host: host).first
       @cur_node = ::Facility::Node::Node.where(filename: filename, site_id: @cur_site.id).first
 
+      put_log("destory all pages /#{@cur_node.filename}/*")
+      ::Facility::Node::Page.where(filename: /^#{@cur_node.filename}\//, site_id: @cur_site.id).destroy_all
+
       put_log("import start " + ::File.basename(@ss_file.name))
       import_csv(@ss_file)
 
@@ -21,7 +24,6 @@ class Facility::ImportJob
 
     def import_csv(file)
       @model = ::Facility::Node::Page
-      @destroy_pages = @model.where(filename: /^#{@cur_node.filename}\//).map(&:filename)
 
       table = CSV.read(file.path, headers: true, encoding: 'SJIS:UTF-8')
       table.each_with_index do |row, i|
@@ -31,11 +33,6 @@ class Facility::ImportJob
         rescue => e
           put_log("error  #{i + 1}: #{e}")
         end
-      end
-
-      @model.in(filename: @destroy_pages).each do |item|
-        put_log("destroy : #{item.name}")
-        item.destroy
       end
     end
 
@@ -60,21 +57,20 @@ class Facility::ImportJob
         name += " #{map.map_points.first[:loc]}"
       end
 
-      @destroy_pages.delete(filename)
       return name
     end
 
     def set_page_attributes(row, item)
-      item.name            = row[@model.t(:name)]
-      item.layout          = Cms::Layout.where(name: row[@model.t(:layout)]).first
-      item.kana            = row[@model.t(:kana)]
-      item.address         = row[@model.t(:address)]
-      item.postcode        = row[@model.t(:postcode)]
-      item.tel             = row[@model.t(:tel)]
-      item.fax             = row[@model.t(:fax)]
-      item.related_url     = row[@model.t(:related_url)]
+      item.name            = row[@model.t(:name)].try(:squish)
+      item.layout          = Cms::Layout.where(name: row[@model.t(:layout)].try(:squish)).first
+      item.kana            = row[@model.t(:kana)].try(:squish)
+      item.address         = row[@model.t(:address)].try(:squish)
+      item.postcode        = row[@model.t(:postcode)].try(:squish)
+      item.tel             = row[@model.t(:tel)].try(:squish)
+      item.fax             = row[@model.t(:fax)].try(:squish)
+      item.related_url     = row[@model.t(:related_url)].try(:gsub, /[\r\n]/, " ")
       item.additional_info = row.to_h.select { |k, v| k =~ /^#{@model.t(:additional_info)}[:：]/ && v.present? }.
-        map { |k, v| {:field => k, :value => v} }
+        map { |k, v| {:field => k.sub(/^#{@model.t(:additional_info)}[:：]/, ""), :value => v} }
 
       set_page_categories(row, item)
       ids = SS::Group.in(name: row[@model.t(:groups)].to_s.split(/\n/)).map(&:id)
@@ -82,13 +78,16 @@ class Facility::ImportJob
     end
 
     def set_page_categories(row, item)
-      ids = @cur_node.st_categories.in(name: row[@model.t(:categories)].to_s.split(/\n/)).map(&:id)
+      names = row[@model.t(:categories)].to_s.split(/\n/).map(&:strip)
+      ids = @cur_node.st_categories.in(name: names).map(&:id)
       item.category_ids = SS::Extensions::ObjectIds.new(ids)
 
-      ids = @cur_node.st_locations.in(name: row[@model.t(:locations)].to_s.split(/\n/)).map(&:id)
+      names = row[@model.t(:locations)].to_s.split(/\n/).map(&:strip)
+      ids = @cur_node.st_locations.in(name: names).map(&:id)
       item.location_ids = SS::Extensions::ObjectIds.new(ids)
 
-      ids = @cur_node.st_services.in(name: row[@model.t(:services)].to_s.split(/\n/)).map(&:id)
+      names = row[@model.t(:services)].to_s.split(/\n/).map(&:strip)
+      ids = @cur_node.st_services.in(name: names).map(&:id)
       item.service_ids  = SS::Extensions::ObjectIds.new(ids)
     end
 
