@@ -1,9 +1,12 @@
 require 'spec_helper'
 
-describe "opendata_agents_parts_mypage_login", dbscope: :example do
+describe "opendata_agents_parts_app", dbscope: :example do
   let(:site) { cms_site }
-  let!(:parts) { create(:opendata_part_mypage_login) }
+  let!(:parts) { create(:opendata_part_app) }
   let(:index_path) { parts.url }
+  before do
+    create_once :opendata_node_search_app, basename: "app/search"
+  end
 
   it "#index" do
     page.driver.browser.with_session("public") do |session|
