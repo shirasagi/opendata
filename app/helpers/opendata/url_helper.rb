@@ -10,51 +10,62 @@ module Opendata::UrlHelper
     image_tag url, opts
   end
 
-  def search_datasets_path
+  def escape(string)
+    URI.escape(string.to_s, Regexp.new("[^#{URI::PATTERN::ALNUM}]"))
+  end
+
+  def build_path(url, options)
+    return url if options.blank?
+
+    params = options.map do |key, value|
+      if value.present?
+        "#{escape(key)}=#{escape(value)}"
+      else
+        "#{escape(key)}"
+      end
+    end
+    "#{url}?#{params.join("&")}".html_safe
+  end
+
+  def search_datasets_path(options = {})
     node = Opendata::Node::SearchDataset.site(@cur_site).public.first
-    return nil unless node
-    node.url
+    raise "dataset search is disabled since Opendata::Node::SearchDataset is not registered" unless node
+    build_path(node.url, options)
   end
 
-  def search_groups_path
+  def search_groups_path(options = {})
     node = Opendata::Node::SearchDatasetGroup.site(@cur_site).public.first
-    return nil unless node
-    node.url
+    raise "group search is disabled since Opendata::Node::SearchDatasetGroup is not registered" unless node
+    build_path(node.url, options)
   end
 
-  def search_apps_path
+  def search_apps_path(options = {})
     node = Opendata::Node::SearchApp.site(@cur_site).public.first
-    return nil unless node
-    node.url
+    raise "app search is disabled since Opendata::Node::SearchApp is not registered" unless node
+    build_path(node.url, options)
   end
 
-  def search_ideas_path
+  def search_ideas_path(options = {})
     node = Opendata::Node::SearchIdea.site(@cur_site).public.first
-    return nil unless node
-    node.url
+    raise "idea search is disabled since Opendata::Node::SearchIdea is not registered" unless node
+    build_path(node.url, options)
   end
 
-  def sparql_path
+  def sparql_path(options = {})
     node = Opendata::Node::Sparql.site(@cur_site).public.first
-    return nil unless node
-    node.url
+    raise "sparql is disabled since Opendata::Node::Sparql is not registered" unless node
+    build_path(node.url, options)
   end
 
-  def mypage_path
+  def mypage_path(options = {})
     node = Opendata::Node::Mypage.site(@cur_site).public.first
-    return nil unless node
-    node.url
+    raise "mypage is disabled since Opendata::Node::Mypage is not registered" unless node
+    build_path(node.url, options)
   end
 
-  def member_path
+  def member_path(options = {})
     node = Opendata::Node::Member.site(@cur_site).public.first
-    return nil unless node
-    node.url
-  end
-
-  def mypage_path
-    node = Opendata::Node::Mypage.site(@cur_site).public.first
-    return nil unless node
-    node.url
+    raise "member is disabled since Opendata::Node::Member is not registered" unless node
+    build_path(node.url, options)
   end
 end
