@@ -8,7 +8,9 @@ describe Opendata::Csv2rdfSetting, dbscope: :example do
   end
 
   let(:site) { cms_site }
-  let(:dataset) { create(:opendata_dataset) }
+  let!(:node_search_dataset) { create(:opendata_node_search_dataset) }
+  let(:node) { create(:opendata_node_dataset) }
+  let(:dataset) { create(:opendata_dataset, node: node) }
   let(:license_logo_file) { upload_file(Rails.root.join("spec", "fixtures", "ss", "logo.png")) }
   let(:license) { create(:opendata_license, site: site, file: license_logo_file) }
   let(:csv_file) { Rails.root.join("spec", "fixtures", "opendata", "shift_jis.csv") }
@@ -32,7 +34,7 @@ describe Opendata::Csv2rdfSetting, dbscope: :example do
   describe "#header_cols" do
     context "when no header_rows is given" do
       subject { create(:opendata_csv2rdf_setting, site: site, resource: resource) }
-      its(:header_cols) { is_expected.to be_nil }
+      its(:header_cols) { is_expected.to eq 0 }
     end
 
     context "when no header_rows is given" do
