@@ -48,8 +48,7 @@ module Cms::PublicFilter
     end
 
     def set_request_path
-      @cur_path ||= request.env["REQUEST_PATH"]
-      @cur_path ||= request.path if Rails.env.test?
+      @cur_path ||= request.env["REQUEST_PATH"] || request.path
       cur_path = @cur_path.dup
 
       filter_methods = self.class.private_instance_methods.select { |m| m =~ /^set_request_path_with_/ }
