@@ -148,7 +148,7 @@ CentOS 6.6/64bit
   rake db:seed name=users site=www
 
   # サイトデータの登録
-  rake db:seed name=demo site=www
+  rake db:seed name=opendata site=www
 
 --------------------
 # CMS管理
