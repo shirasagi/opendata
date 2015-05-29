@@ -7,7 +7,12 @@ OpenData Plugin provides Data Catalog, Application Market, Idea Box.
 Code Status
 -----------
 
+[![Build Status](https://travis-ci.org/shirasagi/opendata.svg?branch=master)](https://travis-ci.org/shirasagi/opendata)
+[![Code Climate](https://codeclimate.com/github/shirasagi/opendata/badges/gpa.svg)](https://codeclimate.com/github/shirasagi/opendata)
+[![Coverage Status](https://coveralls.io/repos/shirasagi/opendata/badge.png)](https://coveralls.io/r/shirasagi/opendata)
+[![GitHub version](https://badge.fury.io/gh/shirasagi%2Fopendata.svg)](http://badge.fury.io/gh/shirasagi%2Fopendata)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/shirasagi/shirasagi?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Stories in Ready](https://badge.waffle.io/shirasagi/opendata.svg?label=ready&title=Ready)](http://waffle.io/shirasagi/opendata)
 
 Platform
 --------
