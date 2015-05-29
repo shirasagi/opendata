@@ -111,7 +111,11 @@ namespace :cms do
         end
       end
 
-      puts "save_page route: \"#{page.route}\", filename: \"#{page.filename}\", name: \"#{page.name}\", layout_id: layouts[\"#{page.layout.filename.sub(/\..*$/, '')}\"].id"
+      message = "save_page route: \"#{page.route}\""
+      message << ", filename: \"#{page.filename}\""
+      message << ", name: \"#{page.name}\""
+      message << ", layout_id: layouts[\"#{page.layout.filename.sub(/\..*$/, '')}\"].id"
+      puts message
     end
   end
 end
