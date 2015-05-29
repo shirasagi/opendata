@@ -48,9 +48,9 @@ SS::Application.routes.draw do
 
   namespace "facility", path: ".:site/facility" do
     namespace "apis" do
-      get "categories" => "categories#index"
-      get "locations" => "locations#index"
-      get "services" => "services#index"
+      match "categories" => "categories#index", via: [:get, :post]
+      match "locations" => "locations#index", via: [:get, :post]
+      match "services" => "services#index", via: [:get, :post]
     end
   end
 
