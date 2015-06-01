@@ -1,0 +1,8 @@
+# Save as .codeclimate.yml (note leading .) in project root directory
+languages:
+  Ruby: true
+exclude_paths:
+- "log/*"
+- "public/*"
+- "tmp/*"
+- "db/seeds/*.js"
