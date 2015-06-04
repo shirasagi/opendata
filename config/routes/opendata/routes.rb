@@ -6,7 +6,6 @@ SS::Application.routes.draw do
   get "/text/:app/appfile/*filename" => "opendata/appscripts#text"
   get "/app/:app/full" => "opendata/appscripts#full"
   get "/datasets/select(.:format)" => "opendata/dataset_selects#index"
-  post "/datasets/select(.:format)" => "opendata/dataset_selects#index"
 
   concern :deletion do
     get :delete, on: :member
