@@ -6,6 +6,7 @@ class Opendata::Agents::Nodes::AppController < ApplicationController
 
   before_action :set_app, only: [:show_point, :add_point, :point_members]
   before_action :set_ideas, only: [:show_ideas]
+  before_action :set_file, only: [:app_index, :text]
   skip_filter :logged_in?
 
   private
@@ -46,6 +47,15 @@ class Opendata::Agents::Nodes::AppController < ApplicationController
         end
       end
       return zipfilename
+    end
+
+    def set_file
+      item = Opendata::App.find(params[:app])
+      filename = params[:filename]
+      if filename.blank?
+        filename = "index.html"
+      end
+      @appfile = item.appfiles.find_by filename: filename
     end
 
   public
@@ -131,12 +141,17 @@ class Opendata::Agents::Nodes::AppController < ApplicationController
     def show_executed
       @cur_node.layout = nil
       @app = Opendata::App.site(@cur_site).find(params[:app])
+      @add = false
+      if params[:tab_display] == "tab_html"
+        @add = true
+      end
       render
     end
 
     def add_executed
       @cur_node.layout = nil
       @app = Opendata::App.site(@cur_site).find(params[:app])
+      @add = false
       if @app.present?
         exec = @app.executed.to_i
         @app.executed = exec + 1
@@ -145,6 +160,28 @@ class Opendata::Agents::Nodes::AppController < ApplicationController
           @app.executed = exec
         end
       end
-      render
+      render :show_executed
+    end
+
+    def full
+      @cur_node.layout = nil
+      @item = Opendata::App.find(params[:app])
+      @app_html = @item.appfiles.where(filename: "index.html").first
+    end
+
+    def app_index
+      @cur_node.layout = nil
+      if @appfile.present?
+        send_file @appfile.file.path, type: @appfile.content_type, filename: @appfile.filename,
+          disposition: :inline, x_sendfile: true
+      end
+    end
+
+    def text
+      @cur_node.layout = nil
+      if @appfile.present?
+        send_file @appfile.file.path, :type => "text/plain", filename: @appfile.filename,
+          disposition: :inline, x_sendfile: true
+      end
     end
 end

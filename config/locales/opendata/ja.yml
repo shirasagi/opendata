@@ -77,10 +77,10 @@ ja:
         attention: 注目アイデア
     url:
       dataset:
-        select: "/datasets/select"
+        search: "/dataset/datasets/search"
       app:
-        index: "/app/%{id}/application/%{filename}"
-        text: "/text/%{id}/appfile/%{filename}"
+        index: "/app/%{id}/file_index/%{filename}"
+        text: "/app/%{id}/file_text/%{filename}"
         full: "/app/%{id}/full"
 
   modules:

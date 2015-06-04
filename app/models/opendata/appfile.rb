@@ -3,6 +3,7 @@ class Opendata::Appfile
   include SS::Relation::File
   include Opendata::TsvParseable
   include Opendata::AllowableAny
+  include Opendata::Common
 
   seqid :id
   field :filename, type: String
@@ -25,19 +26,19 @@ class Opendata::Appfile
 
   public
     def url
-      app.url.sub(/\.html$/, "") + "/appfile/#{id}/#{filename}"
+      get_app_url(app, "/appfile/#{id}/#{filename}")
     end
 
     def full_url
-      app.full_url.sub(/\.html$/, "") + "/appfile/#{id}/#{filename}"
+      get_app_full_url(app, "/appfile/#{id}/#{filename}")
     end
 
     def content_url
-      app.full_url.sub(/\.html$/, "") + "/appfile/#{id}/content.html"
+      get_app_full_url(app, "/appfile/#{id}/content.html")
     end
 
     def json_url
-      app.full_url.sub(/\.html$/, "") + "/appfile/#{id}/json.html"
+      get_app_full_url(app, "/appfile/#{id}/json.html")
     end
 
     def path
@@ -55,11 +56,7 @@ class Opendata::Appfile
   private
     def set_filename
       self.filename = in_file.original_filename
-      self.format = filename.sub(/.*\./, "").upcase if format.blank?
-    end
-
-    def set_format
-      self.format = format.upcase if format.present?
+      self.format = filename.sub(/.*\./, "").upcase
     end
 
     def validate_appfile

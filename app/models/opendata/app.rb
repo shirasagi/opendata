@@ -8,6 +8,7 @@ class Opendata::App
   include Opendata::Addon::Area
   include Opendata::Addon::Dataset
   include Opendata::Reference::Member
+  include Opendata::Common
 
   set_permission_name "opendata_apps"
 
@@ -36,27 +37,27 @@ class Opendata::App
 
   public
     def point_url
-      url.sub(/\.html$/, "") + "/point.html"
+      get_url(url, "/point.html")
     end
 
     def point_members_url
-      url.sub(/\.html$/, "") + "/point/members.html"
+      get_url(url, "/point/members.html")
     end
 
     def app_ideas_url
-      url.sub(/\.html$/, "") + "/ideas/show.html"
+      get_url(url, "/ideas/show.html")
     end
 
     def zip_url
-      url.sub(/\.html$/, "") + "/zip"
+      get_url(url, "/zip")
     end
 
     def executed_show_url
-      url.sub(/\.html$/, "") + "/executed/show.html"
+      get_url(url, "/executed/show.html")
     end
 
     def executed_add_url
-      url.sub(/\.html$/, "") + "/executed/add.html"
+      get_url(url, "/executed/add.html")
     end
 
     def contact_present?
@@ -108,68 +109,12 @@ class Opendata::App
       end
     end
 
-    def limit_aggregation(pipes, limit)
-      return collection.aggregate(pipes) unless limit
-
-      pipes << { "$limit" => limit + 1 }
-      aggr = collection.aggregate(pipes)
-
-      def aggr.popped=(bool)
-        @popped = bool
-      end
-
-      def aggr.popped?
-        @popped.present?
-      end
-
-      if aggr.size > limit
-        aggr.pop
-        aggr.popped = true
-      end
-      aggr
-    end
-
     def aggregate_field(name, opts = {})
-      pipes = []
-      pipes << { "$match" => where({}).selector.merge("#{name}" => { "$exists" => 1 }) }
-      pipes << { "$group" => { _id: "$#{name}", count: { "$sum" =>  1 } }}
-      pipes << { "$project" => { _id: 0, id: "$_id", count: 1 } }
-      pipes << { "$sort" => { count: -1 } }
-      limit_aggregation pipes, opts[:limit]
+      Opendata::Common.get_aggregate_field(self, name, opts)
     end
 
     def aggregate_array(name, opts = {})
-      pipes = []
-      pipes << { "$match" => where({}).selector.merge("#{name}" => { "$exists" => 1 }) }
-      pipes << { "$project" => { _id: 0, "#{name}" => 1 } }
-      pipes << { "$unwind" => "$#{name}" }
-      pipes << { "$group" => { _id: "$#{name}", count: { "$sum" =>  1 } }}
-      pipes << { "$project" => { _id: 0, id: "$_id", count: 1 } }
-      pipes << { "$sort" => { count: -1 } }
-      limit_aggregation pipes, opts[:limit]
-    end
-
-    def get_tag_list(query)
-      pipes = []
-      pipes << { "$match" => where({}).selector.merge("tags" => { "$exists" => 1 }) }
-      pipes << { "$project" => { _id: 0, "tags" => 1 } }
-      pipes << { "$unwind" => "$tags" }
-      pipes << { "$group" => { _id: "$tags", count: { "$sum" =>  1 } }}
-      pipes << { "$project" => { _id: 0, name: "$_id", count: 1 } }
-      pipes << { "$sort" => { name: 1 } }
-      collection.aggregate(pipes)
-    end
-
-    def get_tag(tag_name)
-      pipes = []
-      pipes << { "$match" => where({}).selector.merge("tags" => { "$exists" => 1 }) }
-      pipes << { "$project" => { _id: 0, "tags" => 1 } }
-      pipes << { "$unwind" => "$tags" }
-      pipes << { "$group" => { _id: "$tags", count: { "$sum" =>  1 } }}
-      pipes << { "$project" => { _id: 0, name: "$_id", count: 1 } }
-      pipes << { "$match" => { name: tag_name }}
-      pipes << { "$sort" => { name: 1 } }
-      collection.aggregate(pipes)
+      Opendata::Common.get_aggregate_array(self, name, opts)
     end
 
     def search(params)
