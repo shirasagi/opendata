@@ -2,6 +2,7 @@ class Opendata::Agents::Nodes::AppCategoryController < ApplicationController
   include Cms::NodeFilter::View
   include Opendata::UrlHelper
   include Opendata::AppFilter
+  include Opendata::ModelClass
 
   public
     def pages
@@ -11,7 +12,7 @@ class Opendata::Agents::Nodes::AppCategoryController < ApplicationController
 
       @cur_node.name = @item.name
 
-      Opendata::App.site(@cur_site).where(category_ids: @item.id).public
+      model_app.site(@cur_site).where(category_ids: @item.id).public
     end
 
     def index

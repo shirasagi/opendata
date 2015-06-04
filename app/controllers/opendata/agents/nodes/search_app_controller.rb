@@ -1,10 +1,11 @@
 class Opendata::Agents::Nodes::SearchAppController < ApplicationController
   include Cms::NodeFilter::View
+  include Opendata::ModelClass
   helper Opendata::UrlHelper
 
   private
     def pages
-      @model = Opendata::App
+      @model = model_app
 
       focus = params[:s] || {}
       focus = focus.merge(site: @cur_site)

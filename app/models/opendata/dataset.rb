@@ -10,6 +10,7 @@ class Opendata::Dataset
   include Opendata::Addon::Area
   include Opendata::Reference::Member
   include Opendata::Common
+  include Opendata::ModelClass
 
   scope :formast_is, ->(word, *fields) {
     where("$and" => [{ "$or" => fields.map { |field| { field => word.to_s } } } ])
@@ -28,7 +29,7 @@ class Opendata::Dataset
 
   has_many :points, primary_key: :dataset_id, class_name: "Opendata::DatasetPoint",
     dependent: :destroy
-  has_many :apps, foreign_key: :dataset_ids, class_name: "Opendata::App"
+  has_many :apps, foreign_key: :dataset_ids, class_name: "Opendata::App::App"
   has_many :ideas, foreign_key: :dataset_ids, class_name: "Opendata::Idea"
 
   validates :text, presence: true

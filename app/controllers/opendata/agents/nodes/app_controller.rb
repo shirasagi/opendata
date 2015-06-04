@@ -3,6 +3,7 @@ class Opendata::Agents::Nodes::AppController < ApplicationController
   include Opendata::UrlHelper
   include Opendata::MypageFilter
   include Opendata::AppFilter
+  include Opendata::ModelClass
 
   before_action :set_app, only: [:show_point, :add_point, :point_members]
   before_action :set_ideas, only: [:show_ideas]
@@ -11,8 +12,8 @@ class Opendata::Agents::Nodes::AppController < ApplicationController
 
   private
     def set_app
-      @app_path = Opendata::App.to_app_path(@cur_path)
-      @app = Opendata::App.site(@cur_site).public.
+      @app_path = model_app.to_app_path(@cur_path)
+      @app = model_app.site(@cur_site).public.
         filename(@app_path).
         first
 
@@ -20,9 +21,9 @@ class Opendata::Agents::Nodes::AppController < ApplicationController
     end
 
     def set_ideas
-      @app_idea_path = Opendata::App.to_app_path(@cur_path)
+      @app_idea_path = model_app.to_app_path(@cur_path)
 
-      @app_idea = Opendata::App.site(@cur_site).public.
+      @app_idea = model_app.site(@cur_site).public.
         filename(@app_idea_path).
         first
 
@@ -50,7 +51,7 @@ class Opendata::Agents::Nodes::AppController < ApplicationController
     end
 
     def set_file
-      item = Opendata::App.find(params[:app])
+      item = model_app.find(params[:app])
       filename = params[:filename]
       if filename.blank?
         filename = "index.html"
@@ -60,7 +61,7 @@ class Opendata::Agents::Nodes::AppController < ApplicationController
 
   public
     def pages
-      Opendata::App.site(@cur_site).public
+      model_app.site(@cur_site).public
     end
 
     def index
@@ -69,10 +70,10 @@ class Opendata::Agents::Nodes::AppController < ApplicationController
       @search_path    = method(:search_apps_path)
       @rss_path       = ->(options = {}) { build_path("#{search_apps_path}rss.xml", options) }
       @tabs = []
-      Opendata::App.sort_options.each do |options|
+      model_app.sort_options.each do |options|
         @tabs << { name: options[0],
                    url: "#{@search_path.call("sort" => "#{options[1]}")}",
-                   pages: pages.order_by(Opendata::App.sort_hash(options[1])).limit(10),
+                   pages: pages.order_by(model_app.sort_hash(options[1])).limit(10),
                    rss: "#{@rss_path.call("sort" => "#{options[1]}")}"}
       end
 
@@ -83,7 +84,7 @@ class Opendata::Agents::Nodes::AppController < ApplicationController
     end
 
     def download
-      @item = Opendata::App.site(@cur_site).find(params[:app])
+      @item = model_app.site(@cur_site).find(params[:app])
 
       zipfilename = create_zip(@item)
 
@@ -104,7 +105,7 @@ class Opendata::Agents::Nodes::AppController < ApplicationController
         @mode = :add
 
         cond = { site_id: @cur_site.id, member_id: @cur_member.id, app_id: @app.id }
-        @mode = :cancel if point = Opendata::AppPoint.where(cond).first
+        @mode = :cancel if point = model_app_point.where(cond).first
       end
     end
 
@@ -114,12 +115,12 @@ class Opendata::Agents::Nodes::AppController < ApplicationController
 
       cond = { site_id: @cur_site.id, member_id: @cur_member.id, app_id: @app.id }
 
-      if point = Opendata::AppPoint.where(cond).first
+      if point = model_app_point.where(cond).first
         point.destroy
         @app.inc point: -1
         @mode = :add
       else
-        Opendata::AppPoint.new(cond).save
+        model_app_point.new(cond).save
         @app.inc point: 1
         @mode = :cancel
       end
@@ -129,7 +130,7 @@ class Opendata::Agents::Nodes::AppController < ApplicationController
 
     def point_members
       @cur_node.layout = nil
-      @items = Opendata::AppPoint.where(site_id: @cur_site.id, app_id: @app.id)
+      @items = model_app_point.where(site_id: @cur_site.id, app_id: @app.id)
     end
 
     def show_ideas
@@ -140,7 +141,7 @@ class Opendata::Agents::Nodes::AppController < ApplicationController
 
     def show_executed
       @cur_node.layout = nil
-      @app = Opendata::App.site(@cur_site).find(params[:app])
+      @app = model_app.site(@cur_site).find(params[:app])
       @add = false
       if params[:tab_display] == "tab_html"
         @add = true
@@ -150,7 +151,7 @@ class Opendata::Agents::Nodes::AppController < ApplicationController
 
     def add_executed
       @cur_node.layout = nil
-      @app = Opendata::App.site(@cur_site).find(params[:app])
+      @app = model_app.site(@cur_site).find(params[:app])
       @add = false
       if @app.present?
         exec = @app.executed.to_i
@@ -165,7 +166,7 @@ class Opendata::Agents::Nodes::AppController < ApplicationController
 
     def full
       @cur_node.layout = nil
-      @item = Opendata::App.find(params[:app])
+      @item = model_app.find(params[:app])
       @app_html = @item.appfiles.where(filename: "index.html").first
     end
 

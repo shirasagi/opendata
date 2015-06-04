@@ -1,5 +1,6 @@
 class Opendata::Agents::Nodes::MemberController < ApplicationController
   include Cms::NodeFilter::View
+  include Opendata::ModelClass
   helper Opendata::UrlHelper
 
   before_action :set_member, except: :index
@@ -40,7 +41,7 @@ class Opendata::Agents::Nodes::MemberController < ApplicationController
     end
 
     def apps
-      @apps = Opendata::App.site(@cur_site).public.
+      @apps = model_app.site(@cur_site).public.
         where(member_id: @member.id).
         order_by(released: -1).
         page(params[:page]).

@@ -1,6 +1,7 @@
 class Opendata::Agents::Nodes::MyAppController < ApplicationController
   include Cms::NodeFilter::View
   include Opendata::MypageFilter
+  include Opendata::ModelClass
 
   before_action :set_model
   before_action :set_item, only: [:show, :edit, :update, :delete, :destroy]
@@ -11,7 +12,7 @@ class Opendata::Agents::Nodes::MyAppController < ApplicationController
     end
 
     def set_model
-      @model = Opendata::App
+      @model = model_app
     end
 
     def set_item
@@ -37,7 +38,7 @@ class Opendata::Agents::Nodes::MyAppController < ApplicationController
 
   public
     def index
-      @items = Opendata::App.site(@cur_site).member(@cur_member).
+      @items = model_app.site(@cur_site).member(@cur_member).
         order_by(updated: -1).
         page(params[:page]).
         per(20)

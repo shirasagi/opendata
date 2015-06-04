@@ -46,6 +46,7 @@ module Opendata::Part
   class App
     include Cms::Part::Model
     include Cms::Addon::PageList
+    include Opendata::ModelClass
 
     default_scope ->{ where(route: "opendata/app") }
 
@@ -54,11 +55,11 @@ module Opendata::Part
     end
 
     def sort_options
-      Array(Opendata::App.sort_options).concat(super)
+      Array(model_app.sort_options).concat(super)
     end
 
     def sort_hash
-      Opendata::App.sort_hash(sort)
+      model_app.sort_hash(sort)
     end
 
     def template_variable_get(item, name)

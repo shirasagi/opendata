@@ -4,6 +4,7 @@ class Opendata::Agents::Nodes::DatasetController < ApplicationController
   include Opendata::MypageFilter
   include Opendata::DatasetFilter
   include Opendata::AjaxFilter
+  include Opendata::ModelClass
 
   before_action :set_dataset, only: [:show_point, :add_point, :point_members]
   before_action :set_apps, only: [:show_apps]
@@ -30,7 +31,7 @@ class Opendata::Agents::Nodes::DatasetController < ApplicationController
       raise "404" unless @dataset_app
 
       cond = { site_id: @cur_site.id, dataset_ids: @dataset_app.id }
-      @apps = Opendata::App.where(cond).order_by(:updated.asc)
+      @apps = model_app.where(cond).order_by(:updated.asc)
     end
 
     def set_ideas
