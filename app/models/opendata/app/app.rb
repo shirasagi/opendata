@@ -9,7 +9,6 @@ class Opendata::App::App
   include Opendata::Addon::Dataset
   include Opendata::Reference::Member
   include Opendata::Common
-  include Opendata::ModelClass
 
   set_permission_name "opendata_apps"
 

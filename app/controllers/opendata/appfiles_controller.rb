@@ -1,7 +1,6 @@
 class Opendata::AppfilesController < ApplicationController
   include Cms::BaseFilter
   include Cms::CrudFilter
-  include Opendata::ModelClass
   helper Opendata::FormHelper
 
   model Opendata::App::Appfile
@@ -12,7 +11,7 @@ class Opendata::AppfilesController < ApplicationController
 
   private
     def app
-      @app ||= model_app.site(@cur_site).node(@cur_node).find params[:app_id]
+      @app ||= Opendata::App::App.site(@cur_site).node(@cur_node).find params[:app_id]
     end
 
     def set_app

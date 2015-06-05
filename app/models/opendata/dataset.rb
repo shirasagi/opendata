@@ -10,7 +10,6 @@ class Opendata::Dataset
   include Opendata::Addon::Area
   include Opendata::Reference::Member
   include Opendata::Common
-  include Opendata::ModelClass
 
   scope :formast_is, ->(word, *fields) {
     where("$and" => [{ "$or" => fields.map { |field| { field => word.to_s } } } ])

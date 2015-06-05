@@ -1,7 +1,6 @@
 class Opendata::Agents::Pages::AppController < ApplicationController
   include Cms::PageFilter::View
   include Opendata::UrlHelper
-  include Opendata::ModelClass
   helper Opendata::UrlHelper
 
   public
@@ -16,7 +15,7 @@ class Opendata::Agents::Pages::AppController < ApplicationController
       if @cur_page.appurl.present?
         @tab_display = "tab_url"
       else
-        appli = model_app.find(@cur_page.id)
+        appli = Opendata::App::App.find(@cur_page.id)
         @app_html = appli.appfiles.where(filename: "index.html").first
         if @app_html.present?
           @tab_display = "tab_html"

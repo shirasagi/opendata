@@ -8,7 +8,6 @@ class Opendata::Idea
   include Opendata::Addon::Area
   include Opendata::Reference::Member
   include Opendata::Common
-  include Opendata::ModelClass
 
   set_permission_name "opendata_ideas"
 

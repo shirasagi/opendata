@@ -1,7 +1,6 @@
 class Opendata::Agents::Nodes::AppfileController < ApplicationController
   include Cms::NodeFilter::View
   include Opendata::UrlHelper
-  include Opendata::ModelClass
 
   before_action :accept_cors_request
   before_action :set_app
@@ -10,7 +9,7 @@ class Opendata::Agents::Nodes::AppfileController < ApplicationController
     def set_app
       @app_path = @cur_path.sub(/\/appfile\/.*/, ".html")
 
-      @app = model_app.site(@cur_site).public.
+      @app = Opendata::App::App.site(@cur_site).public.
         filename(@app_path).
         first
 

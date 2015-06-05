@@ -1,7 +1,6 @@
 class Opendata::AppsController < ApplicationController
   include Cms::BaseFilter
   include Cms::CrudFilter
-  include Opendata::ModelClass
   helper Opendata::FormHelper
 
   model Opendata::App::App

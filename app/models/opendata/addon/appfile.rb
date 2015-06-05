@@ -1,7 +1,6 @@
 module Opendata::Addon::Appfile
   extend SS::Addon
   extend ActiveSupport::Concern
-  include Opendata::ModelClass
 
   set_order 200
 
