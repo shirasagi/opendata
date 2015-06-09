@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe "opendata_agents_nodes_idea", dbscope: :example do
-
   before do
     create_once :opendata_node_search_idea, basename: "idea/search"
   end

@@ -1,4 +1,4 @@
-class Opendata::Agents::Pages::AppController < ApplicationController
+class Opendata::Agents::Pages::App::AppController < ApplicationController
   include Cms::PageFilter::View
   include Opendata::UrlHelper
   helper Opendata::UrlHelper
@@ -42,7 +42,7 @@ class Opendata::Agents::Pages::AppController < ApplicationController
         @ds = Opendata::Dataset.site(@cur_site).public.find(@cur_page.dataset_ids)
       end
 
-      @app_idea = Opendata::Idea.site(@cur_site).public.where(app_ids: @cur_page.id)
+      @app_idea = Opendata::Idea::Idea.site(@cur_site).public.where(app_ids: @cur_page.id)
 
       render
     end

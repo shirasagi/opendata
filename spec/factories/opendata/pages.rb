@@ -19,7 +19,7 @@ FactoryGirl.define do
     end
 
     filename { node.blank? ? "dir/#{unique_id}.html" : "#{node.filename}/#{unique_id}.html" }
-    route "opendata/app/app"
+    route "opendata/app"
     text "aaaa\naaaa"
     tags ["aaa", "bbb"]
     category_ids [1]
@@ -27,7 +27,7 @@ FactoryGirl.define do
     license { unique_id }
   end
 
-  factory :opendata_idea, class: Opendata::Idea, traits: [:cms_page] do
+  factory :opendata_idea, class: Opendata::Idea::Idea, traits: [:cms_page] do
     transient do
       node nil
     end
