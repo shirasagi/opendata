@@ -1,6 +1,6 @@
 class Opendata::Agents::Nodes::Mypage::App::MyApp::AppfilesController < ApplicationController
   include Cms::NodeFilter::View
-  include Opendata::MypageFilter
+  include Opendata::Mypage::MypageFilter
   helper Opendata::UrlHelper
 
   before_action :accept_cors_request
@@ -10,7 +10,7 @@ class Opendata::Agents::Nodes::Mypage::App::MyApp::AppfilesController < Applicat
 
   protected
     def app
-      @app ||= Opendata::App::App.site(@cur_site).find params[:app_id]
+      @app ||= Opendata::App.site(@cur_site).find params[:app_id]
     end
 
     def set_app
@@ -20,7 +20,7 @@ class Opendata::Agents::Nodes::Mypage::App::MyApp::AppfilesController < Applicat
     end
 
     def set_model
-      @model = Opendata::App::Appfile
+      @model = Opendata::Appfile
     end
 
     def set_item
