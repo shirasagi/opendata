@@ -64,7 +64,12 @@ describe Opendata::UrlResource, dbscope: :example, http_server: true,
 
     it do
       subject.save
-      expect(subject).to have(1).error_on(:base)
+      csv = subject.parse_tsv
+      expect(csv).not_to be_nil
+      expect(csv.length).to eq 3
+      expect(csv[0]).to eq %w(ヘッダー 値)
+      expect(csv[1]).to eq %w(品川 483901)
+      expect(csv[2]).to eq %w(新宿 43901)
     end
   end
 
@@ -189,6 +194,48 @@ describe Opendata::UrlResource, dbscope: :example, http_server: true,
         expect(csv[2]).to eq %w(新宿 43901)
       end
     end
+
+    context "when uri.path is /" do
+      subject { dataset.url_resources.new(attributes_for(:opendata_resource)) }
+      before do
+        subject.license_id = license.id
+        subject.original_url = "http://#{@http_server.bind_addr}:#{@http_server.port}/"
+        subject.crawl_update = "none"
+        subject.original_updated = nil
+        @http_server.options = { last_modified: nil }
+      end
+
+      after do
+        @http_server.options = {}
+      end
+
+      it do
+        expect { subject.save! }.to raise_error
+      end
+    end
+
+    context "when uri.path is invalid" do
+      subject { dataset.url_resources.new(attributes_for(:opendata_resource)) }
+      before do
+        subject.license_id = license.id
+        subject.original_url = "http://#{@http_server.bind_addr}:#{@http_server.port}/notfound.csv"
+        subject.crawl_update = "none"
+        subject.original_updated = nil
+        @http_server.options = { last_modified: nil }
+      end
+
+      after do
+        @http_server.options = {}
+      end
+
+      it do
+        expect { subject.save! }.to raise_error
+      end
+    end
+  end
+
+  describe "crawl_update_options" do
+    it { expect(subject.crawl_update_options).to include(%w(手動 none), %w(自動 auto)) }
   end
 
   describe ".allowed?" do
