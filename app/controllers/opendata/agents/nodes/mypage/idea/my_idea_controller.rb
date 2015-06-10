@@ -1,4 +1,4 @@
-class Opendata::Agents::Nodes::MyDatasetController < ApplicationController
+class Opendata::Agents::Nodes::Mypage::Idea::MyIdeaController < ApplicationController
   include Cms::NodeFilter::View
   include Opendata::Mypage::MypageFilter
 
@@ -6,12 +6,12 @@ class Opendata::Agents::Nodes::MyDatasetController < ApplicationController
   before_action :set_item, only: [:show, :edit, :update, :delete, :destroy]
 
   protected
-    def dataset_node
-      @dataset_node ||= Opendata::Node::Dataset.site(@cur_site).public.first
+    def idea_node
+      @idea_node ||= Opendata::Node::Idea.site(@cur_site).public.first
     end
 
     def set_model
-      @model = Opendata::Dataset
+      @model = Opendata::Idea
     end
 
     def set_item
@@ -20,7 +20,7 @@ class Opendata::Agents::Nodes::MyDatasetController < ApplicationController
     end
 
     def fix_params
-      { site_id: @cur_site.id, member_id: @cur_member.id, cur_node: dataset_node }
+      { site_id: @cur_site.id, member_id: @cur_member.id, cur_node: idea_node }
     end
 
     def pre_params
@@ -37,7 +37,7 @@ class Opendata::Agents::Nodes::MyDatasetController < ApplicationController
 
   public
     def index
-      @items = Opendata::Dataset.site(@cur_site).member(@cur_member).
+      @items = Opendata::Idea.site(@cur_site).member(@cur_member).
         order_by(updated: -1).
         page(params[:page]).
         per(20)
@@ -51,6 +51,10 @@ class Opendata::Agents::Nodes::MyDatasetController < ApplicationController
 
     def new
       @item = @model.new
+
+      @item.dataset_ids = [params[:dataset]]
+      @item.app_ids = [params[:app]]
+
       render
     end
 
@@ -89,4 +93,5 @@ class Opendata::Agents::Nodes::MyDatasetController < ApplicationController
         render action: :delete
       end
     end
+
 end
