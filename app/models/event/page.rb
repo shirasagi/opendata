@@ -4,12 +4,14 @@ class Event::Page
   include Cms::Addon::Release
   include Cms::Addon::ReleasePlan
   include Cms::Addon::RelatedPage
+  include Cms::Addon::ParentCrumb
   include Cms::Addon::Body
   include Cms::Addon::File
   include Category::Addon::Category
   include Event::Addon::Body
   include Event::Addon::AdditionalInfo
   include Event::Addon::Date
+  include Map::Addon::Page
   include Workflow::Addon::Approver
   include History::Addon::Backup
   include Workflow::Addon::Branch
