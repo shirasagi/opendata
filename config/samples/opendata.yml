@@ -64,8 +64,6 @@ production: &production
       [param4] offset - 取得を開始するリソースの配列インデックスを指定する。
       [param5] limit - 取得するリソースの最大件数を指定する。
 
-  use_member_form_login: false
-
 test:
   <<: *production
   fuseki:
