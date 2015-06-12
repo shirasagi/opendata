@@ -1,23 +1,21 @@
 module Opendata::Api::GroupListFilter
   extend ActiveSupport::Concern
+  include Opendata::Api
 
   private
-    def group_list_param_check?(sort)
+    def group_list_check(sort)
 
-      sort_message = []
+      sort_messages = []
       sort_values = ["name", "packages"]
 
-      sort_message << "Cannot sort by field `#{sort}`" if !sort_values.include?(sort)
+      sort_messages << "Cannot sort by field `#{sort}`" if !sort_values.include?(sort)
 
       messages = {}
-      messages[:sort] = sort_message if !sort_message.empty?
+      messages[:sort] = sort_messages if sort_messages.size > 0
 
-      check_count = sort_message.size
-      if check_count > 0
+      if messages.size > 0
         error = {__type: "Validation Error"}
-        messages.each do |key, value|
-          error[key] = value
-        end
+        error = error.merge(messages)
       end
 
       return error
@@ -33,15 +31,15 @@ module Opendata::Api::GroupListFilter
       groups = params[:groups]
       all_fields = params[:all_fields]
 
-      error = group_list_param_check?(sort)
-      if error.present?
+      error = group_list_check(sort)
+      if error
         render json: {help: help, success: false, error: error} and return
       end
 
-      @groups = Opendata::DatasetGroup.site(@cur_site).public
+      groups = Opendata::DatasetGroup.site(@cur_site).public
 
       group_list = []
-      @groups.each do |group|
+      groups.each do |group|
         datasets = Opendata::Dataset.site(@cur_site).public.any_in dataset_group_ids: group.id
         group_list << {id: group.id, state: group.state, name: group.name, order: group.order, packages: datasets.count}
       end

@@ -1,21 +1,19 @@
 module Opendata::Api::GroupShowFilter
   extend ActiveSupport::Concern
+  include Opendata::Api
 
   private
-    def group_show_param_check?(id)
+    def group_show_check(id)
 
-      id_message = []
-      id_message << "Missing value" if id.blank?
+      id_messages = []
+      id_messages << "Missing value" if id.blank?
 
       messages = {}
-      messages[:name_or_id] = id_message if !id_message.empty?
+      messages[:name_or_id] = id_messages if id_messages.size > 0
 
-      check_count = id_message.size
-      if check_count > 0
+      if messages.size > 0
         error = {__type: "Validation Error"}
-        messages.each do |key, value|
-          error[key] = value
-        end
+        error = error.merge(messages)
       end
 
       return error
@@ -25,22 +23,27 @@ module Opendata::Api::GroupShowFilter
     def group_show
       help = SS.config.opendata.api["group_show_help"]
       id = params[:id]
-      id = URI.decode(id) if !id.nil?
-      include_datasets = params[:include_datasets]
+      id = URI.decode(id) if id
+      include_datasets = params[:include_datasets] || "true"
 
-      error = group_show_param_check?(id)
-      if error.present?
+      error = group_show_check(id)
+      if error
         render json: {help: help, success: false, error: error} and return
       end
 
-      @groups = Opendata::DatasetGroup.site(@cur_site).public
-      @groups = @groups.any_of({"id" => id}, {"name" => id}).order_by(name: 1)
+      groups = Opendata::DatasetGroup.site(@cur_site).public
+      groups = groups.any_of({"id" => id}, {"name" => id}).order_by(name: 1)
 
-      if @groups.count > 0
-        group = @groups[0]
-        @datasets = Opendata::Dataset.site(@cur_site).public.any_in dataset_group_ids: group[:id]
-        group[:package_count] = @datasets.count
-        group[:packages] = @datasets if include_datasets.nil? || include_datasets =~ /^true$/i
+      if groups.count > 0
+        group = convert_dataset_group(groups[0][:id])
+        datasets = Opendata::Dataset.site(@cur_site).public.any_in dataset_group_ids: group[:id]
+        group[:package_count] = datasets.count
+        if include_datasets =~ /^true$/i
+          group[:packages] = convert_packages(datasets)
+        else
+          group[:packages] = []
+        end
+
         res = {help: help, success: true, result: group}
       else
         res = {help: help, success: false}
