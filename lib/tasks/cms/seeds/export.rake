@@ -21,12 +21,12 @@ namespace :cms do
       next unless site
 
       output_dir = ENV["output"] || 'layouts'
-      ::Dir.mkdir(output_dir) unless ::Dir.exist?(output_dir)
+      ::FileUtils.mkdir_p(output_dir) unless ::Dir.exist?(output_dir)
 
       Cms::Layout.site(site).each do |layout|
         filename = "#{output_dir}/#{layout.filename}"
         dirname = ::File.dirname(filename)
-        ::Dir.mkdir(dirname) unless ::Dir.exist?(dirname)
+        ::FileUtils.mkdir_p(dirname) unless ::Dir.exist?(dirname)
 
         open(filename, "w") do |f|
           f.write layout.html.gsub("\r\n", "\n")
@@ -41,34 +41,38 @@ namespace :cms do
       next unless site
 
       output_dir = ENV["output"] || 'parts'
-      ::Dir.mkdir(output_dir) unless ::Dir.exist?(output_dir)
+      ::FileUtils.mkdir_p(output_dir) unless ::Dir.exist?(output_dir)
 
       Cms::Part.site(site).each do |part|
         part = part.becomes_with_route || part
 
         filename = "#{output_dir}/#{part.filename}"
         dirname = ::File.dirname(filename)
-        ::Dir.mkdir(dirname) unless ::Dir.exist?(dirname)
+        ::FileUtils.mkdir_p(dirname) unless ::Dir.exist?(dirname)
 
-        if html = part.try(:html) && html.present?
+        html = part.html rescue nil
+        if html.present? && html.is_a?(String)
           open(filename, "w") do |f|
             f.write html.gsub("\r\n", "\n")
           end
         end
 
-        if upper_html = part.try(:upper_html) && upper_html.present?
+        upper_html = part.upper_html rescue nil
+        if upper_html.present? && upper_html.is_a?(String)
           open(filename.sub(/\.html$/, ".upper_html"), "w") do |f|
             f.write upper_html.gsub("\r\n", "\n")
           end
         end
 
-        if loop_html = part.try(:loop_html) && loop_html.present?
+        loop_html = part.loop_html rescue nil
+        if loop_html.present? && loop_html.is_a?(String)
           open(filename.sub(/\.html$/, ".loop_html"), "w") do |f|
             f.write loop_html.gsub("\r\n", "\n")
           end
         end
 
-        if lower_html = part.try(:lower_html) && lower_html.present?
+        lower_html = part.lower_html rescue nil
+        if lower_html.present? && lower_html.is_a?(String)
           open(filename.sub(/\.html$/, ".lower_html"), "w") do |f|
             f.write lower_html.gsub("\r\n", "\n")
           end
@@ -91,11 +95,11 @@ namespace :cms do
       next unless page
 
       output_dir = ENV["output"] || 'pages'
-      ::Dir.mkdir(output_dir) unless ::Dir.exist?(output_dir)
+      ::FileUtils.mkdir_p(output_dir) unless ::Dir.exist?(output_dir)
 
       filename = "#{output_dir}/#{page.filename}"
       dirname = ::File.dirname(filename)
-      ::Dir.mkdir(dirname) unless ::Dir.exist?(dirname)
+      ::FileUtils.mkdir_p(dirname) unless ::Dir.exist?(dirname)
 
       html = page.try(:html)
       if html.present?
