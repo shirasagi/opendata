@@ -40,9 +40,6 @@ SS::Application.routes.draw do
 
   SS::Initializer
 
-  get "/auth/:provider/callback" => "authes#callback"
-  get "/auth/failure" => "authes#fail"
-
   namespace "sns", path: ".mypage" do
     get   "/"      => "mypage#index", as: :mypage
     get   "logout" => "login#logout", as: :logout
