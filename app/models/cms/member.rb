@@ -11,7 +11,6 @@ class Cms::Member
           member.oauth_token = auth.credentials.token
           member.name = auth.info.name
           if member.name =~ /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
-            authname = []
             authname = auth.info.name.split(/\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i)
             member.name = member.name.gsub("@#{authname.last}", "")
           end

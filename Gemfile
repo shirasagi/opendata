@@ -43,14 +43,8 @@ gem "browser"
 gem "net-ldap"
 gem "diffy"
 gem "ungarbled"
-
-# SPARQL/RDF
-gem 'sparql'
-gem 'sparql-client'
-gem 'rdf-turtle'
-gem 'rdf-rdfxml'
-gem 'levenshtein'
-gem 'unf'
+gem "fullcalendar-rails", "2.3.1.0"
+gem "momentjs-rails", "2.10.2"
 
 # OAuth
 gem 'omniauth'
@@ -59,6 +53,14 @@ gem 'omniauth-facebook'
 gem 'omniauth-yahoojp'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-github'
+
+# SPARQL/RDF
+gem 'sparql'
+gem 'sparql-client'
+gem 'rdf-turtle'
+gem 'rdf-rdfxml'
+gem 'levenshtein'
+gem 'unf'
 
 #gem "rails-dev-boost", git: "git://github.com/thedarkone/rails-dev-boost.git", group: :development
 
