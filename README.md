@@ -10,7 +10,7 @@ Code Status
 [![Build Status](https://travis-ci.org/shirasagi/opendata.svg?branch=master)](https://travis-ci.org/shirasagi/opendata)
 [![Code Climate](https://codeclimate.com/github/shirasagi/opendata/badges/gpa.svg)](https://codeclimate.com/github/shirasagi/opendata)
 [![Coverage Status](https://coveralls.io/repos/shirasagi/opendata/badge.png)](https://coveralls.io/r/shirasagi/opendata)
-[![GitHub version](https://badge.fury.io/gh/shirasagi%2Fopendata.svg)](http://badge.fury.io/gh/shirasagi%2Fopendata)
+[![Inline docs](http://inch-ci.org/github/shirasagi/opendata.png?branch=master)](http://inch-ci.org/github/shirasagi/opendata)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/shirasagi/shirasagi?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Stories in Ready](https://badge.waffle.io/shirasagi/opendata.svg?label=ready&title=Ready)](http://waffle.io/shirasagi/opendata)
 
@@ -74,8 +74,8 @@ enabled=0
 ## SHIRASAGI
 
 ```
-$ git clone -b stable --depth 1 https://github.com/shirasagi/shirasagi /var/www/shirasagi
-$ cd /var/www/shirasagi
+$ git clone -b stable --depth 1 https://github.com/shirasagi/opendata /var/www/opendata
+$ cd /var/www/opendata
 $ cp -n config/samples/* config/
 # bundle install
 # rake unicorn:start
@@ -148,7 +148,7 @@ $ cp -n config/samples/* config/
 カレントディレクトリを移動
 
 ```
-$ cd /var/www/shirasagi
+$ cd /var/www/opendata
 ```
 
 インデックスの作成
