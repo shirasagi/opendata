@@ -1,22 +1,32 @@
 module Faq::Node
   class Base
-    include Cms::Node::Model
+    include Cms::Model::Node
 
     default_scope ->{ where(route: /^faq\//) }
   end
 
   class Page
-    include Cms::Node::Model
+    include Cms::Model::Node
+    include Cms::Addon::NodeSetting
+    include Cms::Addon::Release
+    include Cms::Addon::Meta
     include Cms::Addon::PageList
     include Category::Addon::Setting
+    include Cms::Addon::GroupPermission
+    include History::Addon::Backup
 
     default_scope ->{ where(route: "faq/page") }
   end
 
   class Search
-    include Cms::Node::Model
+    include Cms::Model::Node
+    include Cms::Addon::NodeSetting
+    include Cms::Addon::Release
+    include Cms::Addon::Meta
     include Cms::Addon::PageList
     include Category::Addon::Setting
+    include Cms::Addon::GroupPermission
+    include History::Addon::Backup
 
     default_scope ->{ where(route: "faq/search") }
 

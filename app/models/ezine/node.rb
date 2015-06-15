@@ -1,22 +1,32 @@
 module Ezine::Node
   class Base
-    include Cms::Node::Model
+    include Cms::Model::Node
 
     default_scope ->{ where(route: /^ezine\//) }
   end
 
   class Page
-    include Cms::Node::Model
+    include Cms::Model::Node
+    include Cms::Addon::NodeSetting
+    include Cms::Addon::Release
+    include Cms::Addon::Meta
     include Ezine::Addon::Signature
     include Ezine::Addon::SenderAddress
     include Ezine::Addon::Reply
+    include Cms::Addon::GroupPermission
+    include History::Addon::Backup
 
     default_scope ->{ where(route: "ezine/page") }
   end
 
   class Backnumber
-    include Cms::Node::Model
+    include Cms::Model::Node
+    include Cms::Addon::NodeSetting
+    include Cms::Addon::Release
+    include Cms::Addon::Meta
     include Cms::Addon::PageList
+    include Cms::Addon::GroupPermission
+    include History::Addon::Backup
 
     default_scope ->{ where(route: "ezine/backnumber") }
 

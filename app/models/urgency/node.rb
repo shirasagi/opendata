@@ -1,13 +1,18 @@
 module Urgency::Node
   class Base
-    include Cms::Node::Model
+    include Cms::Model::Node
 
     default_scope ->{ where(route: /^urgency\//) }
   end
 
   class Layout
-    include Cms::Node::Model
+    include Cms::Model::Node
+    include Cms::Addon::NodeSetting
+    include Cms::Addon::Release
+    include Cms::Addon::Meta
     include Urgency::Addon::Layout
+    include Cms::Addon::GroupPermission
+    include History::Addon::Backup
 
     default_scope ->{ where(route: "urgency/layout") }
   end

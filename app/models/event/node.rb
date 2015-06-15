@@ -1,14 +1,19 @@
 module Event::Node
   class Base
-    include Cms::Node::Model
+    include Cms::Model::Node
 
     default_scope ->{ where(route: /^event\//) }
   end
 
   class Page
-    include Cms::Node::Model
+    include Cms::Model::Node
+    include Cms::Addon::NodeSetting
+    include Cms::Addon::Release
+    include Cms::Addon::Meta
     include Category::Addon::Setting
     include Event::Addon::PageList
+    include Cms::Addon::GroupPermission
+    include History::Addon::Backup
 
     default_scope ->{ where(route: "event/page") }
 
