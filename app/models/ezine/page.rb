@@ -1,8 +1,9 @@
 class Ezine::Page
-  include Cms::Page::Model
+  include Cms::Model::Page
   include Cms::Addon::Release
   include Cms::Addon::ReleasePlan
   include Ezine::Addon::Page::Body
+  include Cms::Addon::GroupPermission
 
   field :test_delivered, type: DateTime
   field :completed, type: Boolean, default: false
@@ -33,7 +34,7 @@ class Ezine::Page
     def members_to_deliver
       return [] if completed
       emails = Ezine::SentLog.where(page_id: id).map(&:email)
-      Ezine::Member.where(state: true, node_id: parent.id, email: {"$nin" => emails})
+      Ezine::Member.where(state: "enabled", node_id: parent.id, email: {"$nin" => emails})
     end
 
     # Deliver a mail to a member.

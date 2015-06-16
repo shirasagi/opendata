@@ -1,12 +1,15 @@
 module Inquiry::Node
   class Base
-    include Cms::Node::Model
+    include Cms::Model::Node
 
     default_scope ->{ where(route: /^inquiry\//) }
   end
 
   class Form
-    include Cms::Node::Model
+    include Cms::Model::Node
+    include Cms::Addon::NodeSetting
+    include Cms::Addon::Release
+    include Cms::Addon::Meta
     include Inquiry::Addon::Message
     include Inquiry::Addon::Captcha
     include Inquiry::Addon::Notice
@@ -14,6 +17,8 @@ module Inquiry::Node
     include Inquiry::Addon::ReleasePlan
     include Inquiry::Addon::ReceptionPlan
     include Inquiry::Addon::Aggregation
+    include Cms::Addon::GroupPermission
+    include History::Addon::Backup
 
     has_many :columns, class_name: "Inquiry::Column"
     has_many :answers, class_name: "Inquiry::Answer"
@@ -28,8 +33,13 @@ module Inquiry::Node
   end
 
   class Node
-    include Cms::Node::Model
+    include Cms::Model::Node
+    include Cms::Addon::NodeSetting
+    include Cms::Addon::Release
+    include Cms::Addon::Meta
     include Cms::Addon::NodeList
+    include Cms::Addon::GroupPermission
+    include History::Addon::Backup
 
     default_scope ->{ where(route: "inquiry/node") }
 

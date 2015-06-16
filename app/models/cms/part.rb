@@ -1,53 +1,69 @@
 class Cms::Part
-  extend ActiveSupport::Autoload
-  include Cms::Part::Model
+  include Cms::Model::Part
 
   index({ site_id: 1, filename: 1 }, { unique: true })
 
   class Base
-    include Cms::Part::Model
+    include Cms::Model::Part
 
     default_scope ->{ where(route: /^cms\//) }
   end
 
   class Free
-    include Cms::Part::Model
+    include Cms::Model::Part
+    include Cms::Addon::Release
     include Cms::Addon::Html
+    include Cms::Addon::GroupPermission
+    include History::Addon::Backup
 
     default_scope ->{ where(route: "cms/free") }
   end
 
   class Node
-    include Cms::Part::Model
+    include Cms::Model::Part
+    include Cms::Addon::Release
     include Cms::Addon::NodeList
+    include Cms::Addon::GroupPermission
+    include History::Addon::Backup
 
     default_scope ->{ where(route: "cms/node") }
   end
 
   class Page
-    include Cms::Part::Model
+    include Cms::Model::Part
+    include Cms::Addon::Release
     include Cms::Addon::PageList
+    include Cms::Addon::GroupPermission
+    include History::Addon::Backup
 
     default_scope ->{ where(route: "cms/page") }
   end
 
   class Tabs
-    include Cms::Part::Model
+    include Cms::Model::Part
+    include Cms::Addon::Release
     include Cms::Addon::Tabs
+    include Cms::Addon::GroupPermission
+    include History::Addon::Backup
 
     default_scope ->{ where(route: "cms/tabs") }
   end
 
   class Crumb
-    include Cms::Part::Model
+    include Cms::Model::Part
+    include Cms::Addon::Release
     include Cms::Addon::Crumb
+    include Cms::Addon::GroupPermission
+    include History::Addon::Backup
 
     default_scope ->{ where(route: "cms/crumb") }
   end
 
   class SnsShare
-    include Cms::Part::Model
-    #include Cms::Addon::SnsShare
+    include Cms::Model::Part
+    include Cms::Addon::Release
+    include Cms::Addon::GroupPermission
+    include History::Addon::Backup
 
     default_scope ->{ where(route: "cms/sns_share") }
   end
