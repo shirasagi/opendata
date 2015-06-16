@@ -74,8 +74,8 @@ enabled=0
 ## SHIRASAGI
 
 ```
-$ git clone -b stable --depth 1 https://github.com/shirasagi/opendata /var/www/opendata
-$ cd /var/www/opendata
+$ git clone -b stable --depth 1 https://github.com/shirasagi/opendata /var/www/shirasagi
+$ cd /var/www/shirasagi
 $ cp -n config/samples/* config/
 # bundle install
 # rake unicorn:start
@@ -148,7 +148,7 @@ $ cp -n config/samples/* config/
 カレントディレクトリを移動
 
 ```
-$ cd /var/www/opendata
+$ cd /var/www/shirasagi
 ```
 
 インデックスの作成
@@ -184,3 +184,5 @@ $ rake db:seed name=opendata site=www
 ```
 
 > http://localhost:3000/.mypage から `admin@example.jp`, `pass` のアカウントでログインできます。
+
+> サイトデータの登録に失敗する方やログイン出来ない方は、`shirasagi/opendata` を `git clone` しているかどうかを確認して下さい。
