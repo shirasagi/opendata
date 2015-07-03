@@ -4,33 +4,34 @@ module SS::Model::File
   include SS::Document
   include SS::Reference::User
 
-  attr_accessor :in_file, :in_files
-  attr_accessor :image_size
+  attr_accessor :in_file, :in_files, :resizing
 
   included do
     store_in collection: "ss_files"
 
     seqid :id
     field :model, type: String
-    field :file_id, type: String
-    field :state, type: String, default: "public"
+    field :state, type: String, default: "closed"
+    field :name, type: String
     field :filename, type: String
     field :size, type: Integer
     field :content_type, type: String
 
     belongs_to :site, class_name: "SS::Site"
 
-    permit_params :state, :filename
+    permit_params :state, :name, :filename
     permit_params :in_file, :in_files, in_files: []
-    permit_params :image_size
+    permit_params :resizing
 
     before_validation :set_filename, if: ->{ in_file.present? }
+    before_validation :validate_filename, if: ->{ filename.present? }
 
     validates :model, presence: true
     validates :state, presence: true
-    validates :filename, presence: true, if: ->{ !in_file && !in_files }
+    validates :filename, presence: true, if: ->{ in_file.blank? && in_files.blank? }
     validate :validate_size
 
+    before_save :rename_file, if: ->{ @db_changes.present? }
     before_save :save_file
     before_destroy :remove_file
   end
@@ -40,14 +41,34 @@ module SS::Model::File
       "#{Rails.root}/private/files"
     end
 
-    def image_size_options
+    def resizing_options
       [
-        ["640x480(VGA)", "640,480"], ["480x640(VGA)", "480,640"],
-        ["800x600(SVGA)", "800,600"], ["600x800(SVGA)", "600,800"],
-        ["1024×768(XGA)", "1024,768"], ["768x1024(XGA)", "768,1024"],
-        ["1280x720(HD)", "1280,720"], ["720x1280(HD)", "720,1280"]
+        [I18n.t('views.options.resizing.320×240'), "320,240"],
+        [I18n.t('views.options.resizing.240x320'), "240,320"],
+        [I18n.t('views.options.resizing.640x480'), "640,480"],
+        [I18n.t('views.options.resizing.480x640'), "480,640"],
+        [I18n.t('views.options.resizing.800x600'), "800,600"],
+        [I18n.t('views.options.resizing.600x800'), "600,800"],
+        [I18n.t('views.options.resizing.1024×768'), "1024,768"],
+        [I18n.t('views.options.resizing.768x1024'), "768,1024"],
+        [I18n.t('views.options.resizing.1280x720'), "1280,720"],
+        [I18n.t('views.options.resizing.720x1280'), "720,1280"],
       ]
     end
+
+    public
+      def search(params)
+        criteria = self.where({})
+        return criteria if params.blank?
+
+        if params[:name].present?
+          criteria = criteria.search_text params[:name]
+        end
+        if params[:keyword].present?
+          criteria = criteria.keyword_in params[:keyword], :name, :filename
+        end
+        criteria
+      end
   end
 
   public
@@ -56,7 +77,15 @@ module SS::Model::File
     end
 
     def public_path
-      "#{site.path}#{url}"
+      "#{site.path}/fs/" + id.to_s.split(//).join("/") + "/_/#{filename}"
+    end
+
+    def url
+      "/fs/" + id.to_s.split(//).join("/") + "/_/#{filename}"
+    end
+
+    def thumb_url
+      "/fs/" + id.to_s.split(//).join("/") + "/_/thumb/#{filename}"
     end
 
     def state_options
@@ -64,7 +93,7 @@ module SS::Model::File
     end
 
     def name
-      filename
+      self[:name].presence || basename
     end
 
     def basename
@@ -79,12 +108,12 @@ module SS::Model::File
       filename =~ /\.(bmp|gif|jpe?g|png)$/i
     end
 
-    def image_size
-      (@image_size && @image_size.size == 2) ? @image_size.map(&:to_i) : nil
+    def resizing
+      (@resizing && @resizing.size == 2) ? @resizing.map(&:to_i) : nil
     end
 
-    def image_size=(s)
-      @image_size = (s.class == String) ? s.split(",") : s
+    def resizing=(s)
+      @resizing = (s.class == String) ? s.split(",") : s
     end
 
     def read
@@ -97,7 +126,7 @@ module SS::Model::File
       in_files.each do |file|
         item = self.class.new(attributes)
         item.in_file = file
-        item.image_size = image_size
+        item.resizing = resizing
         next if item.save
 
         item.errors.full_messages.each { |m| errors.add :base, m }
@@ -130,19 +159,15 @@ module SS::Model::File
       Fs.rm_rf(public_path) if site
     end
 
-    def url
-      "/fs/#{id}/#{filename}"
-    end
-
-    def thumb_url
-      "/fs/#{id}/thumb/#{filename}"
-    end
-
   private
     def set_filename
-      self.filename   ||= in_file.original_filename
+      self.filename     = in_file.original_filename if filename.blank?
       self.size         = in_file.size
       self.content_type = ::SS::MimeType.find(in_file.original_filename, in_file.content_type)
+    end
+
+    def validate_filename
+      self.filename = filename.gsub(/[^\w\-\.]/, "_")
     end
 
     def save_file
@@ -150,9 +175,8 @@ module SS::Model::File
       return false if errors.present?
       return if in_file.blank?
 
-      if image? && image_size
-        width, height = image_size
-
+      if image? && resizing
+        width, height = resizing
         image = Magick::Image.from_blob(in_file.read).shift
         image = image.resize_to_fit width, height if image.columns > width || image.rows > height
         binary = image.to_blob
@@ -168,6 +192,13 @@ module SS::Model::File
     def remove_file
       Fs.rm_rf(path)
       remove_public_file
+    end
+
+    def rename_file
+      return unless @db_changes["filename"]
+      return unless @db_changes["filename"][0]
+
+      remove_public_file if site
     end
 
     def validate_size

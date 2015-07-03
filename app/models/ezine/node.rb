@@ -8,13 +8,15 @@ module Ezine::Node
   class Page
     include Cms::Model::Node
     include Cms::Addon::NodeSetting
-    include Cms::Addon::Release
     include Cms::Addon::Meta
     include Ezine::Addon::Signature
     include Ezine::Addon::SenderAddress
     include Ezine::Addon::Reply
+    include Cms::Addon::Release
     include Cms::Addon::GroupPermission
     include History::Addon::Backup
+
+    has_many :columns, class_name: "Ezine::Column"
 
     default_scope ->{ where(route: "ezine/page") }
   end
@@ -22,9 +24,9 @@ module Ezine::Node
   class Backnumber
     include Cms::Model::Node
     include Cms::Addon::NodeSetting
-    include Cms::Addon::Release
     include Cms::Addon::Meta
     include Cms::Addon::PageList
+    include Cms::Addon::Release
     include Cms::Addon::GroupPermission
     include History::Addon::Backup
 
