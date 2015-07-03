@@ -1,8 +1,9 @@
 class Ezine::Page
   include Cms::Model::Page
+  include Ezine::Addon::Body
+  include Ezine::Addon::DeliverPlan
   include Cms::Addon::Release
   include Cms::Addon::ReleasePlan
-  include Ezine::Addon::Page::Body
   include Cms::Addon::GroupPermission
 
   field :test_delivered, type: DateTime

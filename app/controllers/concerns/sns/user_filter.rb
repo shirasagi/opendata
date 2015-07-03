@@ -3,16 +3,16 @@ module Sns::UserFilter
   include Sns::BaseFilter
 
   included do
-    before_action :set_sns_user #, if: ->{ request.env["REQUEST_PATH"] =~ /^\/\.u\d+\// }
+    before_action :set_sns_user
+    before_action :require_self
     before_action :set_crumbs
     navi_view "sns/user/main/navi"
   end
 
   private
     def set_sns_user
-      uid = request.env["REQUEST_PATH"].sub(/^\/\.u(\d+)\/.*/, '\\1')
-      @sns_user = SS::User.find uid
-      @crumbs <<  [@sns_user.name, sns_user_path(@sns_user)]
+      @sns_user = SS::User.find params[:user]
+      @crumbs <<  [@sns_user.name, sns_user_profile_path(@sns_user)]
     end
 
     def require_self

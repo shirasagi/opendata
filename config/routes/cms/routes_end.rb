@@ -15,6 +15,11 @@ SS::Application.routes.draw do
     get :template, :on => :collection
   end
 
+  concern :role do
+    get "role/edit" => "groups#role_edit", :on => :member
+    put "role" => "groups#role_update", :on => :member
+  end
+
   namespace "cms", path: ".:site" do
     get "/" => "main#index", as: :main
     get "preview(:preview_date)/(*path)" => "preview#index", as: :preview
@@ -25,18 +30,28 @@ SS::Application.routes.draw do
     resource  :site, concerns: :deletion
     resources :roles, concerns: :deletion
     resources :users, concerns: :deletion
-    resources :groups, concerns: :deletion
+    resources :groups, concerns: [:deletion, :role]
     resources :members, concerns: :deletion
     resources :contents, path: "contents/(:mod)"
+
     resources :nodes, concerns: :deletion do
       get :routes, on: :collection
     end
+
     resources :parts, concerns: :deletion do
       get :routes, on: :collection
     end
+
     resources :pages, concerns: [:deletion, :crud]
     resources :layouts, concerns: :deletion
     resources :editor_templates, concerns: [:deletion, :template]
+
+    resources :files, concerns: [:deletion, :template] do
+      get :view, on: :member
+      get :thumb, on: :member
+      get :download, on: :member
+    end
+
     get "check_links" => "check_links#index"
     post "check_links" => "check_links#run"
     get "generate_nodes" => "generate_nodes#index"
@@ -53,6 +68,13 @@ SS::Application.routes.draw do
       get "categories" => "categories#index"
       get "contents" => "contents#index"
       get "contents/html" => "contents/html#index"
+
+      resources :files, concerns: :deletion do
+        get :select, on: :member
+        get :view, on: :member
+        get :thumb, on: :member
+        get :download, on: :member
+      end
     end
   end
 
@@ -98,5 +120,4 @@ SS::Application.routes.draw do
     via: [:get, :post, :put, :patch, :delete], format: false
 
   root "cms/public#index", defaults: { format: :html }
-
 end

@@ -24,7 +24,7 @@ module Workflow::Addon
 
       def cloned_name?
         prefix = I18n.t("workflow.cloned_name_prefix")
-        name =~ /^\[#{prefix}\]/
+        name =~ /^\[#{Regexp.escape(prefix)}\]/
       end
 
       def new_clone(attributes = {})
@@ -60,6 +60,8 @@ module Workflow::Addon
           file = SS::File.new(attributes)
           file.id = nil
           file.in_file = f.uploaded_file
+          file.thumbs_resizing = f.thumbs_resizing
+          file.thumbs_size_name = f.thumbs_size_name
           file.user_id = @cur_user.id if @cur_user
 
           file.save validate: false

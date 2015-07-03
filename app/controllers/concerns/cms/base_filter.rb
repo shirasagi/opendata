@@ -15,7 +15,7 @@ module Cms::BaseFilter
 
   private
     def set_site
-      @cur_site = SS::Site.find_by host: params[:site]
+      @cur_site = Cms::Site.find_by host: params[:site]
       @crumbs << [@cur_site.name, cms_contents_path]
     end
 
@@ -27,7 +27,7 @@ module Cms::BaseFilter
     end
 
     def set_group
-      cur_groups = @cur_user.groups.in(name: @cur_site.groups.pluck(:name).map{ |name| /^#{name}(\/|$)/ })
+      cur_groups = @cur_user.groups.in(name: @cur_site.groups.pluck(:name).map{ |name| /^#{Regexp.escape(name)}(\/|$)/ })
       @cur_group = cur_groups.first # select one group
       raise "403" unless @cur_group
     end
