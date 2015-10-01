@@ -1,0 +1,20 @@
+//= require bxslider
+//= require_self
+
+class @KeyVisual_Image
+  @slide: (selector) ->
+    slider = $("#{selector} .images").bxSlider
+      auto: true
+      autoControls: true
+      startText: "<%= I18n.t 'key_visual.controls.start' %>"
+      stopText: "<%= I18n.t 'key_visual.controls.stop' %>"
+      controls: false
+      pagerCustom: "#{selector} .bx-thumbs"
+
+  @randomize: (selector) ->
+    wrap = $(selector)
+    list = wrap.find("li")
+    list = list.sort ->
+      return Math.random() - .5
+    list.each ->
+      wrap.append $(this)

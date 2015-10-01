@@ -5,11 +5,13 @@
 //= require_self
 //= require ss/lib/addon_tabs
 //= require ss/lib/list_ui
+//= require ss/lib/tree_ui
 //= require ss/lib/mobile
 //= require ss/lib/search_ui
 //= require ss/lib/tooltips
 //= require cms/lib/editor
 //= require cms/lib/form
+//= require cms/lib/edit_lock
 //= require event/lib/form
 //= require map/lib/map
 //= require map/lib/form
@@ -21,8 +23,10 @@
 ##
 
 $ ->
-  # $.ajaxSetup
-  #   headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') }
+  $.ajaxSetup
+    # prevent caching ajax response. see #596.
+    cache: false
+    # headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') }
 
   SS.render()
 

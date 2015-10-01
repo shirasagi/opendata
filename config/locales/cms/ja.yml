@@ -5,6 +5,10 @@ ja:
     content: コンテンツ
     generate_node: フォルダー書き出し
     generate_page: ページ書き出し
+    import_page: 取り込みページ
+    import: ページ取り込み
+    import_node: フォルダー取り込み
+    import_page: 取り込みページ
     group: グループ
     layout: レイアウト
     link_check: リンクチェック
@@ -15,6 +19,8 @@ ja:
     part: パーツ
     file: 共有ファイル
     preview_page: プレビュー
+    preview_pc_page: PCプレビュー
+    preview_mobile_page: 携帯プレビュー
     preview_site: サイトプレビュー
     role: 権限/ロール
     root_menu: メインメニュー
@@ -28,6 +34,10 @@ ja:
     view_page: 公開画面
     view_site: サイト確認
     editor_template: テンプレート
+    convert_to_cms_page: 固定ページに変換する
+    notice: お知らせ
+    important_notice: 重要なお知らせ
+    back_to_contents: コンテンツへ戻る
     confirm:
       delete_item: 項目を削除してよろしいですか？
 
@@ -81,14 +91,28 @@ ja:
         order: 指定順
       parent_crumb:
         blank: カテゴリーから選択する
+      notice_severity:
+        normal: ""
+        high: 重要なお知らせ
+      notice_target:
+        all: 全ユーザー
+        same_group: 同一グループ内
     sns_share:
+      fb_like: Facebook いいね！
+      fb_share: Facebook シェア
+      fb_lang: ja_JP
+      twitter: Twitter
       tweet: ツイート
-      add_hatena: このエントリーをはてなブックマークに追加
+      hatena: はてなブックマーク
+      hatena_add: このエントリーをはてなブックマークに追加
+      google: Google+
+      evernote: Evernote
 
   #cms:
     nodes:
       cms/node: フォルダーリスト
       cms/page: ページリスト
+      cms/import_node: 取り込みページ
     parts:
       cms/free: HTML記述
       cms/node: フォルダーリスト
@@ -105,35 +129,42 @@ ja:
     read_other_cms_parts: パーツの閲覧（全て）
     read_other_cms_layouts: レイアウトの閲覧（全て）
     read_other_cms_files: 共有ファイルの閲覧（全て）
+    read_other_cms_notices: お知らせの閲覧（全て）
     read_private_cms_nodes: フォルダーの閲覧（所有）
     read_private_cms_pages: 固定ページの閲覧（所有）
     read_private_cms_parts: パーツの閲覧（所有）
     read_private_cms_layouts: レイアウトの閲覧（所有）
     read_private_cms_files: 共有ファイルの閲覧（所有）
+    read_private_cms_notices: お知らせの閲覧（所有）
     edit_other_cms_nodes: フォルダーの編集（全て）
     edit_other_cms_pages: 固定ページの編集（全て）
     edit_other_cms_parts: パーツの編集（全て）
     edit_other_cms_layouts: レイアウトの編集（全て）
     edit_other_cms_files: 共有ファイルの編集（全て）
+    edit_other_cms_notices: お知らせの編集（全て）
     edit_private_cms_nodes: フォルダーの編集（所有）
     edit_private_cms_pages: 固定ページの編集（所有）
     edit_private_cms_parts: パーツの編集（所有）
     edit_private_cms_layouts: レイアウトの編集（所有）
     edit_private_cms_files: 共有ファイルの編集（所有）
+    edit_private_cms_notices: お知らせの編集（所有）
     delete_other_cms_nodes: フォルダーの削除（全て）
     delete_other_cms_pages: 固定ページの削除（全て）
     delete_other_cms_parts: パーツの削除（全て）
     delete_other_cms_layouts: レイアウトの削除（全て）
     delete_other_cms_files: 共有ファイルの削除（全て）
+    delete_other_cms_notices: お知らせの削除（全て）
     delete_private_cms_nodes: フォルダーの削除（所有）
     delete_private_cms_pages: 固定ページの削除（所有）
     delete_private_cms_parts: パーツの削除（所有）
     delete_private_cms_layouts: レイアウトの削除（所有）
     delete_private_cms_files: 共有ファイルの削除（所有）
+    delete_private_cms_notices: お知らせの削除（所有）
     move_other_cms_nodes: フォルダーの移動（全て）
     move_other_cms_pages: 固定ページの移動（全て）
     move_private_cms_nodes: フォルダーの移動（所有）
     move_private_cms_pages: 固定ページの移動（所有）
+    unlock_other_cms_pages: 固定ページのロック解除（全て）
 
   modules:
     cms: 標準機能
@@ -156,6 +187,9 @@ ja:
       cms/parent_crumb: パンくず
       cms/additional_info: 追加情報
       cms/page_setting: ページ設定
+      cms/import/body: 本文
+      cms/edit_lock: 排他制御
+      cms/sns_share: SNS共有
 
   mongoid:
     models:
@@ -176,6 +210,7 @@ ja:
       cms/role: ロール
       cms/editor_template: テンプレート
       cms/file: 共有ファイル
+      cms/notice: お知らせ
     attributes:
       cms/content:
         released: 公開日時
@@ -189,6 +224,7 @@ ja:
         route: フォルダー属性
         view_route: 既定のモジュール
         summary_html: Summary
+        in_file: ファイル
       cms/model/page:
         route: ページ属性
         summary_html: Summary
@@ -207,8 +243,6 @@ ja:
         html: HTML
       cms/page:
         html: 本文
-      cms/addon/crumb:
-        home_label: ホームラベル
       cms/reference/layout:
         layout_id: レイアウト
       cms/reference/page_layout:
@@ -236,7 +270,12 @@ ja:
         name: 名前
         description: 説明
         order: 並び順
-
+      cms/addon/crumb:
+        home_label: ホームラベル
+      cms/notice:
+        name: タイトル
+        notice_severity: 種別
+        notice_target: 掲載範囲
       cms/addon/meta:
         keywords: キーワード
         description: 概要
@@ -272,6 +311,18 @@ ja:
         value: 内容
         add_info: 項目を追加する
         del_info: 削除
+      cms/addon/edit_lock:
+        lock_owner: 所有者
+        lock_until: 期限
+      cms/addon/sns_share:
+        sns_share_states: 表示
+        sns_share_orders: 並び順
+      cms/addon/import/page:
+        in_file: ファイル
+      cms/addon/import/group:
+        in_file: ファイル
+      cms/addon/import/user:
+        in_file: ファイル
 
   errors:
     messages:
@@ -350,6 +401,11 @@ ja:
         - 追加情報の項目名を入力します。
       value:
         - 項目の内容を入力します。
+    cms/addon/import/page:
+      in_file:
+        - 取り込むファイルを設定します。
+        - ルートフォルダーが含まれるZIPファイルもしくは単一のHTMLファイルを選択してください。
+        - フォルダー配下に 取り込みページ/フォルダー/アップロードファイル として展開されます。
 
     search_contents:
       pages:
@@ -508,6 +564,8 @@ ja:
           #{summary}　リンク先ページのSummaryが表示されます。
           #{current}　現在訪問しているページとURLが同一の場合、classにcurrentが付与されます。
           #{new}　リンク先のページ公開日時がNEWマーク期間の範囲内の場合、classにnewが付与されます。
+          #{group}　リンク先ページの所有グループが表示されます。
+          #{groups}　リンク先ページの全ての所有グループが表示されます。
 
           使用例：
           &lt;article class="#{class}">
@@ -625,6 +683,8 @@ ja:
           #{summary}　リンク先ページのSummaryが表示されます。
           #{current}　現在訪問しているページとURLが同一の場合、classにcurrentが付与されます。
           #{new}　リンク先のページ公開日時がNEWマーク期間の範囲内の場合、classにnewが付与されます。
+          #{group}　リンク先ページの所有グループが表示されます。
+          #{groups}　リンク先ページの全ての所有グループが表示されます。
 
           使用例：
           &lt;article class="#{class}">
@@ -660,6 +720,18 @@ ja:
       thumb_id:
         - サムネイル画像を指定します。
 
+    cms/addon/import/group:
+      in_file:
+        - CSVファイルを指定しグループのインポートを行います。
+        - idが記述されていない行は新規作成になります。
+        - nameが記述されていない行は削除となります。
+
+    cms/addon/import/user:
+      in_file:
+        - CSVファイルを指定しユーザーのインポートを行います。
+        - idが記述されていない行は新規作成になります。
+        - emailまたはuidが記述されていない行は削除となります。
+
     cms/addon/parent_crumb:
       parent_crumb_urls:
         - 親フォルダーのURLを記述します。
@@ -689,4 +761,14 @@ ja:
 
     cms/addon/role:
       cms_role_ids:
-        - ユーザーのロール/権限を選択します。 
+        - ユーザーのロール/権限を選択します。
+
+    cms/notice:
+      name:
+        - タイトルを入力します。
+      notice_severity:
+        - 「重要なお知らせ」の場合、チェックをつけます。
+        - 「重要なお知らせ」にチェックをつけた場合、コンテンツ内の先頭に目立つ色で表示されます。
+      notice_target:
+        - 「全ユーザー」に表示するか、「同一グループ内」に表示するかを選択します。
+        - 「同一グループ内」を選択した場合、「管理グループ」欄に設定したグループに表示されます。

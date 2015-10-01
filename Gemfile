@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-gem "rails", "4.2.2"
+gem "rails", "4.2.3"
 gem 'sass-rails', '~> 5.0'
 gem "uglifier", ">= 1.3.0"
 gem 'coffee-rails', '~> 4.1.0'
@@ -45,6 +45,7 @@ gem "diffy"
 gem "ungarbled"
 gem "fullcalendar-rails", "2.3.1.0"
 gem "momentjs-rails", "2.10.2"
+gem 'bxslider-rails'
 
 # OAuth
 gem 'omniauth'
