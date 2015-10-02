@@ -47,6 +47,11 @@ module Workflow::Addon
         item.workflow_approvers = nil
         item.workflow_required_counts = nil
 
+        if item.is_a?(Cms::Addon::EditLock)
+          item.lock_owner_id = nil
+          item.lock_until = nil
+        end
+
         item.instance_variable_set(:@new_clone, true)
         item
       end
@@ -60,7 +65,6 @@ module Workflow::Addon
           file = SS::File.new(attributes)
           file.id = nil
           file.in_file = f.uploaded_file
-          file.thumbs_resizing = f.thumbs_resizing
           file.user_id = @cur_user.id if @cur_user
 
           file.save validate: false

@@ -9,11 +9,13 @@ require "sprockets/railtie"
 Bundler.require(*Rails.groups)
 
 module SS
-  mattr_reader(:version) { "0.8.0" }
+  mattr_reader(:version) { "0.9.5" }
 
   class Application < Rails::Application
     config.autoload_paths << "#{config.root}/lib"
     config.autoload_paths << "#{config.root}/app/validators"
+
+    config.assets.paths << "#{config.root}/public/assets/js"
 
     I18n.enforce_available_locales = true
     config.time_zone = 'Tokyo'
