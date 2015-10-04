@@ -97,6 +97,9 @@ ja:
         768x1024: 768x1024(XGA縦)
         1280x720: 1280x720(HD横)
         720x1280: 720x1280(HD縦)
+      https:
+        disabled: 無効
+        enabled: 有効
     state:
       public: 公開中
       closed: 非公開
@@ -144,6 +147,7 @@ ja:
         name: サイト名
         host: ホスト名
         domains: ドメイン
+        https: HTTPS
         group_ids: グループ
       ss/model/user:
         name: 氏名

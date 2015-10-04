@@ -6,6 +6,10 @@ module SS::Model::Site
   class MultipleRootGroupsError < RuntimeError
   end
 
+  HTTPS_DISABLED = 'disabled'.freeze
+  HTTPS_ENABLED = 'enabled'.freeze
+  HTTPS_LIST = [HTTPS_DISABLED, HTTPS_ENABLED]
+
   included do
     store_in collection: "ss_sites"
     index({ host: 1 }, { unique: true })
@@ -15,9 +19,10 @@ module SS::Model::Site
     field :name, type: String
     field :host, type: String
     field :domains, type: SS::Extensions::Words
+    field :https, type: String
     embeds_ids :groups, class_name: "SS::Group"
 
-    permit_params :name, :host, :domains, group_ids: []
+    permit_params :name, :host, :domains, :https, group_ids: []
 
     has_many :pages, class_name: "Cms::Page", dependent: :destroy
     has_many :nodes, class_name: "Cms::Node", dependent: :destroy
@@ -40,7 +45,9 @@ module SS::Model::Site
     end
 
     def full_url
-      "http://#{domain}/".sub(/\/+$/, "/")
+      schema = 'http'
+      schema = 'https' if https == HTTPS_ENABLED
+      "#{schema}://#{domain}/".sub(/\/+$/, "/")
     end
 
     def root_groups
@@ -59,6 +66,10 @@ module SS::Model::Site
         raise MultipleRootGroupsError, "site: #{name} has multiple root groups"
       end
       ret.first
+    end
+
+    def https_options
+      HTTPS_LIST.map { |v| [I18n.t("views.options.https.#{v}"), v] }.to_a
     end
 
     class << self
