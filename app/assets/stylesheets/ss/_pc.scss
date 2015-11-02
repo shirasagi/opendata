@@ -437,9 +437,10 @@ table.cells, table.see {
     @include clear;
     float: left;
     border: 2px solid $white;
+    select { float: left; }
     input[type="text"] {
       float: left;
-      height: 2em;
+      height: 2.6em;
       border: none;
       &:focus {
         @include box-shadow(none);
@@ -448,7 +449,7 @@ table.cells, table.see {
     input[type="submit"] {
       float: left;
       margin: 0;
-      padding: 2px 20px 1px;
+      padding: 6px 20px 3px;
       border: none;
       background: $gray3;
       &:hover {
