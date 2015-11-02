@@ -25,6 +25,7 @@ ja:
     button:
       save: 保存
       draft_save: 下書き保存
+      closed_save: 非公開保存
       publish_save: 公開保存
       ignore_alert: 警告を無視する
       cancel: キャンセル
@@ -39,6 +40,7 @@ ja:
       import: 取り込み
       convert: 変換
       unlock_and_edit_forcibly: 強制的にロックを解除し編集する
+      request: 公開申請
     confirm:
       delete: 削除してよろしいですか？
       convert: 変換してよろしいですか？
@@ -78,6 +80,12 @@ ja:
         public: 公開
         closed: 非公開
         ready: 公開待ち
+        request: 申請
+        approve: 承認
+        pending: 下位承認待ち
+        remand: 差し戻し
+        start: 選択
+        cancel: 取消
       resizing:
         320×240: 320×240(QVGA横)
         240x320: 240x320(QVGA縦)
