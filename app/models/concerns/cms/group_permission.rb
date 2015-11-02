@@ -32,10 +32,11 @@ module Cms::GroupPermission
       end
 
       action = permission_action || action
+      access = opts[:access] if opts[:access]
 
       permits = []
       permits << "#{action}_#{access}_#{self.class.permission_name}"
-      permits << "#{action}_other_#{self.class.permission_name}" if access == :private
+      permits << "#{action}_other_#{self.class.permission_name}" if access != :other
 
       permits.each do |permit|
         return true if user.cms_role_permissions["#{permit}_#{site.id}"].to_i > 0
