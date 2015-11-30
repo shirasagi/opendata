@@ -18,7 +18,7 @@ module SS::Model::Role
 
     class << self
       def permission(name, opts = {})
-        module_name = opts[:module_name] || name.to_s.sub(/^[a-z]+_(private_|other_)?(.*)?_.*/, '\\2')
+        module_name = opts[:module_name] || name.to_s.sub(/^[a-z]+_(private_|other_|member_)?(.*)?_.*/, '\\2')
         module_name = :"#{module_name}"
 
         self._permission_names << name.to_s
