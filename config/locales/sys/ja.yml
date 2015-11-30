@@ -9,6 +9,7 @@ ja:
     test: テスト
     db_tool: DBツール
     role: 権限/ロール
+    max_file_size: 最大ファイルサイズ
     apis:
       groups:
         index: グループを選択する
