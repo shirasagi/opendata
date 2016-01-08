@@ -25,3 +25,5 @@ ehthumbs.db
 # IntelliJ IDEA & RubyMine
 /*.iml
 /.idea/
+
+/.env
