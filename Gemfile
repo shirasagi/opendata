@@ -102,6 +102,8 @@ group :development, :test do
   #   https://github.com/DatabaseCleaner/database_cleaner/issues/322
   #   https://github.com/DatabaseCleaner/database_cleaner/issues/299
   gem 'database_cleaner', '1.3.0'
+
+  gem 'dotenv-rails'
 end
 
 group :development do
