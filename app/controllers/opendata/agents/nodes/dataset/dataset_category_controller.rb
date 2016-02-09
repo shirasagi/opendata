@@ -3,20 +3,29 @@ class Opendata::Agents::Nodes::Dataset::DatasetCategoryController < ApplicationC
   include Opendata::UrlHelper
   include Opendata::Dataset::DatasetFilter
 
-  public
+  private
     def pages
-      @item ||= Opendata::Node::Category.site(@cur_site).
-        where(filename: /\/#{params[:name]}$/).first
+      @cur_node.cur_subcategory = params[:name]
+      @item = @cur_node.related_category
       raise "404" unless @item
 
       @cur_node.name = @item.name
 
-      Opendata::Dataset.site(@cur_site).where(category_ids: @item.id).public
+      Opendata::Dataset.site(@cur_site).search(site: @cur_site, category_id: @item.id).public
     end
 
+    def node_url
+      if name = params[:name]
+        "#{@cur_node.url}#{name}/"
+      else
+        "#{@cur_node.url}"
+      end
+    end
+
+  public
     def index
       @count          = pages.size
-      @node_url       = "#{@cur_node.url}#{params[:name]}/"
+      @node_url       = node_url
       default_options = { "s[category_id]" => "#{@item.id}" }
       @search_path    = ->(options = {}) { search_datasets_path(default_options.merge(options)) }
       @rss_path       = ->(options = {}) { build_path("#{search_datasets_path}rss.xml", default_options.merge(options)) }
@@ -51,9 +60,5 @@ class Opendata::Agents::Nodes::Dataset::DatasetCategoryController < ApplicationC
     def rss
       @items = pages.order_by(released: -1).limit(100)
       render_rss @cur_node, @items
-    end
-
-    def nothing
-      render nothing: true
     end
 end

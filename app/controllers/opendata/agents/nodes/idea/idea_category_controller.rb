@@ -3,20 +3,29 @@ class Opendata::Agents::Nodes::Idea::IdeaCategoryController < ApplicationControl
   include Opendata::UrlHelper
   include Opendata::Idea::IdeaFilter
 
-  public
+  private
     def pages
-      @item ||= Opendata::Node::Category.site(@cur_site).
-        where(filename: /\/#{params[:name]}$/).first
+      @cur_node.cur_subcategory = params[:name]
+      @item = @cur_node.related_category
       raise "404" unless @item
 
       @cur_node.name = @item.name
 
-      Opendata::Idea.site(@cur_site).where(category_ids: @item.id).public
+      Opendata::Idea.site(@cur_site).search(site: @cur_site, category_id: @item.id).public
     end
 
+    def node_url
+      if name = params[:name]
+        "#{@cur_node.url}#{name}/"
+      else
+        "#{@cur_node.url}"
+      end
+    end
+
+  public
     def index
       @count          = pages.size
-      @node_url       = "#{@cur_node.url}#{params[:name]}/"
+      @node_url       = node_url
       default_options = { "s[category_id]" => "#{@item.id}" }
       @search_path    = ->(options = {}) { search_ideas_path(default_options.merge(options)) }
       @rss_path       = ->(options = {}) { build_path("#{search_ideas_path}rss.xml", default_options.merge(options)) }
@@ -49,9 +58,5 @@ class Opendata::Agents::Nodes::Idea::IdeaCategoryController < ApplicationControl
     def rss
       @items = pages.order_by(updated: -1).limit(100)
       render_rss @cur_node, @items
-    end
-
-    def nothing
-      render nothing: true
     end
 end
