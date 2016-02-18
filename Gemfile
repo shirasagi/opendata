@@ -104,7 +104,7 @@ group :development, :test do
   gem 'database_cleaner', '1.3.0'
 
   gem 'dotenv-rails'
-  # gem 'webmock'
+  gem 'webmock'
 end
 
 group :development do
