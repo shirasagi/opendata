@@ -45,8 +45,8 @@ class Member::Agents::Nodes::LoginController < ApplicationController
     end
 
     def logout
-      clear_member
-      flash.discard(:ref)
+      # discard all session info
+      reset_session
       redirect_to "#{member_login_path}"
     end
 
