@@ -16,7 +16,7 @@ module Member::LoginFilter
 
     def logged_in?(opts = {})
       if @cur_member
-        session[:member]["expires_at"] = 1.hours.from_now.to_i if session[:member]
+        reset_expires_at
         return @cur_member
       end
 
@@ -26,7 +26,7 @@ module Member::LoginFilter
       end
 
       if @cur_member
-        session[:member]["expires_at"] = 1.hours.from_now.to_i
+        reset_expires_at
         return @cur_member
       end
 
@@ -43,8 +43,12 @@ module Member::LoginFilter
         "member_id" => member.id,
         "remote_addr" => remote_addr,
         "user_agent" => request.user_agent,
-        "expires_at" => 1.hours.from_now.to_i }
+        "expires_at" => Time.zone.now.to_i + SS.config.cms.session_lifetime }
       @cur_member = member
+    end
+
+    def reset_expires_at
+      session[:member]["expires_at"] = Time.zone.now.to_i + SS.config.cms.session_lifetime if session[:member]
     end
 
     def clear_member

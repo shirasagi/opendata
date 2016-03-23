@@ -23,6 +23,8 @@ production: &production
   # Max Number of Markers in Map Addon
   map_max_point_form: 10
 
+  session_lifetime: 1800
+
 test:
   <<: *production
 
