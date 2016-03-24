@@ -70,6 +70,7 @@ class Inquiry::Agents::Nodes::FormController < ApplicationController
         end
       end
 
+      @answer.save
       if @cur_node.notify_mail_enabled?
         Inquiry::Mailer.notify_mail(@cur_site, @cur_node, @answer).deliver_now
       end
