@@ -11,6 +11,10 @@ class Sns::UserAccountsController < ApplicationController
       @crumbs << [:"sns.account", params.include?(:user) ? sns_user_account_path : sns_cur_user_account_path]
     end
 
+    def permit_fields
+      [:name, :email, :in_password]
+    end
+
     def get_params
       para = super
       para.delete(:password) if para[:password].blank?
