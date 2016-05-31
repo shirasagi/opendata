@@ -8,6 +8,7 @@ $ ->
   Opendata_Point.render("<%= @cur_page.point_url %>");
   <% end %>
 
+  <% if @tab_display == "tab_html" %>
   # show executed
   $.ajax
     url: "<%= @cur_page.executed_show_url %>"
@@ -15,12 +16,15 @@ $ ->
     type: "GET"
     success: (data)->
       $("#executed").html data
+  <% end %>
 
+  <% if idea_enabled? %>
   # show ideas
   $.ajax
     url: "<%= @cur_page.app_ideas_url %>"
     success: (data)->
       $(".app-ideas").html data
+  <% end %>
 
   # hide categories
   $(".categories a[data-class=other]").click ->
@@ -103,8 +107,10 @@ categories = [
         <dd><%= @cur_page.groups.first.name %><br /></dd>
       <% end %>
 
+      <% if @tab_display == "tab_html" %>
       <dt><%= @cur_page.t :executed %></dt>
       <dd><div id="executed"></div></dd>
+      <% end %>
 
       <dt><%= @cur_page.t :license %></dt>
       <dd><%= @cur_page.license %></dd>
