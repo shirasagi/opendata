@@ -22,6 +22,16 @@ module Opendata::UrlHelper
     node.present?
   end
 
+  def app_enabled?
+    node = Opendata::Node::App.site(@cur_site).public.first
+    node.present?
+  end
+
+  def idea_enabled?
+    node = Opendata::Node::Idea.site(@cur_site).public.first
+    node.present?
+  end
+
   def dataset_path(options = {})
     node = Opendata::Node::Dataset.site(@cur_site).public.first
     raise "dataset search is disabled since Opendata::Node::Dataset is not registered" unless node
@@ -66,19 +76,25 @@ module Opendata::UrlHelper
 
   def my_dataset_path(options = {})
     node = Opendata::Node::MyDataset.site(@cur_site).public.first
-    raise "mypage is disabled since Opendata::Node::MyDataset is not registered" unless node
+    raise "mydataset is disabled since Opendata::Node::MyDataset is not registered" unless node
     build_path(node.url, options)
   end
 
   def my_app_path(options = {})
     node = Opendata::Node::MyApp.site(@cur_site).public.first
-    raise "mypage is disabled since Opendata::Node::MyApp is not registered" unless node
+    raise "myapp is disabled since Opendata::Node::MyApp is not registered" unless node
     build_path(node.url, options)
   end
 
   def my_idea_path(options = {})
     node = Opendata::Node::MyIdea.site(@cur_site).public.first
-    raise "mypage is disabled since Opendata::Node::MyIdea is not registered" unless node
+    raise "myidea is disabled since Opendata::Node::MyIdea is not registered" unless node
+    build_path(node.url, options)
+  end
+
+  def my_profile_path(options = {})
+    node = Opendata::Node::MyProfile.site(@cur_site).public.first
+    raise "myprofile is disabled since Opendata::Node::MyProfile is not registered" unless node
     build_path(node.url, options)
   end
 

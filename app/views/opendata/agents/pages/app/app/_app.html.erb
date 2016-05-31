@@ -19,10 +19,14 @@
               <%= I18n.t("opendata.labels.sample") %></a>
           <% end %>
         <% end %>
+        <% if dataset_enabled? %>
         <a id="dataset" class="name dataset" href="#tab-dataset" onclick="ChangeTab('tab-dataset','dataset'); return false;">
           <%= I18n.t("opendata.labels.relation_dataset") %></a>
+        <% end %>
+        <% if idea_enabled? %>
         <a id="idea" class="name idea" href="#tab-idea" onclick="ChangeTab('tab-idea','idea'); return false;">
           <%= I18n.t("opendata.labels.relation_idea") %></a>
+        <% end %>
       </nav>
 
       <div class="tab-body">
@@ -77,16 +81,20 @@
             </div>
           <% end %>
         <% end %>
+        <% if dataset_enabled? %>
         <div id="tab-dataset">
           <header><h1><%= I18n.t("opendata.labels.relation_dataset") %></h1></header>
           <% if @ds.present? %>
             <%= render partial: "opendata/agents/pages/app/app/dataset" %>
           <% end %>
         </div>
+        <% end %>
+        <% if idea_enabled? %>
         <div id="tab-idea">
           <header><h1><%= I18n.t("opendata.labels.relation_idea") %></h1></header>
           <div class="app-ideas" id="app-ideas"></div>
         </div>
+        <% end %>
       </div>
     </div>
   </div>
