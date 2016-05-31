@@ -443,6 +443,9 @@ ja:
         dataset_workflow_route: データセット承認
         app_workflow_route: アプリ承認
         idea_workflow_route: アイデア承認
+        dataset_state: データセット
+        app_state: アプリ
+        idea_state: アイデア
       opendata/addon/workflow/idea_comment_approver:
         workflow_user_id: 申請者
         workflow_state: 承認状態
