@@ -3,7 +3,9 @@ module Opendata::Addon::CommonPageSetting
 
   included do
     field :show_point, type: String, default: 'show'
+    field :show_tabs, type: SS::Extensions::Words
     permit_params :show_point
+    permit_params show_tabs: []
     validates :show_point, inclusion: { in: %w(show hide), allow_blank: true }
   end
 
@@ -19,5 +21,10 @@ module Opendata::Addon::CommonPageSetting
 
   def show_point?
     !hide_point?
+  end
+
+  def show_tab?(option)
+    return true if show_tabs.blank?
+    show_tabs.include?(option)
   end
 end

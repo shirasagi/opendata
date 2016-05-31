@@ -453,10 +453,13 @@ ja:
         approver_comment: 承認者コメント
       opendata/addon/dataset_page_setting:
         show_point: ポイント表示
+        show_tabs: タブ表示
       opendata/addon/app_page_setting:
         show_point: ポイント表示
+        show_tabs: タブ表示
       opendata/addon/idea_page_setting:
         show_point: ポイント表示
+        show_tabs: タブ表示
 
   tooltip:
     opendata/dataset:
@@ -502,14 +505,20 @@ ja:
       show_point:
         - ポイントを表示するかどうかを選択します。
         - 未選択の場合、ポイントを表示します。
+      show_tabs:
+        - 表示するタブを選択します。
     opendata/addon/app_page_setting:
       show_point:
         - ポイントを表示するかどうかを選択します。
         - 未選択の場合、ポイントを表示します。
+      show_tabs:
+        - 表示するタブを選択します。
     opendata/addon/idea_page_setting:
       show_point:
         - ポイントを表示するかどうかを選択します。
         - 未選択の場合、ポイントを表示します。
+      show_tabs:
+        - 表示するタブを選択します。
 
   job:
     models:

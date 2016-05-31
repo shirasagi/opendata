@@ -3,7 +3,9 @@
 
 <%= coffee do %>
 $ ->
+  <% if @tabs.count > 1 %>
   SS_Tabs.render("#opendata-tabs-<%= @cur_node.id %>");
+  <% end %>
   $(".areas a.more").colorbox({ fixed: true, height: "80%" })
   $(".tags a.more").colorbox({ fixed: true, height: "80%" })
   $(".licenses a.more").colorbox({ fixed: true, height: "80%" })
