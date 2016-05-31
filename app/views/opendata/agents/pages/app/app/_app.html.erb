@@ -1,6 +1,14 @@
+<%
+  tab_count = 0
+  tab_count += 1 if @tab_display == "tab_url"
+  tab_count += 5 if @tab_display == "tab_html"
+  tab_count += 1 if dataset_enabled?
+  tab_count += 1 if idea_enabled?
+%>
 <div class="application">
   <div class="appContainer">
     <div id="tabs">
+      <% if tab_count > 1 %>
       <nav class="names">
         <% if @tab_display == "tab_url" %>
           <a id="url" class="name" href="#tab-url" onclick="ChangeTab('tab-url','url'); return false;">
@@ -28,6 +36,7 @@
           <%= I18n.t("opendata.labels.relation_idea") %></a>
         <% end %>
       </nav>
+      <% end %>
 
       <div class="tab-body">
         <% if @tab_display =="tab_url" %>
