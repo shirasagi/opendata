@@ -1,4 +1,4 @@
-module Opendata::Addon::MypageSetting
+module Opendata::Addon::SiteSetting
   extend ActiveSupport::Concern
   extend SS::Addon
 
