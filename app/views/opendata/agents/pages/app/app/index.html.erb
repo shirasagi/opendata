@@ -3,8 +3,10 @@
 <%= javascript_include_tag "opendata/public" %>
 <%= coffee do %>
 $ ->
+  <% if @cur_node.show_point? %>
   # show point
   Opendata_Point.render("<%= @cur_page.point_url %>");
+  <% end %>
 
   # show executed
   $.ajax
@@ -38,12 +40,14 @@ $ ->
 </header>
 
 <div class="side-right">
+  <% if @cur_node.show_point? %>
   <div class="point">
     <div class="count">
       <span class="label"><%= I18n.t("opendata.labels.iine") %></span>
       <span class="number"><%= @cur_page.point %></span>
     </div>
   </div>
+  <% end %>
 
   <% if @tab_display == "tab_html" %>
     <div class="download-all">

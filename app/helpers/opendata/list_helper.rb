@@ -16,7 +16,12 @@ module Opendata::ListHelper
           ih << '<article class="item-#{class} #{new} #{current}">'
           ih << '  <header>'
           ih << '    <time datetime="#{date.iso}">#{date.long}</time>'
-          ih << '    <h2><a href="#{url}">#{name}</a><span class="point">#{point}</span></h2>'
+          ih << '    <h2>'
+          ih << '      <a href="#{url}">#{name}</a>'
+          if item.parent.becomes_with_route.show_point?
+            ih << '      <span class="point">#{point}</span>'
+          end
+          ih << '    </h2>'
           ih << '  </header>'
           ih << '</article>'
           ih = cur_item.render_loop_html(item, html: ih.join("\n"))
@@ -47,17 +52,21 @@ module Opendata::ListHelper
           ih << '  <td><a href="#{dataset_url}">#{dataset_name}</a></td>'
           ih << '  <td>#{dataset_updated.%Y年%1m月%1d日 %1H時%1M分}</td>'
           ih << '  <td>#{dataset_state}</td>'
-          ih << '  <td>#{dataset_point}</td>'
+          if item.parent.becomes_with_route.show_point?
+            ih << '  <td>#{dataset_point}</td>'
+          end
           ih << '  <td>#{dataset_downloaded}</td>'
           ih << '  <td>#{dataset_apps_count}</td>'
           ih << '  <td>#{dataset_ideas_count}</td>'
           ih << '</tr>'
           ih = cur_item.render_loop_html(item, html: ih.join("\n"))
+          Rails.logger.debug("ih=#{ih}")
         end
         h << ih.gsub('#{current}', current_url?(item.url).to_s)
       end
     end
     h << cur_item.lower_html.html_safe if cur_item.lower_html.present?
+    Rails.logger.debug("h=#{h.join("\n")}")
 
     h.join("\n").html_safe
   end
@@ -80,7 +89,9 @@ module Opendata::ListHelper
           ih << '  <td><a href="#{app_url}">#{app_name}</a></td>'
           ih << '  <td>#{app_updated.%Y年%1m月%1d日 %1H時%1M分}</td>'
           ih << '  <td>#{app_state}</td>'
-          ih << '  <td>#{app_point}</td>'
+          if item.parent.becomes_with_route.show_point?
+            ih << '  <td>#{app_point}</td>'
+          end
           ih << '</tr>'
           ih = cur_item.render_loop_html(item, html: ih.join("\n"))
         end
@@ -110,7 +121,9 @@ module Opendata::ListHelper
           ih << '  <td><a href="#{idea_url}">#{idea_name}</a></td>'
           ih << '  <td>#{idea_updated.%Y年%1m月%1d日 %1H時%1M分}</td>'
           ih << '  <td>#{idea_state}</td>'
-          ih << '  <td>#{idea_point}</td>'
+          if item.parent.becomes_with_route.show_point?
+            ih << '  <td>#{idea_point}</td>'
+          end
           ih << '  <td>#{idea_datasets}</td>'
           ih << '  <td>#{idea_apps}</td>'
           ih << '</tr>'
