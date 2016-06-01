@@ -168,4 +168,48 @@ describe "opendata_agents_nodes_app", dbscope: :example, js: true do
       expect(current_path).to eq "#{node_myidea.url}new"
     end
   end
+
+  context "when point is hide" do
+    before do
+      node.show_point = 'hide'
+      node.save!
+
+      app.touch
+      app.save!
+    end
+
+    it do
+      visit index_path
+      expect(page).to have_css(".opendata-tabs .tab-released h1", text: "新着順", visible: false)
+      expect(page).to have_css(".opendata-tabs .tab-released .pages h2 a", text: app.name)
+      expect(page).not_to have_css(".opendata-tabs .tab-released .pages h2 .point", text: app.point.to_s, visible: false)
+      expect(page).to have_css(".opendata-tabs .tab-popular h1", text: "人気順", visible: false)
+      expect(page).to have_css(".opendata-tabs .tab-popular .pages h2 a", text: app.name, visible: false)
+      expect(page).not_to have_css(".opendata-tabs .tab-popular .pages h2 .point", text: app.point.to_s, visible: false)
+      expect(page).to have_css(".opendata-tabs .tab-attention h1", text: "注目順", visible: false)
+      expect(page).to have_css(".opendata-tabs .tab-attention .pages h2 a", text: app.name, visible: false)
+      expect(page).not_to have_css(".opendata-tabs .tab-attention .pages h2 .point", text: app.point.to_s, visible: false)
+    end
+  end
+
+  context "when only released is enabled" do
+    before do
+      node.show_tabs = 'released'
+      node.save!
+
+      app.touch
+      app.save!
+    end
+
+    it do
+      visit index_path
+      expect(page).not_to have_css(".opendata-tabs .names", visible: false)
+
+      expect(page).to have_css(".opendata-tabs .tab-released h1", text: "新着順", visible: false)
+      expect(page).to have_css(".opendata-tabs .tab-released .pages h2 a", text: app.name)
+      expect(page).to have_css(".opendata-tabs .tab-released .pages h2 .point", text: app.point.to_s, visible: false)
+      expect(page).not_to have_css(".opendata-tabs .tab-popular", visible: false)
+      expect(page).not_to have_css(".opendata-tabs .tab-attention", text: "注目順", visible: false)
+    end
+  end
 end
