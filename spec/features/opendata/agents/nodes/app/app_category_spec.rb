@@ -1,22 +1,29 @@
 require 'spec_helper'
 
-describe "opendata_agents_nodes_app_category", dbscope: :example do
+describe "opendata_agents_nodes_app_category", dbscope: :example, js: true do
   let(:site) { cms_site }
-  let(:node_category_folder) { create_once :cms_node_node, basename: "category" }
-  let(:node_app) { create_once :opendata_node_app }
+  let(:layout) { create_cms_layout }
+  let(:node_category_folder) { create :cms_node_node, cur_site: site, layout_id: layout.id }
+  let(:node_app) { create :opendata_node_app, cur_site: site, layout_id: layout.id }
   let(:node) do
-    create_once(
+    create(
       :opendata_node_app_category,
+      cur_site: site,
+      cur_node: node_app,
+      layout_id: layout.id,
       name: "opendata_agents_nodes_app_category",
-      basename: "#{node_app.filename}/#{node_category_folder.filename}",
+      filename: "#{node_category_folder.filename}",
       depth: node_app.depth + 1)
   end
   before do
-    create_once(
+    create(
       :opendata_node_category,
-      basename: "#{node_category_folder.filename}/kurashi",
+      cur_site: site,
+      cur_node: node_category_folder,
+      layout_id: layout.id,
+      filename: "kurashi",
       depth: node_category_folder.depth + 1)
-    create_once(:opendata_node_search_app, basename: "app/search")
+    create(:opendata_node_search_app, cur_site: site, cur_node: node_app, layout_id: layout.id)
   end
 
   let(:index_path) { "#{node.url}/kurashi" }
@@ -24,26 +31,17 @@ describe "opendata_agents_nodes_app_category", dbscope: :example do
   let(:nothing_path) { "#{node.url}index.html" }
 
   it "#index" do
-    page.driver.browser.with_session("public") do |session|
-      session.env("HTTP_X_FORWARDED_HOST", site.domain)
-      visit index_path
-      expect(current_path).to eq index_path
-    end
+    visit index_path
+    expect(current_path).to eq index_path
   end
 
   it "#rss" do
-    page.driver.browser.with_session("public") do |session|
-      session.env("HTTP_X_FORWARDED_HOST", site.domain)
-      visit rss_path
-      expect(current_path).to eq rss_path
-    end
+    visit rss_path
+    expect(current_path).to eq rss_path
   end
 
   it "#nothing" do
-    page.driver.browser.with_session("public") do |session|
-      session.env("HTTP_X_FORWARDED_HOST", site.domain)
-      visit nothing_path
-      expect(current_path).to eq nothing_path
-    end
+    visit nothing_path
+    expect(current_path).to eq nothing_path
   end
 end
