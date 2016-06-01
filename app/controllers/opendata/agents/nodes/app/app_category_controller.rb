@@ -39,18 +39,21 @@ class Opendata::Agents::Nodes::App::AppCategoryController < ApplicationControlle
       @tabs = []
       if @app_node.show_tab?("released")
         @tabs << { name: I18n.t("opendata.sort_options.released"),
+            id: "released",
             url: "#{@search_path.call("sort" => "released")}",
             pages: @items,
             rss: "#{@rss_path.call("sort" => "released")}" }
       end
       if @app_node.show_tab?("popular")
         @tabs << { name: I18n.t("opendata.sort_options.popular"),
+            id: "popular",
             url: "#{@search_path.call("sort" => "popular")}",
             pages: @point_items,
             rss: "#{@rss_path.call("sort" => "popular")}" }
       end
       if @app_node.show_tab?("attention")
         @tabs << { name: I18n.t("opendata.sort_options.attention"),
+            id: "attention",
             url: "#{@search_path.call("sort" => "attention")}",
             pages: @execute_items,
             rss: "#{@rss_path.call("sort" => "attention")}" }
