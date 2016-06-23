@@ -18,7 +18,7 @@ categories = transform_category(@cur_categories)
 @s = OpenStruct.new params[:s]
 
 %>
-<%= form_for :s, url: "", html: { class: "opendata-search-apps-form", method: :get } do |f| %>
+<%= form_for :s, url: @cur_node.url, html: { class: "opendata-search-apps-form", method: :get } do |f| %>
   <dl class="keyword">
     <dt><%= I18n.t("opendata.labels.keyword") %></dt>
     <dd><%= f.text_field :keyword %></dd>
@@ -43,6 +43,10 @@ categories = transform_category(@cur_categories)
     <dt><%= I18n.t("opendata.labels.sort") %></dt>
     <dd><%= select_tag :sort, options_for_select(@model.sort_options, params[:sort]) %></dd>
   </dl>
+  <dl class="option">
+    <dt><%= I18n.t("opendata.labels.search_option") %></dt>
+    <dd><%= f.select :option, @model.search_options %></dd>
+  </dl>
 
   <div class="send">
     <%= submit_tag t("views.button.search"), name: :search %>
@@ -62,6 +66,17 @@ categories = transform_category(@cur_categories)
         <% end %>
       </h2>
     </header>
+    <div class="categories">
+      <% item.categories.each_with_index do |category, idx| %>
+        <span class="category"><%= category.name %></span>
+      <% end %>
+      <% item.areas.each_with_index do |area, idx| %>
+        <span class="area"><%= area.name %></span>
+      <% end %>
+      <% item.tags.each_with_index do |tag, idx| %>
+        <span class="tag"><%= tag %></span>
+      <% end %>
+    </div>
   </article>
   <% end %>
 

@@ -145,6 +145,10 @@ ja:
         -
         - '-'
       login_history: ログイン履歴
+      search_option: 検索オプション
+      issue: 課題
+      data: データ
+      note: 備考
     messages:
       max_row_notice: "最大 %{max} 行を表示しています。"
       build_rdf_success: RDFの作成に成功しました。
@@ -169,6 +173,10 @@ ja:
     state_options:
       public: 公開
       closed: 非公開
+    search_options:
+      all_keywords: すべてのキーワードを含む
+      any_keywords: いずれかのキーワードを含む
+      any_conditions: すべてをOR条件で検索する
 
     # Web API
     api:
@@ -250,6 +258,7 @@ ja:
       opendata/dataset_page_setting: データセット詳細ページ設定
       opendata/app_page_setting: アプリ詳細ページ設定
       opendata/idea_page_setting: アイデア詳細ページ設定
+      opendata/list_node_setting: 基本設定
 
   cms:
     nodes:
@@ -424,11 +433,14 @@ ja:
         dataset_id: 関連データセット
         app_id: 関連アプリ
         point: 評価
-        text: コメント
+        text: アイデア
         tags: タグ
         comment_body: 本文
         commented: 合計コメント数
         request_comment: 未承認コメント
+        issue: 課題
+        data: データ
+        note: 備考
       opendata/idea_comment:
         text: コメント
         member_name: 投稿者名
@@ -463,6 +475,8 @@ ja:
       opendata/addon/idea_page_setting:
         show_point: ポイント表示
         show_tabs: タブ表示
+      opendata/addon/list_node_setting:
+        limit: 表示件数
 
   tooltip:
     opendata/dataset:
@@ -522,6 +536,10 @@ ja:
         - 未選択の場合、ポイントを表示します。
       show_tabs:
         - 表示するタブを選択します。
+    opendata/addon/list_node_setting:
+      limit:
+        - |-
+          リストの表示件数を指定します。
 
   job:
     models:

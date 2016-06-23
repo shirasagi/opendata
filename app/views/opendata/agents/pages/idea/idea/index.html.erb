@@ -4,8 +4,10 @@
 <%= coffee do %>
 $ ->
 
+  <% if member_login_enabled? && @tab_count > 1 %>
   # Tabs
   SS_Tabs.render("#idea-tabs-<%= @cur_node.id %>");
+  <% end %>
 
   <% if @cur_node.show_point? %>
   # show point
@@ -18,17 +20,21 @@ $ ->
     success: (data)->
       $("#idea-comments").html data
 
+  <% if dataset_enabled? %>
   # show related_dataset
   $.ajax
     url: "<%= @cur_page.related_dataset_url %>"
     success: (data)->
       $("#related_dataset").html data
+  <% end %>
 
+  <% if app_enabled? %>
   # show related_app
   $.ajax
     url: "<%= @cur_page.related_app_url %>"
     success: (data)->
       $("#related_app").html data
+  <% end %>
 
   # hide categories
   $(".categories a[data-class=other]").click ->
@@ -43,6 +49,7 @@ $ ->
 <% end %>
 
 <header>
+  <span class="id"><%= @cur_page.id %></span>
   <h1 class="name"><%= @cur_page.send :name %></h1>
 </header>
 
@@ -77,12 +84,37 @@ categories = [
   <% end %>
 </nav>
 
-<div class="text">
-  <%= auto_link br(@cur_page.text) %>
+<% if @cur_page.issue.present? %>
+<div class="issue">
+  <h2><%= I18n.t("opendata.labels.issue") %></h2>
+  <p><%= auto_link br(@cur_page.issue) %></p>
 </div>
+<% end %>
 
-<div class="idea-tabs tabs"  id="idea-tabs-<%= @cur_node.id %>">
-  <article class="tab" id="cms-tab-<%= @cur_node.id %>-0">
+<% if @cur_page.text.present? %>
+<div class="idea">
+  <h2><%= I18n.t("opendata.labels.idea") %></h2>
+  <p><%= auto_link br(@cur_page.text) %></p>
+</div>
+<% end %>
+
+<% if @cur_page.data.present? %>
+<div class="data">
+  <h2><%= I18n.t("opendata.labels.data") %></h2>
+  <p><%= auto_link br(@cur_page.data) %></p>
+</div>
+<% end %>
+
+<% if @cur_page.note.present? %>
+<div class="note">
+  <h2><%= I18n.t("opendata.labels.note") %></h2>
+  <p><%= auto_link br(@cur_page.note) %></p>
+</div>
+<% end %>
+
+<% if @tab_count > 0 %>
+<div class="idea-tabs tabs" id="idea-tabs-<%= @cur_node.id %>">
+  <article class="tab comment" id="cms-tab-<%= @cur_node.id %>-0">
     <header><h1><%= I18n.t("opendata.labels.comment") %></h1></header>
     <div class="pages">
       <div class="info-wrap">
@@ -95,7 +127,7 @@ categories = [
     <nav class="feed"></nav>
   </article>
   <% if dataset_enabled? %>
-  <article class="tab" id="cms-tab-<%= @cur_node.id %>-1">
+  <article class="tab related-dataset" id="cms-tab-<%= @cur_node.id %>-1">
     <header><h1><%= I18n.t("opendata.labels.relation_dataset") %></h1></header>
     <div class="pages">
       <div id="tab-dataset">
@@ -107,7 +139,7 @@ categories = [
   </article>
   <% end %>
   <% if app_enabled? %>
-  <article class="tab" id="cms-tab-<%= @cur_node.id %>-2">
+  <article class="tab related-app" id="cms-tab-<%= @cur_node.id %>-2">
     <header><h1><%= I18n.t("opendata.labels.relation_app") %></h1></header>
     <div class="pages">
       <div id="tab-app">
@@ -119,6 +151,7 @@ categories = [
   </article>
   <% end %>
 </div>
+<% end %>
 
 <div class="detail">
   <div class="info-wrap">
