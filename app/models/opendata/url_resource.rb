@@ -106,6 +106,7 @@ class Opendata::UrlResource
 
         self.original_updated = last_modified
         self.filename = ::File.basename(uri.path) if self.filename.blank?
+        self.filename = URI.unescape(self.filename)
 
         ss_file = SS::File.new
         ss_file.in_file = ActionDispatch::Http::UploadedFile.new(tempfile: temp_file,
