@@ -42,7 +42,7 @@ popd
 pushd .
 
 echo "wget -O mecab-ipadic-2.7.0-20070801.tar.gz \"https://drive.google.com/uc?export=download&id=0B4y35FiV1wh7MWVlSDBCSXZMTXM\""
-wget wget -O mecab-ipadic-2.7.0-20070801.tar.gz "https://drive.google.com/uc?export=download&id=0B4y35FiV1wh7MWVlSDBCSXZMTXM"
+wget -O mecab-ipadic-2.7.0-20070801.tar.gz "https://drive.google.com/uc?export=download&id=0B4y35FiV1wh7MWVlSDBCSXZMTXM"
 if [ $? -ne 0 ]; then
   exit 2
 fi
@@ -74,7 +74,7 @@ popd
 pushd .
 
 echo "wget -O mecab-ruby-0.996.tar.gz \"https://drive.google.com/uc?export=download&id=0B4y35FiV1wh7VUNlczBWVDZJbE0\""
-wget wget -O mecab-ruby-0.996.tar.gz "https://drive.google.com/uc?export=download&id=0B4y35FiV1wh7VUNlczBWVDZJbE0"
+wget -O mecab-ruby-0.996.tar.gz "https://drive.google.com/uc?export=download&id=0B4y35FiV1wh7VUNlczBWVDZJbE0"
 if [ $? -ne 0 ]; then
   exit 3
 fi
