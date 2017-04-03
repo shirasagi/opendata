@@ -11,6 +11,7 @@ module SS
       obj.after(dbscope) do
         Rails.logger.debug "clean database at #{inspect}"
         DatabaseCleaner.clean
+        ::Mongoid::Sessions.default.drop
       end
     end
   end
