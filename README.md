@@ -1,6 +1,13 @@
 SHIRASAGI OpenData Plugin
 =========
 
+This plugin had integrated into [shirasagi/shirasaig](https://github.com/shirasagi/shirasagi).
+Please use [shirasagi/shirasaig](https://github.com/shirasagi/shirasagi) instead of using this plugin because this plugin had been deprecated.
+
+本プロジェクトで提供していたオープンデータプラグインは [shirasagi/shirasaig](https://github.com/shirasagi/shirasagi) に統合されました。
+本プロジェクトは Deprecated となりましたので、新規に利用される際は、[shirasagi/shirasaig](https://github.com/shirasagi/shirasagi) を利用してください。
+
+
 SHIRASAGI is Contents Management System.
 OpenData Plugin provides Data Catalog, Application Market, Idea Box.
 
